@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class File : IEquatable<File>
+    public class File : ModelBase, IEquatable<File>
     {
         #region Fields
 

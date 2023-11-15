@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Branch : IEquatable<Branch>
+    public class Branch : ModelBase, IEquatable<Branch>
     {
         #region Fields
 

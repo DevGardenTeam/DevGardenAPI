@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Label : IEquatable<Label>
+    public class Label : ModelBase, IEquatable<Label>
     {
         #region Fields
 

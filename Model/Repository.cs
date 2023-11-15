@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Repository : IEquatable<Repository>
+    public class Repository : ModelBase, IEquatable<Repository>
     {
         #region Fields
 

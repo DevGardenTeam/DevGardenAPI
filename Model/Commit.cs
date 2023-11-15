@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Commit : IEquatable<Commit>
+    public class Commit : ModelBase, IEquatable<Commit>
     {
         #region Fields
 
