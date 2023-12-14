@@ -6,12 +6,10 @@ using Model;
 namespace DevGardenAPI.Managers
 {
     [ApiController]
-    [Route("api/{version}/{controller}")]
-    public abstract class DevGardenController<T> : ControllerBase where T: ModelBase
+    [Route("api/v1/[controller]")]
+    public class DevGardenController : ControllerBase
     {
         #region Fields
-
-        private readonly IRepository<T> _repository;
 
         #endregion
 
@@ -23,10 +21,9 @@ namespace DevGardenAPI.Managers
 
         #region Constructor
 
-        public DevGardenController(IRepository<T> repository)
+        public DevGardenController()
         {
-            _repository = repository;
-            Logger = LogManager.GetLogger(typeof(DevGardenController<>));
+            Logger = LogManager.GetLogger(typeof(DevGardenController));
         }
 
         #endregion
@@ -34,33 +31,54 @@ namespace DevGardenAPI.Managers
         #region Methods
 
         [HttpGet("GetAll")]
-        public async Task<IEnumerable<T>>? GetAll()
+        public async Task GetAll()
         {
-            return await _repository.GetAll();
         }
 
-        [HttpGet("{id}")]
-        public async Task<T>? Get(string id)
+        [HttpGet()]
+        public async Task<HttpResponseMessage> Get()
         {
-            return await _repository.GetById(id);
+            Logger.Debug($"{nameof(DevGardenController)} - {nameof(Get)} - Starting");
+
+            try
+            {
+                string username = "LouBRODA";
+                string token = "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";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+                    string apiUrl = $"https://api.github.com/users/{username}/repos";
+
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(DevGardenController)} - {nameof(Get)} - Error");
+                Logger.Error($"{nameof(Get)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         [HttpPost]
-        public async Task<T> Post(T entity)
+        public async Task Post()
         {
-            return await _repository.Add(entity);
         }
 
         [HttpPut]
-        public async Task<T>? Put(T entity)
+        public async Task Put()
         {
-            return await _repository.Update(entity);
         }
 
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            _repository.Delete(id);
         }
 
         #endregion

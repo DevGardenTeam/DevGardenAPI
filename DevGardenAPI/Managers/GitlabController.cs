@@ -3,7 +3,7 @@ using Model;
 
 namespace DevGardenAPI.Managers
 {
-    public class GitlabController<T> : DevGardenController<T> where T : ModelBase
+    public class GitlabController<T> : DevGardenController where T : ModelBase
     {
         #region Properties
 
@@ -11,7 +11,7 @@ namespace DevGardenAPI.Managers
 
         #region Constructor
 
-        public GitlabController(IRepository<T> repository) : base(repository)
+        public GitlabController(IRepository<T> repository) : base()
         {
         }
 

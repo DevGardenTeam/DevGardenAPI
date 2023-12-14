@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApiVersioning(o => o.ApiVersionReader = new UrlSegmentApiVersionReader());
+//builder.Services.AddApiVersioning(o => o.ApiVersionReader = new UrlSegmentApiVersionReader());
 
 var app = builder.Build();
 

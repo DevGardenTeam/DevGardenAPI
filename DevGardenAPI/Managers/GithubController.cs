@@ -9,7 +9,7 @@ namespace DevGardenAPI.Managers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/git/[controller]")]
-    public class GithubController<T> : DevGardenController<T> where T : ModelBase
+    public class GithubController<T> : DevGardenController where T : ModelBase
     {
         #region Properties
 
@@ -17,7 +17,7 @@ namespace DevGardenAPI.Managers
 
         #region Constructor
         
-        public GithubController(IRepository<T> repository) : base(repository)
+        public GithubController(IRepository<T> repository) : base()
         {
         }
 

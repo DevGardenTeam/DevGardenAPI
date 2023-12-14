@@ -3,7 +3,7 @@ using Model;
 
 namespace DevGardenAPI.Managers
 {
-    public class GiteaController<T> : DevGardenController<T> where T : ModelBase
+    public class GiteaController<T> : DevGardenController where T : ModelBase
     {
         #region Properties
 
@@ -11,7 +11,7 @@ namespace DevGardenAPI.Managers
 
         #region Constructor
 
-        public GiteaController(IRepository<T> repository) : base(repository)
+        public GiteaController(IRepository<T> repository) : base()
         {
         }
 
