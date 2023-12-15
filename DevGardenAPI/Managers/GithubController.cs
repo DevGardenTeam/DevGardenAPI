@@ -2,8 +2,10 @@
 using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using System.Text;
 
 namespace DevGardenAPI.Managers
 { 
@@ -32,13 +34,12 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public async Task<HttpResponseMessage> Get()
+        public async Task<IActionResult> GetAllRepositories()
         {
-            Logger.Debug($"{nameof(GithubController<T>)} - {nameof(Get)} - Starting");
+            Logger.Debug($"{nameof(GithubController<T>)} - {nameof(GetAllRepositories)} - Starting");
 
             try
             {
-                string username = "LouBRODA";
                 string token = "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";
 
                 using (HttpClient client = new HttpClient())
@@ -46,17 +47,28 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-                    string apiUrl = $"https://api.github.com/users/{username}/repos";
+                    string apiUrl = $"https://api.github.com/user/repos";
 
-                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
 
-                    return response;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetAllRepositories)} - Error");
+                        Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GithubController<T>)} - {nameof(Get)} - Error");
-                Logger.Error($"{nameof(Get)} - {ex.InnerException}");
+                Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetAllRepositories)} - Error");
+                Logger.Error($"{nameof(GetAllRepositories)} - {ex.InnerException}");
 
                 return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }

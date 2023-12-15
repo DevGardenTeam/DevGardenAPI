@@ -6,7 +6,7 @@ namespace DevGardenAPI.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class DevGardenMemberController : ControllerBase
+    public class DevGardenRepositoryController : ControllerBase
     {
         #region Fields
 
@@ -22,7 +22,7 @@ namespace DevGardenAPI.Controllers
 
         #region Constructor
 
-        public DevGardenMemberController()
+        public DevGardenRepositoryController()
         {
             Logger = LogManager.GetLogger(typeof(DevGardenMemberController));
         }
@@ -32,8 +32,9 @@ namespace DevGardenAPI.Controllers
         #region Methods
 
         [HttpGet("GetAll")]
-        public async Task GetAll()
+        public async Task<IActionResult> GetAll()
         {
+            return await ExternalServiceManager.GithubMemberController.GetAllRepositories();
         }
 
         [HttpGet()]

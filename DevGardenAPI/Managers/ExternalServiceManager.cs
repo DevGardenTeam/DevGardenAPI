@@ -8,9 +8,9 @@ namespace DevGardenAPI.Managers
 
         #region Member
 
-        public GithubController<Member> GithubMemberController { get; private set; }
-        public GitlabController<Member> GitlabMemberController { get; private set; }
-        public GiteaController<Member> GiteaMemberController { get; private set; }
+        public GithubController<Repository> GithubMemberController { get; private set; }
+        public GitlabController<Repository> GitlabMemberController { get; private set; }
+        public GiteaController<Repository> GiteaMemberController { get; private set; }
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace DevGardenAPI.Managers
 
         public ExternalServiceManager() 
         {
-            GithubMemberController = new GithubController<Member>();
+            GithubMemberController = new GithubController<Repository>();
         }
 
         #endregion
