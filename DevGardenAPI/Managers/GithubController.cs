@@ -1,4 +1,5 @@
 ﻿using DevGardenAPI.GenericRepository;
+using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Newtonsoft.Json.Linq;
@@ -6,19 +7,23 @@ using System.Net;
 
 namespace DevGardenAPI.Managers
 { 
-    [ApiController]
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/git/[controller]")]
-    public class GithubController<T> : DevGardenController where T : ModelBase
+    public class GithubController<T> : ControllerBase where T : ModelBase
     {
+        #region Fields
+
+        #endregion
+
         #region Properties
+
+        protected ILog Logger { get; set; }
 
         #endregion
 
         #region Constructor
-        
-        public GithubController(IRepository<T> repository) : base()
+
+        public GithubController()
         {
+            Logger = LogManager.GetLogger(typeof(GithubController<T>));
         }
 
         #endregion
