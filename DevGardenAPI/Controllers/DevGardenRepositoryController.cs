@@ -24,7 +24,7 @@ namespace DevGardenAPI.Controllers
 
         public DevGardenRepositoryController()
         {
-            Logger = LogManager.GetLogger(typeof(DevGardenMemberController));
+            Logger = LogManager.GetLogger(typeof(DevGardenRepositoryController));
         }
 
         #endregion
@@ -32,14 +32,15 @@ namespace DevGardenAPI.Controllers
         #region Methods
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllRepositories()
         {
-            return await ExternalServiceManager.GithubMemberController.GetAllRepositories();
+            return await ExternalServiceManager.GithubRepositoryController.GetAllRepositories();
         }
 
-        [HttpGet()]
-        public async Task Get()
+        [HttpGet("GetActualRepository")]
+        public async Task<IActionResult> GetActualRepository(string repos)
         {
+            return await ExternalServiceManager.GithubRepositoryController.GetActualRepository(repos);
         }
 
         [HttpPost]
