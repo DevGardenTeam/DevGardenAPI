@@ -31,31 +31,16 @@ namespace DevGardenAPI.Controllers
 
         #region Methods
 
-        [HttpGet("GetAll")]
+        [HttpGet("GetAllRepositories")]
         public async Task<IActionResult> GetAllRepositories()
         {
-            return await ExternalServiceManager.GithubRepositoryController.GetAllRepositories();
+            return await ExternalServiceManager.PlatformRepositoryController.GetAllRepositories();
         }
 
         [HttpGet("GetActualRepository")]
-        public async Task<IActionResult> GetActualRepository(string repos)
+        public async Task<IActionResult> GetActualRepository(string owner, string repos)
         {
-            return await ExternalServiceManager.GithubRepositoryController.GetActualRepository(repos);
-        }
-
-        [HttpPost]
-        public async Task Post()
-        {
-        }
-
-        [HttpPut]
-        public async Task Put()
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(string id)
-        {
+            return await ExternalServiceManager.PlatformRepositoryController.GetActualRepository(owner, repos);
         }
 
         #endregion

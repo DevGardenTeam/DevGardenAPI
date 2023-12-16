@@ -6,11 +6,16 @@ namespace DevGardenAPI.Managers
     {
         #region Properties
 
-        #region Member
+        #region Repository
 
-        public GithubController<Repository> GithubRepositoryController { get; private set; }
-        public GitlabController<Repository> GitlabRepositoryController { get; private set; }
-        public GiteaController<Repository> GiteaRepositoryController { get; private set; }
+        public PlatformController<Member> PlatformMemberController { get; private set; }
+
+        public PlatformController<Repository> PlatformRepositoryController { get; private set; }
+
+        public PlatformController<Issue> PlatformIssueController { get; private set; }
+
+        public PlatformController<Branch> PlatformBranchController { get; private set; }
+
 
         #endregion
 
@@ -20,7 +25,9 @@ namespace DevGardenAPI.Managers
 
         public ExternalServiceManager() 
         {
-            GithubRepositoryController = new GithubController<Repository>();
+            PlatformRepositoryController = new GithubController<Repository>();
+            PlatformIssueController = new GithubController<Issue>();
+            PlatformBranchController = new GithubController<Branch>();
         }
 
         #endregion

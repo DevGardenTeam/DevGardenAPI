@@ -6,7 +6,7 @@ namespace DevGardenAPI.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class DevGardenMemberController : ControllerBase
+    public class DevGardenIssueController : ControllerBase
     {
         #region Fields
 
@@ -22,14 +22,20 @@ namespace DevGardenAPI.Controllers
 
         #region Constructor
 
-        public DevGardenMemberController()
+        public DevGardenIssueController()
         {
-            Logger = LogManager.GetLogger(typeof(DevGardenMemberController));
+            Logger = LogManager.GetLogger(typeof(DevGardenIssueController));
         }
 
         #endregion
 
         #region Methods
+
+        [HttpGet("GetAllIssues")]
+        public async Task<IActionResult> GetAllIssues()
+        {
+            return await ExternalServiceManager.PlatformIssueController.GetAllIssues();
+        }
 
         #endregion
     }
