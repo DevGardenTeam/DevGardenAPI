@@ -254,6 +254,90 @@ namespace DevGardenAPI.Managers
 
         #endregion
 
+        #region Commit
+
+        public override async Task<IActionResult> GetAllCommits(string owner, string repository)
+        {
+            Logger.Debug($"{nameof(GithubController<T>)} - {nameof(GetAllCommits)} - Starting");
+
+            try
+            {
+                string token = "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";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+                    string apiUrl = $"https://api.github.com/repos/{owner}/{repository}/commits";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetAllCommits)} - Error");
+                        Logger.Error($"{nameof(GetAllCommits)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetAllCommits)} - Error");
+                Logger.Error($"{nameof(GetAllCommits)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        public override async Task<IActionResult> GetCommit(string owner, string repository, string id)
+        {
+            Logger.Debug($"{nameof(GithubController<T>)} - {nameof(GetCommit)} - Starting");
+
+            try
+            {
+                string token = "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";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+                    string apiUrl = $"https://api.github.com/repos/{owner}/{repository}/commits/{id}";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetCommit)} - Error");
+                        Logger.Error($"{nameof(GetCommit)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetCommit)} - Error");
+                Logger.Error($"{nameof(GetCommit)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        #endregion
+
         #endregion
     }
 }

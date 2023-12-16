@@ -29,6 +29,14 @@ namespace DevGardenAPI.Managers
 
         #endregion
 
+        #region Commit
+
+        public abstract Task<IActionResult> GetAllCommits(string owner, string repository);
+
+        public abstract Task<IActionResult> GetCommit(string owner, string repository, string id);
+
+        #endregion
+
         #endregion
     }
 }

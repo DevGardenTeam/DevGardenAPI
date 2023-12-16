@@ -16,6 +16,7 @@ namespace DevGardenAPI.Managers
 
         public PlatformController<Branch> PlatformBranchController { get; private set; }
 
+        public PlatformController<Commit> PlatformCommitController { get; private set; }
 
         #endregion
 
@@ -28,6 +29,7 @@ namespace DevGardenAPI.Managers
             PlatformRepositoryController = new GithubController<Repository>();
             PlatformIssueController = new GithubController<Issue>();
             PlatformBranchController = new GithubController<Branch>();
+            PlatformCommitController = new GithubController<Commit>();
         }
 
         #endregion

@@ -65,6 +65,20 @@ namespace DevGardenAPI.Managers
 
         #endregion
 
+        #region Commit
+
+        public override async Task<IActionResult> GetAllCommits(string owner, string repository)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override async Task<IActionResult> GetCommit(string owner, string repository, string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #endregion
     }
 }
