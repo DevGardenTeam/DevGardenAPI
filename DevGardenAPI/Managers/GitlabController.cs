@@ -9,6 +9,8 @@ namespace DevGardenAPI.Managers
     {
         #region Fields
 
+        private readonly string gitlabApiStartUrl = "https://gitlab.com/api/v4";
+
         #endregion
 
         #region Properties
@@ -30,9 +32,45 @@ namespace DevGardenAPI.Managers
 
         #region Repository
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetAllRepositories()
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllRepositories)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl = $"{gitlabApiStartUrl}/projects?membership=true";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllRepositories)} - Error");
+                        Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllRepositories)} - Error");
+                Logger.Error($"{nameof(GetAllRepositories)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         public override async Task<IActionResult> GetActualRepository(string owner, string repository)

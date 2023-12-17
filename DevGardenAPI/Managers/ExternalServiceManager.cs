@@ -26,7 +26,7 @@ namespace DevGardenAPI.Managers
 
         public ExternalServiceManager() 
         {
-            PlatformRepositoryController = new GithubController<Repository>();
+            PlatformRepositoryController = new GitlabController<Repository>();
             PlatformIssueController = new GithubController<Issue>();
             PlatformBranchController = new GithubController<Branch>();
             PlatformCommitController = new GithubController<Commit>();
