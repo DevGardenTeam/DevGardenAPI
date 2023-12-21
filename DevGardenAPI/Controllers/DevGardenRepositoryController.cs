@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevGardenAPI.Controllers
 {
+    /// <summary>
+    /// Contrôleur de l'application DevGarden pour la partie Repository.
+    /// </summary>
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class DevGardenRepositoryController : ControllerBase
@@ -14,14 +17,23 @@ namespace DevGardenAPI.Controllers
 
         #region Properties
 
+        /// <summary>
+        /// Obtient ou définit le gestionnaire de log.
+        /// </summary>
         protected ILog Logger { get; set; }
 
+        /// <summary>
+        /// Obtient le manager du service utilisé.
+        /// </summary>
         public ExternalServiceManager ExternalServiceManager { get; } = new ExternalServiceManager();
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Initialise une nouvelle instance de la classe <see cref="DevGardenRepositoryController"/>.
+        /// </summary>
         public DevGardenRepositoryController()
         {
             Logger = LogManager.GetLogger(typeof(DevGardenRepositoryController));

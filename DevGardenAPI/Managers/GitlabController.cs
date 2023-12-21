@@ -5,6 +5,9 @@ using Model;
 
 namespace DevGardenAPI.Managers
 {
+    /// <summary>
+    /// Contrôleur générique de la partie Gitlab implémentant les différentes méthodes définies dans le PlatformController.
+    /// </summary>
     public class GitlabController<T> : PlatformController<T> where T : ModelBase
     {
         #region Fields
@@ -15,12 +18,18 @@ namespace DevGardenAPI.Managers
 
         #region Properties
 
+        /// <summary>
+        /// Obtient ou définit le gestionnaire de log.
+        /// </summary>
         protected ILog Logger { get; set; }
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Initialise une nouvelle instance de la classe <see cref="GitlabController"/>.
+        /// </summary>
         public GitlabController()
         {
             Logger = LogManager.GetLogger(typeof(GitlabController<T>));
