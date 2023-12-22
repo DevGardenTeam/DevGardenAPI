@@ -39,9 +39,46 @@ namespace DevGardenAPI.Managers
 
         #region Repository
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetAllRepositories()
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Starting");
+
+            try
+            {
+                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+                    string apiUrl = $"https://gitea.com/api/v1/user/repos";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Error");
+                        Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Error");
+                Logger.Error($"{nameof(GetAllRepositories)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         public override async Task<IActionResult> GetActualRepository(string owner, string repository)
