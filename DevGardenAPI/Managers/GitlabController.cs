@@ -82,46 +82,262 @@ namespace DevGardenAPI.Managers
             }
         }
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetActualRepository(string owner, string repository)
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetActualRepository)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetActualRepository)} - Error");
+                        Logger.Error($"{nameof(GetActualRepository)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetActualRepository)} - Error");
+                Logger.Error($"{nameof(GetActualRepository)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         #endregion
 
         #region Issue
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetAllIssues()
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllIssues)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl = $"{gitlabApiStartUrl}/issues";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllIssues)} - Error");
+                        Logger.Error($"{nameof(GetAllIssues)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllIssues)} - Error");
+                Logger.Error($"{nameof(GetAllIssues)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         #endregion
 
         #region Branch
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetAllBranches(string owner, string repository)
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllBranches)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/branches";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllBranches)} - Error");
+                        Logger.Error($"{nameof(GetAllBranches)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllBranches)} - Error");
+                Logger.Error($"{nameof(GetAllBranches)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetBranch(string owner, string repository, string branch)
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetBranch)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/branches/{branch}";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetBranch)} - Error");
+                        Logger.Error($"{nameof(GetBranch)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetBranch)} - Error");
+                Logger.Error($"{nameof(GetBranch)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         #endregion
 
         #region Commit
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetAllCommits(string owner, string repository)
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllCommits)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/commits";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllCommits)} - Error");
+                        Logger.Error($"{nameof(GetAllCommits)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllCommits)} - Error");
+                Logger.Error($"{nameof(GetAllCommits)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
+        [ApiVersion("1.0")]
+        [HttpGet]
         public override async Task<IActionResult> GetCommit(string owner, string repository, string id)
         {
-            throw new NotImplementedException();
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetCommit)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/commits/{id}";
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetCommit)} - Error");
+                        Logger.Error($"{nameof(GetCommit)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetCommit)} - Error");
+                Logger.Error($"{nameof(GetCommit)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         #endregion
