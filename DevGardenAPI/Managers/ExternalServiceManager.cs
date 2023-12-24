@@ -43,10 +43,10 @@ namespace DevGardenAPI.Managers
         /// </summary>
         public ExternalServiceManager() 
         {
-            PlatformRepositoryController = new GitlabController<Repository>();
-            PlatformIssueController = new GitlabController<Issue>();
-            PlatformBranchController = new GitlabController<Branch>();
-            PlatformCommitController = new GitlabController<Commit>();
+            PlatformRepositoryController = new GiteaController<Repository>();
+            PlatformIssueController = new GiteaController<Issue>();
+            PlatformBranchController = new GiteaController<Branch>();
+            PlatformCommitController = new GiteaController<Commit>();
         }
 
         #endregion
