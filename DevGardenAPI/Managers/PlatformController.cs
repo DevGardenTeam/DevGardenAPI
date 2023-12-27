@@ -80,6 +80,19 @@ namespace DevGardenAPI.Managers
 
         #endregion
 
+        #region File
+
+        /// <summary>
+        /// Récupérer l'ensemble des fichiers d'un répertoire de l'utilisateur connecté.
+        /// </summary>
+        /// <param name="owner">L'identifiant du propriétaire du répertoire.</param>
+        /// <param name="repository">Le nom du répertoire.</param>
+        /// <param name="path">Le nom du répertoire.</param>
+        /// <returns>Le statut de réponse de la méthode.</returns>
+        public abstract Task<IActionResult> GetAllFiles(string owner, string repository, string path );
+
+        #endregion
+
         #endregion
     }
 }

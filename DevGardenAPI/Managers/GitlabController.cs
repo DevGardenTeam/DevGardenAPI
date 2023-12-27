@@ -342,6 +342,60 @@ namespace DevGardenAPI.Managers
 
         #endregion
 
+        #region File
+
+        [ApiVersion("1.0")]
+        [HttpGet]
+        public override async Task<IActionResult> GetAllFiles(string owner, string repository, string? path = null)
+        {
+            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllFiles)} - Starting");
+
+            try
+            {
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("Private-Token", token);
+
+                    string apiUrl;
+
+                    if (path != null)
+                    {
+                        apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/tree?path={path}";
+                    }
+                    else
+                    {
+                        apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/tree";
+                    } 
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllFiles)} - Error");
+                        Logger.Error($"{nameof(GetAllFiles)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllFiles)} - Error");
+                Logger.Error($"{nameof(GetAllFiles)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        #endregion
+
         #endregion
     }
 }

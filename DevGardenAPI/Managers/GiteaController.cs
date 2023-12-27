@@ -347,6 +347,61 @@ namespace DevGardenAPI.Managers
 
         #endregion
 
+        #region File
+
+        [ApiVersion("1.0")]
+        [HttpGet]
+        public override async Task<IActionResult> GetAllFiles(string owner, string repository, string? path = null)
+        {
+            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllFiles)} - Starting");
+
+            try
+            {
+                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+                    string apiUrl;
+
+                    if (path != null)
+                    {
+                        apiUrl = $"https://gitea.com/api/v1/repos/{owner}/{repository}/contents/{path}";
+                    }
+                    else
+                    {
+                        apiUrl = $"https://gitea.com/api/v1/repos/{owner}/{repository}/contents";
+                    }
+
+                    HttpResponseMessage result = await client.GetAsync(apiUrl);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var json = await result.Content.ReadAsStringAsync();
+                        return Ok(json);
+                    }
+                    else
+                    {
+                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllFiles)} - Error");
+                        Logger.Error($"{nameof(GetAllFiles)} - {result.StatusCode}");
+
+                        return StatusCode((int)result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllFiles)} - Error");
+                Logger.Error($"{nameof(GetAllFiles)} - {ex.InnerException}");
+
+                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        #endregion
+
         #endregion
     }
 }

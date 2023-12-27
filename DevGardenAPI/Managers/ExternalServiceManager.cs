@@ -34,6 +34,11 @@ namespace DevGardenAPI.Managers
         /// </summary>
         public PlatformController<Commit> PlatformCommitController { get; private set; }
 
+        /// <summary>
+        /// Obtient ou définit la plateforme à utiliser pour le contrôleur des fichiers.
+        /// </summary>
+        public PlatformController<Model.File> PlatformFileController { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -43,10 +48,11 @@ namespace DevGardenAPI.Managers
         /// </summary>
         public ExternalServiceManager() 
         {
-            PlatformRepositoryController = new GiteaController<Repository>();
-            PlatformIssueController = new GiteaController<Issue>();
-            PlatformBranchController = new GiteaController<Branch>();
-            PlatformCommitController = new GiteaController<Commit>();
+            PlatformRepositoryController = new GithubController<Repository>();
+            PlatformIssueController = new GithubController<Issue>();
+            PlatformBranchController = new GithubController<Branch>();
+            PlatformCommitController = new GithubController<Commit>();
+            PlatformFileController = new GithubController<Model.File>();
         }
 
         #endregion
