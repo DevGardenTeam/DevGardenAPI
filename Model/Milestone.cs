@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Milestorne : ModelBase, IEquatable<Milestorne>
+    public class Milestone : ModelBase, IEquatable<Milestone>
     {
         #region Fields
 
@@ -22,7 +22,7 @@ namespace Model
 
         #region Methods
 
-        public bool Equals(Milestorne? other)
+        public bool Equals(Milestone? other)
         {
             throw new NotImplementedException();
         }
