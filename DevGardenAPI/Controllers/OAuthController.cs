@@ -9,7 +9,7 @@ namespace DevGardenAPI.Controllers
      * Controller that handles the OAuth flow.
      * POC for now, maybe a more concrete version needs to be implemented.
      */
-    [Route("api/oauth")]
+    [Route("api/v{version:apiVersion}/oauth")]
     [ApiController]
     public class OAuthController : ControllerBase
     {
