@@ -193,6 +193,7 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
                     string apiUrl = $"https://api.github.com/repos/{owner}/{repository}/branches";
+                    Console.WriteLine( token );
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 
