@@ -174,13 +174,13 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public override async Task<IActionResult> GetAllBranches(string owner, string repository)
+        public override async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
         {
             Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllBranches)} - Starting");
 
             try
             {
-                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+                //string token = "glpat-s6wALUpYoTt_fpzywGCp";
 
                 using (HttpClient client = new HttpClient())
                 {

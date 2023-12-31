@@ -44,9 +44,9 @@ namespace DevGardenAPI.Controllers
         #region Methods
 
         [HttpGet("GetAllBranches")]
-        public async Task<IActionResult> GetAllBranches(string owner, string repository)
+        public async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
         {
-            return await ExternalServiceManager.PlatformBranchController.GetAllBranches(owner, repository);
+            return await ExternalServiceManager.PlatformBranchController.GetAllBranches(owner, repository, token);
         }
 
 

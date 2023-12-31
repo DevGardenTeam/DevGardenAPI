@@ -175,13 +175,13 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public override async Task<IActionResult> GetAllBranches(string owner, string repository)
+        public override async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
         {
             Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllBranches)} - Starting");
 
             try
             {
-                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+                //string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
 
                 using (HttpClient client = new HttpClient())
                 {
