@@ -46,7 +46,7 @@ namespace DevGardenAPI.Managers
         /// <param name="owner">L'identifiant du propriétaire du répertoire.</param>
         /// <param name="repository">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllBranches(string owner, string repository);
+        public abstract Task<IActionResult> GetAllBranches(string owner, string repository, string token);
 
         /// <summary>
         /// Récupérer les détails d'une branche d'un répertoire de l'utilisateur connecté.

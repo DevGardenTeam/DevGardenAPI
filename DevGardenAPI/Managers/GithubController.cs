@@ -179,13 +179,13 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public override async Task<IActionResult> GetAllBranches(string owner, string repository)
+        public override async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
         {
             Logger.Debug($"{nameof(GithubController<T>)} - {nameof(GetAllBranches)} - Starting");
 
             try
             {
-                string token = "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";
+                //string token = "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";
 
                 using (HttpClient client = new HttpClient())
                 {
