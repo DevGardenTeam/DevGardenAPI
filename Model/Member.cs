@@ -11,11 +11,14 @@ namespace Model
     {
         #region Fields
 
+        private string _name;
         private List<Repository>? _repositories = new ();
 
         #endregion
 
         #region Properties
+
+        public string Name { get; set; }
 
         public ReadOnlyCollection<Repository>? Repositories { get; set; }
 
@@ -25,6 +28,7 @@ namespace Model
 
         public Member()
         {
+            Name = _name;
             Repositories = new ReadOnlyCollection<Repository>(_repositories);
         }
 

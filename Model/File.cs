@@ -11,12 +11,21 @@ namespace Model
         #region Fields
 
         private string _name;
+        private long _size;
+        private string _encoding;
+        private string _content;
 
         #endregion
 
         #region Properties
 
         public string Name { get; set; }
+        
+        public long Size { get; set; }
+
+        public string Encoding { get; set; }
+
+        public string Content { get; set; }
 
         #endregion
 
@@ -25,6 +34,9 @@ namespace Model
         public File()
         {
             Name = _name;
+            Size = _size;
+            Encoding = _encoding;
+            Content = _content;
         }
 
         #endregion

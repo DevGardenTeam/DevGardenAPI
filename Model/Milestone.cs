@@ -10,13 +10,22 @@ namespace Model
     {
         #region Fields
 
+        private string _name;
+
         #endregion
 
         #region Properties
 
+        public string Name { get; set; }
+
         #endregion
 
         #region Constructor
+
+        public Milestone()
+        {
+            Name = _name;
+        }
 
         #endregion
 
