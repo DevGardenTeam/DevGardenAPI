@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Auth;
 
 namespace DevGardenAPI.Controllers
 {
@@ -10,7 +11,21 @@ namespace DevGardenAPI.Controllers
     [ApiController]
     public class OAuthController : ControllerBase
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IOAuthHandlerFactory _oauthHandlerFactory;
+
+        public OAuthController(IOAuthHandlerFactory oauthHandlerFactory)
+        {
+            _oauthHandlerFactory = oauthHandlerFactory;
+        }
+
+        [HttpPost("token")]
+        public async Task<IActionResult> ExchangeToken([FromBody] TokenRequest request, [FromQuery] string platform)
+        {
+            var oauthHandler = _oauthHandlerFactory.CreateHandler(platform);
+            var token = await oauthHandler.ExchangeToken(request);
+        }
+
+        /*private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<OAuthController> _logger;
 
         public OAuthController(IHttpClientFactory httpClientFactory, ILogger<OAuthController> logger)
@@ -76,7 +91,7 @@ namespace DevGardenAPI.Controllers
          * I made this based on the raw format when testing with GitHub API.
          * [TODO] Maybe a different version depending on the service (Gitea, Gitlab...).
          */
-        private string ExtractAccessToken(string responseContent)
+        /*private string ExtractAccessToken(string responseContent)
         {
             // Gets the value of a query string parameter from the response content.
             // example: access_token=123456789&scope=repo%2Cgist&token_type=bearer
@@ -84,5 +99,5 @@ namespace DevGardenAPI.Controllers
             var queryString = System.Web.HttpUtility.ParseQueryString(responseContent);
             return queryString["access_token"];
         }
+    }*/
     }
-}
