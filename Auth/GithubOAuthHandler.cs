@@ -45,19 +45,19 @@ namespace Auth
                         _logger.LogInformation($"Access token received: {accessToken}");
 
                         // Return an OK response with the access token as JSON object
-                        return Ok(new { access_token = accessToken });
+                        return accessToken;
                     }
                     else
                     {
                         _logger.LogError("Failed to extract access token from response.");
-                        return StatusCode(500, new { error = "Internal Server Error" });
+                        throw new Exception("Failed to extract access token from response.");
                     }
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error in token exchange: {ex.Message}");
-                return StatusCode(500, "Internal Server Error");
+                throw new Exception($"Exception happened during the token exchange: {ex.Message}");
             }
         }
 
