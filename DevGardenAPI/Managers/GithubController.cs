@@ -65,6 +65,7 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+                        List<Repository> repositories = JsonConvert.DeserializeObject<List<Repository>>(json);
                         return Ok(json);
                     }
                     else

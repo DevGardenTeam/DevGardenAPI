@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace Model
@@ -18,6 +19,7 @@ namespace Model
 
         #region Properties
 
+        [JsonProperty("login")]
         public string Name { get; set; }
 
         public ReadOnlyCollection<Repository>? Repositories { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -30,18 +31,33 @@ namespace Model
 
         #region Properties
 
+        [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("owner")]
         public Member Owner { get; set; }
 
+        [JsonProperty("private")]
         public bool IsPrivate { get; set; }
 
+        [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("fork")]
         public bool IsFork { get; set; }
 
+        [JsonProperty("url")]
         public string Url { get; set; }
-        
+
+        [JsonProperty("created_at")]
+        public DateTime CreationDate { get; set; } = DateTime.Now;
+
+        [JsonProperty("language")]
+        public string Language { get; set; }
+
+        [JsonProperty("size")]
+        public long Size { get; set; }
+
         public ReadOnlyCollection<Branch> Branches { get; set; }
         
         public ReadOnlyCollection<Commit> Commits { get; set; }
@@ -49,10 +65,6 @@ namespace Model
         public ReadOnlyCollection<Member> Contributors { get; set; }
 
         public ReadOnlyCollection<Issue> Issues { get; set; }
-
-        public string Language { get; set; }
-
-        public long Size { get; set; }
 
         public ReadOnlyCollection<Folder>? Folders { get; set; }
 
