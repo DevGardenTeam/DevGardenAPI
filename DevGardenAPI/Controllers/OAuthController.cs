@@ -29,7 +29,7 @@ namespace DevGardenAPI.Controllers
                 string token = await oauthHandler.ExchangeToken(request);
                 // return a json with the token if successfull
                 Console.WriteLine("token :  " + token);
-                return Ok(new { accesstoken = token });
+                return Ok(new { access_token = token });
             }
             catch (Exception ex)
             {
