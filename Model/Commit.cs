@@ -10,16 +10,19 @@ namespace Model
     {
         #region Fields
 
-        private string _id;
         private string? _message;
+        private Member _author;
+        private Repository _repository;
 
         #endregion
 
         #region Properties
 
-        public string Id { get; set; }
-
         public string? Message { get; set; }
+
+        public Member Author { get; set; }
+
+        public Repository Repository { get; set; }
 
         #endregion
 
@@ -27,8 +30,9 @@ namespace Model
 
         public Commit()
         {
-            Id = _id;
             Message = _message;
+            Author = _author;
+            Repository = _repository;
         }
 
         #endregion
