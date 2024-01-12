@@ -1,6 +1,7 @@
 ﻿using DevGardenAPI.Managers;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 
 namespace DevGardenAPI.Controllers
 {
@@ -44,7 +45,7 @@ namespace DevGardenAPI.Controllers
         #region Methods
 
         [HttpGet("GetAllRepositories")]
-        public async Task<IActionResult> GetAllRepositories()
+        public async Task<List<Repository>> GetAllRepositories()
         {
             return await ExternalServiceManager.PlatformRepositoryController.GetAllRepositories();
         }

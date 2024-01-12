@@ -2,6 +2,7 @@
 using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Newtonsoft.Json;
 
 namespace DevGardenAPI.Managers
 {
@@ -41,7 +42,7 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public override async Task<IActionResult> GetAllRepositories()
+        public override async Task<List<Repository>> GetAllRepositories()
         {
             Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Starting");
 
@@ -61,14 +62,15 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        return Ok(json);
+                        List<Repository> repositories = JsonConvert.DeserializeObject<List<Repository>>(json);
+                        return repositories;
                     }
                     else
                     {
                         Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Error");
                         Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
 
-                        return StatusCode((int)result.StatusCode);
+                        return null;
                     }
                 }
             }

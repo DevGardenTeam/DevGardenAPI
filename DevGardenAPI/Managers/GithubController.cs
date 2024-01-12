@@ -45,7 +45,7 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public override async Task<IActionResult> GetAllRepositories()
+        public override async Task<List<Repository>> GetAllRepositories()
         {
             Logger.Debug($"{nameof(GithubController<T>)} - {nameof(GetAllRepositories)} - Starting");
 
@@ -66,14 +66,14 @@ namespace DevGardenAPI.Managers
                     {
                         var json = await result.Content.ReadAsStringAsync();
                         List<Repository> repositories = JsonConvert.DeserializeObject<List<Repository>>(json);
-                        return Ok(json);
+                        return repositories;
                     }
                     else
                     {
                         Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetAllRepositories)} - Error");
                         Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
 
-                        return StatusCode((int)result.StatusCode);
+                        return null;
                     }
                 }
             }

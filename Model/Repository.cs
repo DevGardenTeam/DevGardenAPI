@@ -32,13 +32,13 @@ namespace Model
 
         #region Properties
 
-        [JsonProperty(nameof(JsonPropertyName))]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("owner")]
         public Member Owner { get; set; }
 
-        [JsonProperty(nameof(JsonPropertyIsPrivate))]
+        [JsonProperty("private")]
         public bool IsPrivate { get; set; }
 
         [JsonProperty("description")]
@@ -71,23 +71,12 @@ namespace Model
 
         public ReadOnlyCollection<File> Files { get; set; }
 
-        public string JsonPropertyName { get; set; }
-        public string JsonPropertyOwner { get; set; }
-        public string JsonPropertyIsPrivate { get; set; }
-        public string JsonPropertyDescription { get; set; }
-        public string JsonPropertyIsFork { get; set; }
-        public string JsonPropertyUrl { get; set; }
-        public string JsonPropertyCreationDate { get; set; }
-        public string JsonPropertyLanguage { get; set; }
-        public string JsonPropertySize { get; set; }
-
         #endregion
 
         #region Constructor
 
         public Repository()
         {
-            InitRepositoryDynamicPropertyJson();
             Name = _name;
             Owner = _owner;
             IsPrivate = _isPrivate;
@@ -108,19 +97,6 @@ namespace Model
         #endregion
 
         #region Methods
-
-        public void InitRepositoryDynamicPropertyJson()
-        {
-            JsonPropertyName = "name";
-            JsonPropertyOwner = "owner";
-            JsonPropertyIsPrivate = "private";
-            JsonPropertyDescription = "description";
-            JsonPropertyIsFork = "fork";
-            JsonPropertyUrl = "url";
-            JsonPropertyCreationDate = "created_at";
-            JsonPropertyLanguage = "language";
-            JsonPropertySize = "size";
-        }
 
         public bool Equals(Repository? other)
         {
