@@ -3,10 +3,9 @@ using Auth;
 
 namespace DevGardenAPI.Controllers
 {
-    /*
-     * Controller that handles the OAuth flow.
-     * POC for now, maybe a more concrete version needs to be implemented.
-     */
+    /// <summary>
+    /// Controller to handle the OAuth authentication flow.
+    /// </summary>
     [Route("api/v{version:apiVersion}/oauth")]
     [ApiController]
     public class OAuthController : ControllerBase
@@ -21,11 +20,15 @@ namespace DevGardenAPI.Controllers
         [HttpPost("token")]
         public async Task<IActionResult> ExchangeToken([FromBody] TokenRequest request, [FromQuery] string platform)
         {
+            // create the appropriate instance of the oauth handler class depending on the given platform
             var oauthHandler = _oauthHandlerFactory.CreateHandler(platform);
 
             try
             {
+                // attempt to get the exchange token
                 string token = await oauthHandler.ExchangeToken(request);
+                // return a json with the token if successfull
+                Console.WriteLine("token :  " + token);
                 return Ok(new { accesstoken = token });
             }
             catch (Exception ex)

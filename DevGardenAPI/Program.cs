@@ -1,3 +1,4 @@
+using Auth;
 using DevGardenAPI.Managers;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
@@ -28,7 +29,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApiVersioning(o => o.ApiVersionReader = new UrlSegmentApiVersionReader());
 
+// DI Configuration 
 builder.Services.AddSingleton<ExternalServiceManager>();
+builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 
 var app = builder.Build();
 
