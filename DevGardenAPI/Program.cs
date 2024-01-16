@@ -33,6 +33,29 @@ builder.Services.AddApiVersioning(o => o.ApiVersionReader = new UrlSegmentApiVer
 builder.Services.AddSingleton<ExternalServiceManager>();
 builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 
+// Client and Id secret config
+builder.Services.Configure<GithubOauthOptions>(options =>
+{
+    //or use -> var ClientIdEnv = Environment.GetEnvironmentVariable("GithubClientId");
+
+    // get the client id
+    var ClientId = builder.Configuration["GithubClientId"];
+    if(ClientId == null)
+    {
+        throw new Exception("ClientId environement varibale is not set");
+    }
+
+    // get the client secret
+    var ClientSecret = builder.Configuration["GithubClientSecret"];
+    if(ClientSecret == null)
+    {
+        throw new Exception("ClientSecret environement variable is not set");
+    }
+
+    options.ClientId = ClientId;
+    options.ClientSecret = ClientSecret;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,16 @@ namespace Auth
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILoggerFactory _loggerFactory;
 
-        public OAuthHandlerFactory(IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory)
+        private readonly GithubOauthOptions _clientOptions;
+
+        public OAuthHandlerFactory(
+            IHttpClientFactory httpClientFactory, 
+            ILoggerFactory loggerFactory, 
+            IOptions<GithubOauthOptions> clientOptions)
         {
             _httpClientFactory = httpClientFactory;
             _loggerFactory = loggerFactory;
+            _clientOptions = clientOptions.Value;
         }
 
         public OAuthHandlerBase CreateHandler(string platform)
@@ -28,7 +35,7 @@ namespace Auth
             switch (platform)
             {
                 case "github":
-                    return new GithubOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GithubOAuthHandler>());
+                    return new GithubOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GithubOAuthHandler>(), _clientOptions) ;
                 case "gitlab":
                     //return new GitlabOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GitlabOAuthHandler>());
                 case "gitea":
