@@ -8,16 +8,25 @@ using System.Threading.Tasks;
 
 namespace Auth
 {
+    /// <summary>
+    /// The OAuth handler factory interface.
+    /// </summary>
     public interface IOAuthHandlerFactory
     {
         OAuthHandlerBase CreateHandler(string platform);
     }
 
+    /// <summary>
+    /// The OAuthHandlerFactory.
+    /// </summary>
     public class OAuthHandlerFactory : IOAuthHandlerFactory
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILoggerFactory _loggerFactory;
 
+        /// <summary>
+        /// The options such as client secret and id.
+        /// </summary>
         private readonly GithubOauthOptions _clientOptions;
 
         public OAuthHandlerFactory(
@@ -30,6 +39,12 @@ namespace Auth
             _clientOptions = clientOptions.Value;
         }
 
+        /// <summary>
+        /// Creates a OAuth handler for a given platform.
+        /// </summary>
+        /// <param name="platform">The platform.</param>
+        /// <returns>The oAuth handler instance.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public OAuthHandlerBase CreateHandler(string platform)
         {
             switch (platform)

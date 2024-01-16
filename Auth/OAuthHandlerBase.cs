@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Auth
 {
+    /// <summary>
+    /// The oAuthHandler base class.
+    /// </summary>
     public abstract class OAuthHandlerBase
     {
         protected readonly IHttpClientFactory _httpClientFactory;
