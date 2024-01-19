@@ -27,12 +27,12 @@ namespace Auth
         /// <summary>
         /// The options such as client secret and id.
         /// </summary>
-        private readonly GithubOauthOptions _clientOptions;
+        private readonly OAuthClientOptions _clientOptions;
 
         public OAuthHandlerFactory(
             IHttpClientFactory httpClientFactory, 
             ILoggerFactory loggerFactory, 
-            IOptions<GithubOauthOptions> clientOptions)
+            IOptions<OAuthClientOptions> clientOptions)
         {
             _httpClientFactory = httpClientFactory;
             _loggerFactory = loggerFactory;

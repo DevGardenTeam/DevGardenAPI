@@ -11,7 +11,7 @@ namespace Auth
     public class GithubOAuthHandler : OAuthHandlerBase
     {
         public GithubOAuthHandler(
-            IHttpClientFactory httpClientFactory, ILogger logger, GithubOauthOptions options) 
+            IHttpClientFactory httpClientFactory, ILogger logger, OAuthClientOptions options) 
             : base(httpClientFactory, logger, options)
         {
         }
@@ -32,8 +32,8 @@ namespace Auth
                 var requestBody = new FormUrlEncodedContent(new[]
                 {
                     // [TODO] Move this to a config file in a safe way .
-                    new KeyValuePair<string, string>("client_id", this._clientOptions.ClientId),
-                    new KeyValuePair<string, string>("client_secret", this._clientOptions.ClientSecret),
+                    new KeyValuePair<string, string>("client_id", this._clientOptions.ClientIds["github"]),
+                    new KeyValuePair<string, string>("client_secret", this._clientOptions.ClientSecrets["github"]),
                     new KeyValuePair<string, string>("code", request.Code),
                     new KeyValuePair<string, string>("redirect_uri", "http://localhost:19006/auth/callback"),
                     new KeyValuePair<string, string>("grant_type", "authorization_code"),
@@ -41,6 +41,14 @@ namespace Auth
 
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
+                    Console.WriteLine("-----------");
+                    Console.WriteLine(this._clientOptions.ClientIds["github"]);
+                    Console.WriteLine("-----------");
+
+                    Console.WriteLine("-----------");
+                    Console.WriteLine(this._clientOptions.ClientSecrets["github"]);
+                    Console.WriteLine("-----------");
+
                     var response = await httpClient.PostAsync("https://github.com/login/oauth/access_token", requestBody);
                     response.EnsureSuccessStatusCode();
 
@@ -80,6 +88,8 @@ namespace Auth
         /// <returns></returns>
         private string ExtractAccessToken(string responseContent)
         {
+            // [TODO] if error on response extract message to improve debug
+
             // Gets the value of a query string parameter from the response content.
             // example: access_token=123456789&scope=repo%2Cgist&token_type=bearer
             // queryString["access_token"] will return 123456789

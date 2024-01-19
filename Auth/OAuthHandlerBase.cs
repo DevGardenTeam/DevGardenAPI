@@ -16,9 +16,9 @@ namespace Auth
         protected readonly IHttpClientFactory _httpClientFactory;
         protected readonly ILogger _logger;
 
-        protected readonly GithubOauthOptions _clientOptions;
+        protected readonly OAuthClientOptions _clientOptions;
 
-        protected OAuthHandlerBase(IHttpClientFactory httpClientFactory, ILogger logger, GithubOauthOptions options)
+        protected OAuthHandlerBase(IHttpClientFactory httpClientFactory, ILogger logger, OAuthClientOptions options)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
