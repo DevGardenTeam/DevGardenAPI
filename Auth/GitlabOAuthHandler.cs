@@ -1,27 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Net.Http;
+﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Auth
 {
-    /// <summary>
-    /// The github oAuth handler.
-    /// </summary>
-    public class GithubOAuthHandler : OAuthHandlerBase
+    public class GitlabOAuthHandler : OAuthHandlerBase
     {
-        public GithubOAuthHandler(
-            IHttpClientFactory httpClientFactory, ILogger logger, OAuthClientOptions options) 
-            : base(httpClientFactory, logger, options)
+        public GitlabOAuthHandler(IHttpClientFactory httpClientFactory, ILogger logger, OAuthClientOptions options) : base(httpClientFactory, logger, options)
         {
         }
 
-        /// <summary>
-        /// Make the authentication token exchange.
-        /// </summary>
-        /// <param name="request">The token request.</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public override async Task<string> ExchangeToken(TokenRequest request)
         {
             _logger.LogInformation($"Received request with code: {request?.Code}");
@@ -32,8 +23,8 @@ namespace Auth
                 var requestBody = new FormUrlEncodedContent(new[]
                 {
                     // [TODO] Move this to a config file in a safe way .
-                    new KeyValuePair<string, string>("client_id", this._clientOptions.ClientIds["github"]),
-                    new KeyValuePair<string, string>("client_secret", this._clientOptions.ClientSecrets["github"]),
+                    new KeyValuePair<string, string>("client_id", this._clientOptions.ClientIds["gitlab"]),
+                    new KeyValuePair<string, string>("client_secret", this._clientOptions.ClientSecrets["gitlab"]),
                     new KeyValuePair<string, string>("code", request.Code),
                     new KeyValuePair<string, string>("redirect_uri", "http://localhost:19006/auth/callback"),
                     new KeyValuePair<string, string>("grant_type", "authorization_code"),
@@ -41,7 +32,7 @@ namespace Auth
 
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
-                    var response = await httpClient.PostAsync("https://github.com/login/oauth/access_token", requestBody);
+                    var response = await httpClient.PostAsync("https://gitlab.com/login/oauth/access_token", requestBody);
                     response.EnsureSuccessStatusCode();
 
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -74,7 +65,7 @@ namespace Auth
         }
 
         /// <summary>
-        /// Extracts the access token from the github api response.
+        /// Extracts the access token from the gitlab api response.
         /// </summary>
         /// <param name="responseContent"></param>
         /// <returns></returns>
@@ -89,10 +80,10 @@ namespace Auth
             var access_token = queryString["access_token"];
 
             // check if access token was found
-            if(access_token == null)
+            if (access_token == null)
             {
                 throw new Exception("The exchange token wasn't found on the external api's response.");
-            } 
+            }
 
             return access_token;
         }

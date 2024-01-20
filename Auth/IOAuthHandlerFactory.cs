@@ -54,7 +54,7 @@ namespace Auth
                 case "gitlab":
                     //return new GitlabOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GitlabOAuthHandler>());
                 case "gitea":
-                    // return new GiteaOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GiteaOAuthHandler>());
+                     return new GiteaOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GiteaOAuthHandler>(), _clientOptions);
                 default:
                     throw new ArgumentException($"Invalid platform: {platform}");
             }
