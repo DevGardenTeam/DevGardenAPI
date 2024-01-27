@@ -52,7 +52,7 @@ namespace Auth
                 case "github":
                     return new GithubOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GithubOAuthHandler>(), _clientOptions) ;
                 case "gitlab":
-                    //return new GitlabOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GitlabOAuthHandler>());
+                    return new GitlabOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GitlabOAuthHandler>(), _clientOptions);
                 case "gitea":
                      return new GiteaOAuthHandler(_httpClientFactory, _loggerFactory.CreateLogger<GiteaOAuthHandler>(), _clientOptions);
                 default:
