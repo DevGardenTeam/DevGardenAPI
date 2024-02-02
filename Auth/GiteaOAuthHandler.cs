@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,9 @@ namespace Auth
             _logger.LogInformation($"Received request with code: {request?.Code}");
             Console.WriteLine($"Received request with code: {request?.Code}");
 
+            Console.WriteLine(this._clientOptions.ClientIds["gitea"]);
+            Console.WriteLine(this._clientOptions.ClientSecrets["gitea"]);
+
             try
             {
                 var requestBody = new FormUrlEncodedContent(new[]
@@ -35,6 +39,9 @@ namespace Auth
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
                     var response = await httpClient.PostAsync("https://gitea.com/login/oauth/access_token", requestBody);
+
+                    Console.WriteLine($"Response: {response}");
+
                     response.EnsureSuccessStatusCode();
 
                     var responseContent = await response.Content.ReadAsStringAsync();
@@ -73,21 +80,27 @@ namespace Auth
         /// <returns></returns>
         private string ExtractAccessToken(string responseContent)
         {
-            // [TODO] if error on response extract message to improve debug
-
-            // Gets the value of a query string parameter from the response content.
-            // example: access_token=123456789&scope=repo%2Cgist&token_type=bearer
-            // queryString["access_token"] will return 123456789
-            var queryString = System.Web.HttpUtility.ParseQueryString(responseContent);
-            var access_token = queryString["access_token"];
-
-            // check if access token was found
-            if (access_token == null)
+            try
             {
-                throw new Exception("The exchange token wasn't found on the external api's response.");
-            }
+                // Parse JSON directly
+                JObject json = JObject.Parse(responseContent);
 
-            return access_token;
+                // Get the access_token value from the JSON
+                var access_token = (string)json["access_token"];
+
+                // check if access token was found
+                if (access_token == null)
+                {
+                    throw new Exception("The exchange token wasn't found on the external API's response.");
+                }
+
+                return access_token;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error parsing JSON: " + ex.Message);
+                throw;
+            }
         }
     }
 }
