@@ -28,7 +28,7 @@ steps:
     image: plugins/docker
     settings:
       dockerfile: ./Dockerfile
-      context: Sources
+      context: .
       registry: hub.codefirst.iut.uca.fr
       repo: hub.codefirst.iut.uca.fr/devgarden/devgardenapi
       username:         
