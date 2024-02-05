@@ -21,13 +21,13 @@ steps:
   - name: hadolint-check
     image: hadolint/hadolint:latest-debian
     commands:
-      - hadolint Sources/Dockerfile
+      - hadolint ./Dockerfile
     depends_on: [build]
 
   - name: docker-build-and-push
     image: plugins/docker
     settings:
-      dockerfile: Sources/Dockerfile
+      dockerfile: ./Dockerfile
       context: Sources
       registry: hub.codefirst.iut.uca.fr
       repo: hub.codefirst.iut.uca.fr/devgarden/devgardenapi
