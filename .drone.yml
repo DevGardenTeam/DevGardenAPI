@@ -8,15 +8,15 @@ trigger:
 
 steps:
   - name: build
-     image: mcr.microsoft.com/dotnet/sdk:7.0
-     volumes:
-       - name: docs
-         path: /docs
-     commands: 
-       - ls
-       - dotnet restore DevGardenAPI.sln
-       - dotnet build DevGardenAPI.sln -c Debug --no-restore
-       - dotnet publish DevGardenAPI.sln -c Release --no-restore -o $CI_PROJECT_DIR/build/release
+    image: mcr.microsoft.com/dotnet/sdk:7.0
+    volumes:
+      - name: docs
+        path: /docs
+    commands: 
+      - ls
+      - dotnet restore DevGardenAPI.sln
+      - dotnet build DevGardenAPI.sln -c Debug --no-restore
+      - dotnet publish DevGardenAPI.sln -c Release --no-restore -o $CI_PROJECT_DIR/build/release
 
   - name: hadolint-check
     image: hadolint/hadolint:latest-debian
@@ -45,6 +45,3 @@ steps:
       COMMAND: create
       OVERWRITE: true
     depends_on: [docker-build-and-push]
-
-# trigger ci
-  
