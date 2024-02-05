@@ -45,3 +45,5 @@ steps:
       COMMAND: create
       OVERWRITE: true
     depends_on: [docker-build-and-push]
+  
+#added secrets to CI
