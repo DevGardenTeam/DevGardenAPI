@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
@@ -10,7 +11,6 @@ COPY ["Model/Model.csproj", "StubbedDTO/"]
 RUN dotnet restore "DevGardenAPI/DevGardenAPI.csproj"
 COPY . .
 WORKDIR "/src/DevGardenAPI"
-ARG ENV=release
 RUN dotnet build "DevGardenAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
