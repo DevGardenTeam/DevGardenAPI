@@ -30,7 +30,7 @@ steps:
       dockerfile: ./Dockerfile
       context: .
       registry: hub.codefirst.iut.uca.fr
-      repo: hub.codefirst.iut.uca.fr/devgarden/devgardenapi
+      repo: hub.codefirst.iut.uca.fr/lou.broda/devgardenapi
       username:
         from_secret: SECRET_REGISTRY_USERNAME
       password:
@@ -40,7 +40,7 @@ steps:
   - name: deploy-container
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
-      IMAGENAME: hub.codefirst.iut.uca.fr/devgarden/devgardenapi:latest
+      IMAGENAME: hub.codefirst.iut.uca.fr/lou.broda/devgardenapi:latest
       CONTAINERNAME: devgardenapi
       COMMAND: create
       OVERWRITE: true
