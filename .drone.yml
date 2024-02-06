@@ -40,9 +40,10 @@ steps:
   - name: deploy-container
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
-      IMAGENAME: hub.codefirst.iut.uca.fr/devgarden/devgardenapi
+      IMAGENAME: hub.codefirst.iut.uca.fr/devgarden/devgardenapi:latest
       CONTAINERNAME: devgardenapi
       COMMAND: create
       OVERWRITE: true
+      ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
     depends_on: [docker-build-and-push]
   
