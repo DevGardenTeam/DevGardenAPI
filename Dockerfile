@@ -3,6 +3,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 COPY ["DevGardenAPI/DevGardenAPI.csproj", "DevGardenAPI/"]
 COPY ["Auth/Auth.csproj", "Auth/"]
 COPY ["Model/Model.csproj", "Model/"]
