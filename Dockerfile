@@ -9,7 +9,6 @@ COPY ["Model/Model.csproj", "Model/"]
 RUN dotnet restore "DevGardenAPI/DevGardenAPI.csproj"
 COPY . .
 WORKDIR "/src/DevGardenAPI"
-ARG ENV=release
 RUN dotnet build "DevGardenAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish

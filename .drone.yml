@@ -1,7 +1,7 @@
 kind: pipeline 
 type: docker 
 name: CI
- 
+
 trigger:
   event:
     - push
@@ -31,17 +31,18 @@ steps:
       context: .
       registry: hub.codefirst.iut.uca.fr
       repo: hub.codefirst.iut.uca.fr/lou.broda/devgardenapi
-      username:         
-        from_secret: SECRET_REGISTRY_USERNAME       
-      password:         
+      username:
+        from_secret: SECRET_REGISTRY_USERNAME
+      password:
         from_secret: SECRET_REGISTRY_PASSWORD
     depends_on: [hadolint-check]
 
   - name: deploy-container
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
-      IMAGENAME: hub.codefirst.iut.uca.fr/lou.broda/devgardenapi
+      IMAGENAME: hub.codefirst.iut.uca.fr/lou.broda/devgardenapi:latest
       CONTAINERNAME: devgardenapi
       COMMAND: create
       OVERWRITE: true
+      ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
     depends_on: [docker-build-and-push]

@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactNativeApp", builder =>
     {
-        builder.WithOrigins("http://localhost:19006")
+        builder.WithOrigins("https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi/")
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
@@ -71,7 +71,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => 
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
+    }
+    );
 }
 
 app.UseHttpsRedirection();
