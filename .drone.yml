@@ -45,5 +45,3 @@ steps:
       COMMAND: create
       OVERWRITE: true
     depends_on: [docker-build-and-push]
-  
-# changed author to lobroda 
