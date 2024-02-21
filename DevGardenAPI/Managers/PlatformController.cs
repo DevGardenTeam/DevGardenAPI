@@ -34,7 +34,7 @@ namespace DevGardenAPI.Managers
         /// Récupérer l'ensemble des issues de l'utilisateur connecté.
         /// </summary>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllIssues();
+        public abstract Task<IActionResult> GetAllIssues(string owner, string repository);
 
         #endregion
 
