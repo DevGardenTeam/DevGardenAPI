@@ -44,9 +44,9 @@ namespace DevGardenAPI.Controllers
         #region Methods
 
         [HttpGet("GetAllIssues")]
-        public async Task<IActionResult> GetAllIssues()
+        public async Task<IActionResult> GetAllIssues(string owner, string repository)
         {
-            return await ExternalServiceManager.PlatformIssueController.GetAllIssues();
+            return await ExternalServiceManager.PlatformIssueController.GetAllIssues(string owner, string repository);
         }
 
         #endregion
