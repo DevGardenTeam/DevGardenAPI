@@ -146,7 +146,7 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-                    string apiUrl = $"https://api.github.com/repos/{owner}/{repo}/issues";
+                    string apiUrl = $"https://api.github.com/repos/{owner}/{repository}/issues";
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 
