@@ -129,7 +129,7 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public override async Task<IActionResult> GetAllIssues()
+        public override async Task<IActionResult> GetAllIssues(string owner, string repository)
         {
             Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllIssues)} - Starting");
 
