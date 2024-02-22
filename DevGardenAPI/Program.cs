@@ -34,7 +34,7 @@ builder.Services.AddSingleton<ExternalServiceManager>();
 builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 
 // Client and Id secret config
-builder.Services.Configure<OAuthClientOptions>(options =>
+/*builder.Services.Configure<OAuthClientOptions>(options =>
 {
     //or use -> var ClientIdEnv = Environment.GetEnvironmentVariable("GithubClientId");
 
@@ -63,9 +63,11 @@ builder.Services.Configure<OAuthClientOptions>(options =>
         { "gitlab", GitlabClientSecret },
         { "gitea", GiteaClientSecret }
     };
-});
+});*/
 
 var app = builder.Build();
+
+app.Logger.LogInformation("Application started with updated code");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -78,7 +80,7 @@ if (app.Environment.IsDevelopment())
     );
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
