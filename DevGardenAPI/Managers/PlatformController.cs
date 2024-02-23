@@ -16,7 +16,7 @@ namespace DevGardenAPI.Managers
         /// Récupérer l'ensemble des répertoires de l'utilisateur connecté.
         /// </summary>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllRepositories();
+        public abstract Task<List<Repository>> GetAllRepositories();
 
         /// <summary>
         /// Récupérer les détails de l'actuel répertoire de l'utilisateur connecté.
