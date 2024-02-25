@@ -1,6 +1,7 @@
 ﻿using DevGardenAPI.Managers;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 
 namespace DevGardenAPI.Controllers
 {
@@ -44,7 +45,7 @@ namespace DevGardenAPI.Controllers
         #region Methods
 
         [HttpGet("GetAllIssues")]
-        public async Task<IActionResult> GetAllIssues(string owner, string repository)
+        public async Task<List<Issue>> GetAllIssues(string owner, string repository)
         {
             return await ExternalServiceManager.PlatformIssueController.GetAllIssues(owner, repository);
         }

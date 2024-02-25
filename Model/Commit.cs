@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,10 +19,13 @@ namespace Model
 
         #region Properties
 
+        [JsonProperty("message")]
         public string? Message { get; set; }
 
+        [JsonProperty("author")]
         public Member Author { get; set; }
 
+        [JsonProperty("repository")]
         public Repository Repository { get; set; }
 
         #endregion

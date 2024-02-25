@@ -134,7 +134,7 @@ namespace DevGardenAPI.Managers
 
         [ApiVersion("1.0")]
         [HttpGet]
-        public override async Task<IActionResult> GetAllIssues(string owner, string repository)
+        public override async Task<List<Issue>> GetAllIssues(string owner, string repository)
         {
             Logger.Debug($"{nameof(GithubController<T>)} - {nameof(GetAllIssues)} - Starting");
 
@@ -154,14 +154,15 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        return Ok(json);
+                        List<Issue> issues = JsonConvert.DeserializeObject<List<Issue>>(json);
+                        return issues;
                     }
                     else
                     {
                         Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetAllIssues)} - Error");
                         Logger.Error($"{nameof(GetAllIssues)} - {result.StatusCode}");
 
-                        return StatusCode((int)result.StatusCode);
+                        return null;
                     }
                 }
             }
@@ -267,7 +268,7 @@ namespace DevGardenAPI.Managers
 
         #region Commit
 
-        public override async Task<IActionResult> GetAllCommits(string owner, string repository)
+        public override async Task<List<Commit>> GetAllCommits(string owner, string repository)
         {
             Logger.Debug($"{nameof(GithubController<T>)} - {nameof(GetAllCommits)} - Starting");
 
@@ -287,14 +288,15 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        return Ok(json);
+                        List<Commit> commits = JsonConvert.DeserializeObject<List<Commit>>(json);
+                        return commits;
                     }
                     else
                     {
                         Logger.Error($"{nameof(GithubController<T>)} - {nameof(GetAllCommits)} - Error");
                         Logger.Error($"{nameof(GetAllCommits)} - {result.StatusCode}");
 
-                        return StatusCode((int)result.StatusCode);
+                        return null;
                     }
                 }
             }
