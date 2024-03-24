@@ -13,6 +13,7 @@ namespace Model
         #region Fields
 
         private string _name;
+        private string _photoUrl;
         private List<Repository>? _repositories = new ();
 
         #endregion
@@ -21,6 +22,9 @@ namespace Model
 
         [JsonProperty("login")]
         public string Name { get; set; }
+
+        [JsonProperty("avatar_url")]
+        public string PhotoUrl { get; set; }
 
         public ReadOnlyCollection<Repository>? Repositories { get; set; }
 
@@ -31,6 +35,7 @@ namespace Model
         public Member()
         {
             Name = _name;
+            PhotoUrl = _photoUrl;
             Repositories = new ReadOnlyCollection<Repository>(_repositories);
         }
 
