@@ -52,7 +52,7 @@ steps:
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
         IMAGENAME: mysql:latest
-        CONTAINERNAME: mysql
+        CONTAINERNAME: DevGarden-mysql
         COMMAND: create
         PRIVATE: true
         CODEFIRST_CLIENTDRONE_ENV_MYSQL_ROOT_PASSWORD:
