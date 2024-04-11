@@ -53,7 +53,7 @@ steps:
     environment:
         IMAGENAME: mariadb:10
         CONTAINERNAME: mariadb
-        COMMAND: create
+        COMMAND: create 
         PRIVATE: true
         CODEFIRST_CLIENTDRONE_ENV_MARIADB_ROOT_PASSWORD: devgarden
           # from_secret: db_root_password
