@@ -8,7 +8,7 @@ namespace DevGardenAPI.Controllers
     /// Contrôleur de l'application DevGarden pour la partie Member.
     /// </summary>
     [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
     public class DevGardenMemberController : ControllerBase
     {
         #region Fields

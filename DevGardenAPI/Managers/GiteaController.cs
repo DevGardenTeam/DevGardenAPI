@@ -39,7 +39,6 @@ namespace DevGardenAPI.Managers
 
         #region Repository
 
-        [ApiVersion("1.0")]
         [HttpGet]
         public override async Task<IActionResult> GetAllRepositories()
         {
@@ -81,7 +80,6 @@ namespace DevGardenAPI.Managers
             }
         }
 
-        [ApiVersion("1.0")]
         [HttpGet]
         public override async Task<IActionResult> GetActualRepository(string owner, string repository)
         {
@@ -127,7 +125,6 @@ namespace DevGardenAPI.Managers
 
         #region Issue
 
-        [ApiVersion("1.0")]
         [HttpGet]
         public override async Task<IActionResult> GetAllIssues()
         {
@@ -173,7 +170,6 @@ namespace DevGardenAPI.Managers
 
         #region Branch
 
-        [ApiVersion("1.0")]
         [HttpGet]
         public override async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
         {
@@ -215,7 +211,7 @@ namespace DevGardenAPI.Managers
             }
         }
 
-        [ApiVersion("1.0")]
+        
         [HttpGet]
         public override async Task<IActionResult> GetBranch(string owner, string repository, string branch)
         {
@@ -261,7 +257,6 @@ namespace DevGardenAPI.Managers
 
         #region Commit
 
-        [ApiVersion("1.0")]
         [HttpGet]
         public override async Task<IActionResult> GetAllCommits(string owner, string repository)
         {
@@ -303,7 +298,7 @@ namespace DevGardenAPI.Managers
             }
         }
 
-        [ApiVersion("1.0")]
+        
         [HttpGet]
         public override async Task<IActionResult> GetCommit(string owner, string repository, string id)
         {
@@ -349,7 +344,6 @@ namespace DevGardenAPI.Managers
 
         #region File
 
-        [ApiVersion("1.0")]
         [HttpGet]
         public override async Task<IActionResult> GetAllFiles(string owner, string repository, string? path = null)
         {
