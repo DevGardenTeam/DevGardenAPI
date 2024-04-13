@@ -65,6 +65,7 @@ builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 var app = builder.Build();
 
 app.Logger.LogInformation("Application started with updated code");
+app.Logger.LogWarning("Update was successfully deployed.");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
