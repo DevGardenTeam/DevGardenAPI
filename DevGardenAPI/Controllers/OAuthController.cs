@@ -6,7 +6,7 @@ namespace DevGardenAPI.Controllers
     /// <summary>
     /// Controller to handle the OAuth authentication flow.
     /// </summary>
-    [Route("api/oauth")]
+    [Route("containers/DevGarden-devgardenapi/api/oauth")]
     [ApiController]
     public class OAuthController : ControllerBase
     {
@@ -37,7 +37,7 @@ namespace DevGardenAPI.Controllers
             }
         }
 
-        [HttpGet("containers/DevGarden-devgardenapi/test")]
+        [HttpGet("test")]
         public async Task<string> GetTest()
         {
             return "test";
