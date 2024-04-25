@@ -36,5 +36,11 @@ namespace DevGardenAPI.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
+        [HttpGet("containers/DevGarden-devgardenapi/test")]
+        public async Task<string> GetTest()
+        {
+            return "test";
+        }
     }
 }
