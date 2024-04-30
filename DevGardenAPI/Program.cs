@@ -69,8 +69,8 @@ else
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        // c.SwaggerEndpoint("/containers/DevGarden-devgardenapi/swagger/v1/swagger.json", "DevGardenAPI v1");
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
+        c.SwaggerEndpoint("/containers/DevGarden-devgardenapi/swagger/v1/swagger.json", "DevGardenAPI v1");
+        // c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
     }
     );
     app.MapSwagger();
