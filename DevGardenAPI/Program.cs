@@ -56,9 +56,12 @@ app.UseSwagger(c =>
     });
 });
 
+var base_path = Environment.GetEnvironmentVariable("SWAGGER_BASE_PATH");
+app.Logger.LogInformation($" SWAGGER_BASE_PATH => {base_path}");
+
 app.UseSwaggerUI(c =>
 {
-    var basePath = Environment.GetEnvironmentVariable("SWAGGER_BASE_PATH") ?? "";
+    var basePath = base_path ?? "";
     c.SwaggerEndpoint($"{basePath}/swagger/v1/swagger.json", "DevGardenAPI v1");
 });
 
