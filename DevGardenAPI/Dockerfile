@@ -24,4 +24,5 @@ RUN dotnet publish "./DevGardenAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publi
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV SWAGGER_BASE_PATH=/containers/DevGarden-devgardenapi
 ENTRYPOINT ["dotnet", "DevGardenAPI.dll"]
