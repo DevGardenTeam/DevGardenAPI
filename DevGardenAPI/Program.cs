@@ -9,7 +9,7 @@ builder.Services.AddHttpClient();
 
 // CORS configuration
 // To allow our React Client to access our API
-/*builder.Services.AddCors(options =>
+builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactNativeApp", builder =>
     {
@@ -17,7 +17,7 @@ builder.Services.AddHttpClient();
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
-});*/
+});
 
 // Add logging
 builder.Logging.AddConsole();
@@ -78,12 +78,14 @@ if (app.Environment.IsDevelopment())
     );
 }
 
-//app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
+app.UsePathBase("/containers/DevGarden-devgardenapi");
 
 app.UseAuthorization();
 
 // Enable CORS
-//app.UseCors("AllowReactNativeApp");
+app.UseCors("AllowReactNativeApp");
 
 app.MapControllers();
 
