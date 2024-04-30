@@ -30,8 +30,8 @@ builder.Logging.AddConsole();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-/*    c =>
+builder.Services.AddSwaggerGen(
+    c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevGardenAPI", Version = "v1" });
 
@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen();
     {
         new OpenApiServer { Url = "https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi" },
     };
-});*/
+});
 
 // DI Configuration 
 builder.Services.AddSingleton<ExternalServiceManager>();
