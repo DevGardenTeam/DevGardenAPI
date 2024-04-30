@@ -1,5 +1,6 @@
 using Auth;
 using DevGardenAPI.Managers;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +47,11 @@ app.Logger.LogWarning("Help ! ");
 
 var basePath = Environment.GetEnvironmentVariable("SWAGGER_BASE_PATH") ?? string.Empty;
 app.Logger.LogInformation($" SWAGGER_BASE_PATH => {basePath}");
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.UseSwagger(c =>
 {
