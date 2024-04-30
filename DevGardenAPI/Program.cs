@@ -1,5 +1,6 @@
 using Auth;
 using DevGardenAPI.Managers;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,16 @@ builder.Logging.AddConsole();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevGardenAPI", Version = "v1" });
+
+    // Set the base url of the api
+    c.SwaggerGeneratorOptions.Servers = new List<OpenApiServer>
+    {
+        new OpenApiServer { Url = "https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi" }
+    };
+});
 
 // DI Configuration 
 builder.Services.AddSingleton<ExternalServiceManager>();
@@ -64,9 +74,6 @@ builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 });*/
 
 var app = builder.Build();
-
-app.UsePathBase("/containers/DevGarden-devgardenapi");
-
 
 app.Logger.LogInformation("Application started with updated code");
 app.Logger.LogWarning("Help ! ");
