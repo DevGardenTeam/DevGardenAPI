@@ -65,7 +65,7 @@ app.UseSwaggerUI(c =>
 
 app.MapSwagger();
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 // Enable CORS
