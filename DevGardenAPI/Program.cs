@@ -4,6 +4,7 @@ using DevGardenAPI.Managers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
@@ -64,6 +65,9 @@ builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 
 var app = builder.Build();
 
+app.UsePathBase("/containers/DevGarden-devgardenapi");
+
+
 app.Logger.LogInformation("Application started with updated code");
 app.Logger.LogWarning("Help ! ");
 
@@ -90,7 +94,6 @@ else
 }
 
 // app.UseHttpsRedirection();
-app.UsePathBase("/containers/DevGarden-devgardenapi");
 app.UseAuthorization();
 
 // Enable CORS

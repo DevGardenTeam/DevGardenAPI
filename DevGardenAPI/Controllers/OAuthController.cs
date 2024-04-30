@@ -6,8 +6,8 @@ namespace DevGardenAPI.Controllers
     /// <summary>
     /// Controller to handle the OAuth authentication flow.
     /// </summary>
-    [Route("/api/oauth")]
     [ApiController]
+    [Route("/api/[controller]")]
     public class OAuthController : ControllerBase
     {
         private readonly IOAuthHandlerFactory _oauthHandlerFactory;
