@@ -73,7 +73,7 @@ app.Logger.LogWarning("Yo use swagger bruh ! ");
 app.UseSwagger();
 app.UseSwaggerUI(c => 
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
+    c.SwaggerEndpoint("/containers/DevGarden-devgardenapi/swagger/v1/swagger.json", "DevGardenAPI v1");
 }
 );
 
