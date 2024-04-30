@@ -44,6 +44,8 @@ app.Logger.LogWarning("Help ! ");
 
 // Configure the HTTP request pipeline.
 
+var basePath = Environment.GetEnvironmentVariable("SWAGGER_BASE_PATH") ?? string.Empty;
+app.Logger.LogInformation($" SWAGGER_BASE_PATH => {basePath}");
 
 app.UseSwagger(c =>
 {
@@ -51,17 +53,13 @@ app.UseSwagger(c =>
     {
         swaggerDoc.Servers = new List<OpenApiServer>
         {
-            new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" }
+            new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}{basePath}" }
         };
     });
 });
 
-var base_path = Environment.GetEnvironmentVariable("SWAGGER_BASE_PATH");
-app.Logger.LogInformation($" SWAGGER_BASE_PATH => {base_path}");
-
 app.UseSwaggerUI(c =>
 {
-    var basePath = base_path ?? "";
     c.SwaggerEndpoint($"{basePath}/swagger/v1/swagger.json", "DevGardenAPI v1");
 });
 
