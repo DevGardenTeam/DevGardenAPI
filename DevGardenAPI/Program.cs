@@ -70,6 +70,8 @@ app.Logger.LogWarning("Help ! ");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.Logger.LogWarning("Yo use swagger bruh ! ");
+
     app.UseSwagger();
     app.UseSwaggerUI(c => 
     {
