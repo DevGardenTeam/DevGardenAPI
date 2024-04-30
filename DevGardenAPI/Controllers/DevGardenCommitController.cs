@@ -1,6 +1,7 @@
 ﻿using DevGardenAPI.Managers;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 
 namespace DevGardenAPI.Controllers
 {
@@ -44,7 +45,7 @@ namespace DevGardenAPI.Controllers
         #region Methods
 
         [HttpGet("GetAllCommits")]
-        public async Task<IActionResult> GetAllCommits(string owner, string repository)
+        public async Task<List<Commit>> GetAllCommits(string owner, string repository)
         {
             return await ExternalServiceManager.PlatformCommitController.GetAllCommits(owner, repository);
         }

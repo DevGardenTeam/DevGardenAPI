@@ -16,7 +16,7 @@ namespace DevGardenAPI.Managers
         /// Récupérer l'ensemble des répertoires de l'utilisateur connecté.
         /// </summary>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllRepositories();
+        public abstract Task<List<Repository>> GetAllRepositories();
 
         /// <summary>
         /// Récupérer les détails de l'actuel répertoire de l'utilisateur connecté.
@@ -34,7 +34,7 @@ namespace DevGardenAPI.Managers
         /// Récupérer l'ensemble des issues de l'utilisateur connecté.
         /// </summary>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllIssues();
+        public abstract Task<List<Issue>> GetAllIssues(string owner, string repository);
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace DevGardenAPI.Managers
         /// <param name="owner">L'identifiant du propriétaire du répertoire.</param>
         /// <param name="repository">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllCommits(string owner, string repository);
+        public abstract Task<List<Commit>> GetAllCommits(string owner, string repository);
 
         /// <summary>
         /// Récupérer les détails d'un commit d'un répertoire de l'utilisateur connecté.

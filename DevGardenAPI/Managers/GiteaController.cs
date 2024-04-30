@@ -2,6 +2,7 @@
 using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Newtonsoft.Json;
 
 namespace DevGardenAPI.Managers
 {
@@ -40,7 +41,7 @@ namespace DevGardenAPI.Managers
         #region Repository
 
         [HttpGet]
-        public override async Task<IActionResult> GetAllRepositories()
+        public override async Task<List<Repository>> GetAllRepositories()
         {
             Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Starting");
 
@@ -60,14 +61,15 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        return Ok(json);
+                        List<Repository> repositories = JsonConvert.DeserializeObject<List<Repository>>(json);
+                        return repositories;
                     }
                     else
                     {
                         Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Error");
                         Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
 
-                        return StatusCode((int)result.StatusCode);
+                        return null;
                     }
                 }
             }
@@ -126,7 +128,7 @@ namespace DevGardenAPI.Managers
         #region Issue
 
         [HttpGet]
-        public override async Task<IActionResult> GetAllIssues()
+        public override async Task<List<Issue>> GetAllIssues(string owner, string repository)
         {
             Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllIssues)} - Starting");
 
@@ -146,14 +148,15 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        return Ok(json);
+                        List<Issue> issues = JsonConvert.DeserializeObject<List<Issue>>(json);
+                        return issues;
                     }
                     else
                     {
                         Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllIssues)} - Error");
                         Logger.Error($"{nameof(GetAllIssues)} - {result.StatusCode}");
 
-                        return StatusCode((int)result.StatusCode);
+                        return null;
                     }
                 }
             }
@@ -258,7 +261,7 @@ namespace DevGardenAPI.Managers
         #region Commit
 
         [HttpGet]
-        public override async Task<IActionResult> GetAllCommits(string owner, string repository)
+        public override async Task<List<Commit>> GetAllCommits(string owner, string repository)
         {
             Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllCommits)} - Starting");
 
@@ -278,14 +281,15 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        return Ok(json);
+                        List<Commit> commits = JsonConvert.DeserializeObject<List<Commit>>(json);
+                        return commits;
                     }
                     else
                     {
                         Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllCommits)} - Error");
                         Logger.Error($"{nameof(GetAllCommits)} - {result.StatusCode}");
 
-                        return StatusCode((int)result.StatusCode);
+                        return null;
                     }
                 }
             }

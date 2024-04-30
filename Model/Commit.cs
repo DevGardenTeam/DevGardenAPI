@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Model
         #region Fields
 
         private string? _message;
+        private CommitDetails _commitDetails;
         private Member _author;
         private Repository _repository;
 
@@ -18,10 +20,16 @@ namespace Model
 
         #region Properties
 
+        [JsonProperty("message")]
         public string? Message { get; set; }
 
+        [JsonProperty("commit")]
+        public CommitDetails CommitDetails { get; set; }
+
+        [JsonProperty("author")]
         public Member Author { get; set; }
 
+        [JsonProperty("repository")]
         public Repository Repository { get; set; }
 
         #endregion
@@ -31,6 +39,7 @@ namespace Model
         public Commit()
         {
             Message = _message;
+            CommitDetails = _commitDetails;
             Author = _author;
             Repository = _repository;
         }
