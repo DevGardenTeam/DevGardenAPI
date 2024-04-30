@@ -15,7 +15,7 @@ steps:
     environment:
       SWAGGER_BASE_PATH: /containers/DevGarden-devgardenapi
     commands: 
-      - ls
+      - echo $SWAGGER_BASE_PATH
       - ls ./DevGardenAPI/
       - dotnet restore DevGardenAPI.sln
       - dotnet build DevGardenAPI.sln -c Debug --no-restore
