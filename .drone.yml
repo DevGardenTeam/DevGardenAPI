@@ -12,10 +12,7 @@ steps:
     volumes:
       - name: docs
         path: /docs
-    environment:
-      SWAGGER_BASE_PATH: /containers/DevGarden-devgardenapi
     commands: 
-      - echo $SWAGGER_BASE_PATH
       - ls ./DevGardenAPI/
       - dotnet restore DevGardenAPI.sln
       - dotnet build DevGardenAPI.sln -c Debug --no-restore
@@ -30,8 +27,6 @@ steps:
   - name: docker-build-and-push
     image: plugins/docker
     settings:
-      env:
-        - SWAGGER_BASE_PATH
       dockerfile: ./DevGardenAPI/Dockerfile
       context: .
       registry: hub.codefirst.iut.uca.fr
@@ -52,18 +47,18 @@ steps:
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
     depends_on: [docker-build-and-push]
 
-  # # database container deployment
-  # - name: deploy-container-mariadb
-  #   image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
-  #   environment:
-  #       IMAGENAME: postgres:latest
-  #       CONTAINERNAME: postgres
-  #       COMMAND: create
-  #       OVERWRITE: true
-  #       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_PASSWORD: 'devgarden'
-  #         # from_secret: db_root_password
-  #       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_DB: 'devgarden'
-  #         # from_secret: db_database
-  #       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER: 'devgarden'
-  #         # from_secret: db_user
-  #       ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
+  - name: deploy-container-mariadb
+    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
+    environment:
+      IMAGENAME: postgres:latest
+      CONTAINERNAME: postgres
+      COMMAND: create
+      OVERWRITE: true
+      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_PASSWORD:
+        from_secret: db_root_password
+      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_DB:
+        from_secret: db_database
+      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER:
+        from_secret: db_user
+      ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
+    depends_on: [deploy-container]
