@@ -29,16 +29,7 @@ builder.Logging.AddConsole();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevGardenAPI", Version = "v1" });
-
-    // Set the base url of the api
-    c.SwaggerGeneratorOptions.Servers = new List<OpenApiServer>
-    {
-        new OpenApiServer { Url = "https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi" },
-    };
-});
+builder.Services.AddSwaggerGen();
 
 // DI Configuration 
 builder.Services.AddSingleton<ExternalServiceManager>();
@@ -54,27 +45,23 @@ app.Logger.LogWarning("Help ! ");
 // Configure the HTTP request pipeline.
 
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
+    c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
-    }
-    );
-    app.MapSwagger();
-} 
-else 
+        swaggerDoc.Servers = new List<OpenApiServer>
+        {
+            new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" }
+        };
+    });
+});
+
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/containers/DevGarden-devgardenapi/swagger/v1/swagger.json", "DevGardenAPI v1");
-        // c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
-    }
-    );
-    app.MapSwagger();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
+});
+
+app.MapSwagger();
 
 // app.UseHttpsRedirection();
 app.UseAuthorization();
