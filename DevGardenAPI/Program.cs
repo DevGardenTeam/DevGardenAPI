@@ -48,18 +48,13 @@ app.Logger.LogWarning("Help ! ");
 var basePath = Environment.GetEnvironmentVariable("SWAGGER_BASE_PATH") ?? string.Empty;
 app.Logger.LogInformation($" SWAGGER_BASE_PATH => {basePath}");
 
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-});
-
 app.UseSwagger(c =>
 {
     c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
     {
         swaggerDoc.Servers = new List<OpenApiServer>
         {
-            new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}{basePath}" }
+            new OpenApiServer { Url = $"https://{httpReq.Host.Value}{basePath}" }
         };
     });
 });
