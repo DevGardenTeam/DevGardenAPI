@@ -90,7 +90,7 @@ else
 }
 
 // app.UseHttpsRedirection();
-
+app.UsePathBase("/containers/DevGarden-devgardenapi");
 app.UseAuthorization();
 
 // Enable CORS
