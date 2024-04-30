@@ -68,17 +68,14 @@ app.Logger.LogInformation("Application started with updated code");
 app.Logger.LogWarning("Help ! ");
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.Logger.LogWarning("Yo use swagger bruh ! ");
+app.Logger.LogWarning("Yo use swagger bruh ! ");
 
-    app.UseSwagger();
-    app.UseSwaggerUI(c => 
-    {
-        c.SwaggerEndpoint("/containers/DevGarden-devgardenapi/swagger/v1/swagger.json", "DevGardenAPI v1");
-    }
-    );
+app.UseSwagger();
+app.UseSwaggerUI(c => 
+{
+    c.SwaggerEndpoint("/containers/DevGarden-devgardenapi/swagger/v1/swagger.json", "DevGardenAPI v1");
 }
+);
 
 // app.UseHttpsRedirection();
 
