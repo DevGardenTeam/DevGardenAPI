@@ -65,7 +65,7 @@ builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 var app = builder.Build();
 
 app.Logger.LogInformation("Application started with updated code");
-app.Logger.LogWarning("Update was successfully deployed.");
+app.Logger.LogWarning("Help ! ");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -73,7 +73,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => 
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
+        c.SwaggerEndpoint("/containers/DevGarden-devgardenapi/swagger/v1/swagger.json", "DevGardenAPI v1");
     }
     );
 }
