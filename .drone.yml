@@ -12,6 +12,8 @@ steps:
     volumes:
       - name: docs
         path: /docs
+    environment:
+      SWAGGER_BASE_PATH: /containers/DevGarden-devgardenapi
     commands: 
       - ls
       - ls ./DevGardenAPI/

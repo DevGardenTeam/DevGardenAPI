@@ -58,7 +58,8 @@ app.UseSwagger(c =>
 
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevGardenAPI v1");
+    var basePath = Environment.GetEnvironmentVariable("SWAGGER_BASE_PATH") ?? "";
+    c.SwaggerEndpoint($"{basePath}/swagger/v1/swagger.json", "DevGardenAPI v1");
 });
 
 app.MapSwagger();
