@@ -9,15 +9,15 @@ builder.Services.AddHttpClient();
 
 // CORS configuration
 // To allow our React Client to access our API
-builder.Services.AddCors(options =>
+/*builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactNativeApp", builder =>
     {
-        builder.WithOrigins("https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi/")
+        builder.WithOrigins("https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi")
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
-});
+});*/
 
 // Add logging
 builder.Logging.AddConsole();
