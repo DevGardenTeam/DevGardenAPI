@@ -30,6 +30,8 @@ steps:
   - name: docker-build-and-push
     image: plugins/docker
     settings:
+      env:
+        - SWAGGER_BASE_PATH
       dockerfile: ./DevGardenAPI/Dockerfile
       context: .
       registry: hub.codefirst.iut.uca.fr
