@@ -78,12 +78,12 @@ if (app.Environment.IsDevelopment())
     );
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 // Enable CORS
-app.UseCors("AllowReactNativeApp");
+//app.UseCors("AllowReactNativeApp");
 
 app.MapControllers();
 
