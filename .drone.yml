@@ -47,7 +47,7 @@ steps:
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
     depends_on: [docker-build-and-push]
 
-  - name: deploy-container-mariadb
+  - name: deploy-container-postgres
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
       IMAGENAME: postgres:latest

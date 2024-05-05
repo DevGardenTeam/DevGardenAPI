@@ -1,6 +1,8 @@
 using Auth;
+using DatabaseEf;
 using DevGardenAPI.Managers;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,11 +15,21 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
+// Ef core database config
+var connectionString = Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Failed to read the connection string from environment variables. Please ensure that 'DevgardenDbConnectionString' is set.");
+}
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseNpgsql(connectionString));
+
 // CORS configuration
-// To allow our React Client to access our API
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactNativeApp", builder =>
+    options.AddPolicy("AllowReactNativeApp", builder => // To allow our React Client to access our API
     {
         builder.WithOrigins("https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi")
                .AllowAnyHeader()
@@ -35,7 +47,6 @@ builder.Services.AddSwaggerGen();
 // DI Configuration 
 builder.Services.AddSingleton<ExternalServiceManager>();
 builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
-
 
 
 var app = builder.Build();
