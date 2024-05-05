@@ -45,8 +45,6 @@ steps:
       COMMAND: create
       OVERWRITE: true
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
-      CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString:
-        from_secret: db_connection_string
     depends_on: [docker-build-and-push]
 
   - name: deploy-container-postgres
