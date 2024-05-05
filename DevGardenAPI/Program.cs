@@ -18,6 +18,9 @@ builder.Services.AddHttpClient();
 // Ef core database config
 var connectionString = Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
 
+var debug = Environment.GetEnvironmentVariable("CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString");
+Console.WriteLine($"debug => {debug} \n connectionString => {connectionString}");
+
 if (string.IsNullOrEmpty(connectionString))
 {
     throw new InvalidOperationException("Failed to read the connection string from environment variables. Please ensure that 'DevgardenDbConnectionString' is set.");
