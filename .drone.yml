@@ -44,6 +44,8 @@ steps:
       CONTAINERNAME: devgardenapi
       COMMAND: create
       OVERWRITE: true
+      CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString:
+        from_secret: db_connection_string
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
     depends_on: [docker-build-and-push]
 
@@ -60,7 +62,5 @@ steps:
         from_secret: db_database
       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER:
         from_secret: db_user
-      CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString:
-        from_secret: db_connection_string
       ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
     depends_on: [deploy-container]
