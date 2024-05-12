@@ -1,17 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Model
 {
     public class Repository : ModelBase, IEquatable<Repository>
     {
-        #region Fields
-
         private string _name;
         private Member _owner;
         private bool _isPrivate;
@@ -27,10 +25,6 @@ namespace Model
         private List<Issue> _issues = new();
         private List<Folder>? _folders = new();
         private List<File> _files = new();
-
-        #endregion
-
-        #region Properties
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -60,7 +54,7 @@ namespace Model
         public long Size { get; set; }
 
         public ReadOnlyCollection<Branch> Branches { get; set; }
-        
+
         public ReadOnlyCollection<Commit> Commits { get; set; }
 
         public ReadOnlyCollection<Member> Contributors { get; set; }
@@ -70,10 +64,6 @@ namespace Model
         public ReadOnlyCollection<Folder>? Folders { get; set; }
 
         public ReadOnlyCollection<File> Files { get; set; }
-
-        #endregion
-
-        #region Constructor
 
         public Repository()
         {
@@ -94,15 +84,9 @@ namespace Model
             Files = new ReadOnlyCollection<File>(_files);
         }
 
-        #endregion
-
-        #region Methods
-
         public bool Equals(Repository? other)
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

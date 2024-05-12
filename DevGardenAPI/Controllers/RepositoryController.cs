@@ -10,14 +10,8 @@ namespace DevGardenAPI.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class DevGardenRepositoryController : ControllerBase
+    public class RepositoryController : ControllerBase
     {
-        #region Fields
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
         /// </summary>
@@ -26,23 +20,16 @@ namespace DevGardenAPI.Controllers
         /// <summary>
         /// Obtient le manager du service utilisé.
         /// </summary>
-        public ExternalServiceManager ExternalServiceManager { get; } = new ExternalServiceManager();
-
-        #endregion
-
-        #region Constructor
+        public ExternalServiceManager ExternalServiceManager { get; } =
+            new ExternalServiceManager();
 
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DevGardenRepositoryController"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="RepositoryController"/>.
         /// </summary>
-        public DevGardenRepositoryController()
+        public RepositoryController()
         {
-            Logger = LogManager.GetLogger(typeof(DevGardenRepositoryController));
+            Logger = LogManager.GetLogger(typeof(RepositoryController));
         }
-
-        #endregion
-
-        #region Methods
 
         [HttpGet("GetAllRepositories")]
         public async Task<List<Repository>> GetAllRepositories()
@@ -53,9 +40,10 @@ namespace DevGardenAPI.Controllers
         [HttpGet("GetActualRepository")]
         public async Task<IActionResult> GetActualRepository(string owner, string repos)
         {
-            return await ExternalServiceManager.PlatformRepositoryController.GetActualRepository(owner, repos);
+            return await ExternalServiceManager.PlatformRepositoryController.GetActualRepository(
+                owner,
+                repos
+            );
         }
-
-        #endregion
     }
 }

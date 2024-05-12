@@ -3,22 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Model
 {
     public class Member : ModelBase, IEquatable<Member>
     {
-        #region Fields
-
         private string _name;
         private string _photoUrl;
-        private List<Repository>? _repositories = new ();
-
-        #endregion
-
-        #region Properties
+        private List<Repository>? _repositories = new();
 
         [JsonProperty("login")]
         public string Name { get; set; }
@@ -28,10 +22,6 @@ namespace Model
 
         public ReadOnlyCollection<Repository>? Repositories { get; set; }
 
-        #endregion
-
-        #region Constructor
-
         public Member()
         {
             Name = _name;
@@ -39,15 +29,9 @@ namespace Model
             Repositories = new ReadOnlyCollection<Repository>(_repositories);
         }
 
-        #endregion
-
-        #region Methods
-
         public bool Equals(Member? other)
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

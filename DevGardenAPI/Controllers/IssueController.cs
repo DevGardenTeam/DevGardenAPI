@@ -10,14 +10,8 @@ namespace DevGardenAPI.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class DevGardenIssueController : ControllerBase
+    public class IssueController : ControllerBase
     {
-        #region Fields
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
         /// </summary>
@@ -26,30 +20,24 @@ namespace DevGardenAPI.Controllers
         /// <summary>
         /// Obtient le manager du service utilisé.
         /// </summary>
-        public ExternalServiceManager ExternalServiceManager { get; } = new ExternalServiceManager();
-
-        #endregion
-
-        #region Constructor
+        public ExternalServiceManager ExternalServiceManager { get; } =
+            new ExternalServiceManager();
 
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DevGardenIssueController"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="IssueController"/>.
         /// </summary>
-        public DevGardenIssueController()
+        public IssueController()
         {
-            Logger = LogManager.GetLogger(typeof(DevGardenIssueController));
+            Logger = LogManager.GetLogger(typeof(IssueController));
         }
-
-        #endregion
-
-        #region Methods
 
         [HttpGet("GetAllIssues")]
         public async Task<List<Issue>> GetAllIssues(string owner, string repository)
         {
-            return await ExternalServiceManager.PlatformIssueController.GetAllIssues(owner, repository);
+            return await ExternalServiceManager.PlatformIssueController.GetAllIssues(
+                owner,
+                repository
+            );
         }
-
-        #endregion
     }
 }

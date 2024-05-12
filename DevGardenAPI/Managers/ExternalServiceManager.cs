@@ -7,8 +7,7 @@ namespace DevGardenAPI.Managers
     /// </summary>
     public class ExternalServiceManager
     {
-        #region Properties
-
+         
         /// <summary>
         /// Obtient ou définit la plateforme à utiliser pour le contrôleur des membres.
         /// </summary>
@@ -38,10 +37,7 @@ namespace DevGardenAPI.Managers
         /// Obtient ou définit la plateforme à utiliser pour le contrôleur des fichiers.
         /// </summary>
         public PlatformController<Model.File> PlatformFileController { get; private set; }
-
-        #endregion
-
-        #region Constructor
+         
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="ExternalServiceManager"/>.
@@ -55,7 +51,7 @@ namespace DevGardenAPI.Managers
             PlatformFileController = new GithubController<Model.File>();
         }
 
-        #endregion
+         
 
     }
 }

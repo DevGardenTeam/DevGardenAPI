@@ -10,13 +10,8 @@ namespace DevGardenAPI.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class DevGardenCommitController : ControllerBase
+    public class CommitController : ControllerBase
     {
-        #region Fields
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
@@ -28,22 +23,15 @@ namespace DevGardenAPI.Controllers
         /// </summary>
         public ExternalServiceManager ExternalServiceManager { get; } = new ExternalServiceManager();
 
-        #endregion
-
-        #region Constructor
-
+         
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DevGardenCommitController"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="CommitController"/>.
         /// </summary>
-        public DevGardenCommitController()
+        public CommitController()
         {
-            Logger = LogManager.GetLogger(typeof(DevGardenCommitController));
+            Logger = LogManager.GetLogger(typeof(CommitController));
         }
-
-        #endregion
-
-        #region Methods
-
+         
         [HttpGet("GetAllCommits")]
         public async Task<List<Commit>> GetAllCommits(string owner, string repository)
         {
@@ -55,7 +43,5 @@ namespace DevGardenAPI.Controllers
         {
             return await ExternalServiceManager.PlatformCommitController.GetCommit(owner, repository, id);
         }
-
-        #endregion
     }
 }

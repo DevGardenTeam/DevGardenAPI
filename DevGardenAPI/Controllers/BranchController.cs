@@ -9,13 +9,8 @@ namespace DevGardenAPI.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class DevGardenBranchController : ControllerBase
+    public class BranchController : ControllerBase
     {
-        #region Fields
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
@@ -27,21 +22,14 @@ namespace DevGardenAPI.Controllers
         /// </summary>
         public ExternalServiceManager ExternalServiceManager { get; } = new ExternalServiceManager();
 
-        #endregion
-
-        #region Constructor
-
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DevGardenBranchController"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="BranchController"/>.
         /// </summary>
-        public DevGardenBranchController()
+        public BranchController()
         {
-            Logger = LogManager.GetLogger(typeof(DevGardenBranchController));
+            Logger = LogManager.GetLogger(typeof(BranchController));
         }
 
-        #endregion
-
-        #region Methods
 
         [HttpGet("GetAllBranches")]
         public async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
@@ -55,7 +43,5 @@ namespace DevGardenAPI.Controllers
         {
             return await ExternalServiceManager.PlatformBranchController.GetBranch(owner, repository, branch);
         }
-
-        #endregion
     }
 }

@@ -1,17 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Model
 {
     public class Issue : ModelBase, IEquatable<Issue>
     {
-        #region Fields
-
         private string _title;
         private string _body;
         private string _state;
@@ -20,10 +18,6 @@ namespace Model
         private Milestone _milestone;
         private Repository _repository;
         private List<Label>? _labels = new();
-
-        #endregion
-
-        #region Properties
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -49,10 +43,6 @@ namespace Model
         [JsonProperty("labels")]
         public ReadOnlyCollection<Label>? Labels { get; set; }
 
-        #endregion
-
-        #region Constructor
-
         public Issue()
         {
             Title = _title;
@@ -65,15 +55,9 @@ namespace Model
             Labels = new ReadOnlyCollection<Label>(_labels);
         }
 
-        #endregion
-
-        #region Methods
-
         public bool Equals(Issue? other)
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }
