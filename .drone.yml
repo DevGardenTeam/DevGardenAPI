@@ -52,18 +52,18 @@ steps:
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
     depends_on: [docker-build-and-push]
 
-  # # database container deployment
-  # - name: deploy-container-mariadb
-  #   image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
-  #   environment:
-  #       IMAGENAME: postgres:latest
-  #       CONTAINERNAME: postgres
-  #       COMMAND: create
-  #       OVERWRITE: true
-  #       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_PASSWORD: 'devgarden'
-  #         # from_secret: db_root_password
-  #       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_DB: 'devgarden'
-  #         # from_secret: db_database
-  #       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER: 'devgarden'
-  #         # from_secret: db_user
-  #       ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
+  # database container deployment
+  - name: deploy-container-mariadb
+    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
+    environment:
+        IMAGENAME: postgres:latest
+        CONTAINERNAME: postgres
+        COMMAND: create
+        OVERWRITE: true
+        CODEFIRST_CLIENTDRONE_ENV_POSTGRES_PASSWORD: 'devgarden'
+          # from_secret: db_root_password
+        CODEFIRST_CLIENTDRONE_ENV_POSTGRES_DB: 'devgarden'
+          # from_secret: db_database
+        CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER: 'devgarden'
+          # from_secret: db_user
+        ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
