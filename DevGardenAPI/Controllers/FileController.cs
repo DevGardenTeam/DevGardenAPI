@@ -34,10 +34,10 @@ namespace DevGardenAPI.Controllers
         public async Task<IActionResult> GetAllFiles(
             string owner,
             string repository,
-            string? path = null
-        )
+            string platform,
+            string? path = null)
         {
-            return await ExternalServiceManager.PlatformFileController.GetAllFiles(
+            return await ExternalServiceManager.GetController(platform).GetAllFiles(
                 owner,
                 repository,
                 path

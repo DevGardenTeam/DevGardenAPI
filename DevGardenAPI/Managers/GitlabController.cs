@@ -1,5 +1,4 @@
-﻿using DevGardenAPI.GenericRepository;
-using log4net;
+﻿using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Newtonsoft.Json;
@@ -9,8 +8,7 @@ namespace DevGardenAPI.Managers
     /// <summary>
     /// Contrôleur générique de la partie Gitlab implémentant les différentes méthodes définies dans le PlatformController.
     /// </summary>
-    public class GitlabController<T> : PlatformController<T>
-        where T : ModelBase
+    public class GitlabController : PlatformController
     {
         private readonly string gitlabApiStartUrl = "https://gitlab.com/api/v4";
 
@@ -24,14 +22,14 @@ namespace DevGardenAPI.Managers
         /// </summary>
         public GitlabController()
         {
-            Logger = LogManager.GetLogger(typeof(GitlabController<T>));
+            Logger = LogManager.GetLogger(typeof(GitlabController));
         }
 
         [HttpGet]
         public override async Task<List<Repository>> GetAllRepositories()
         {
             Logger.Debug(
-                $"{nameof(GitlabController<T>)} - {nameof(GetAllRepositories)} - Starting"
+                $"{nameof(GitlabController)} - {nameof(GetAllRepositories)} - Starting"
             );
 
             try
@@ -57,7 +55,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetAllRepositories)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetAllRepositories)} - Error"
                         );
                         Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
 
@@ -68,7 +66,7 @@ namespace DevGardenAPI.Managers
             catch (Exception ex)
             {
                 Logger.Error(
-                    $"{nameof(GitlabController<T>)} - {nameof(GetAllRepositories)} - Error"
+                    $"{nameof(GitlabController)} - {nameof(GetAllRepositories)} - Error"
                 );
                 Logger.Error($"{nameof(GetAllRepositories)} - {ex.InnerException}");
 
@@ -83,7 +81,7 @@ namespace DevGardenAPI.Managers
         )
         {
             Logger.Debug(
-                $"{nameof(GitlabController<T>)} - {nameof(GetActualRepository)} - Starting"
+                $"{nameof(GitlabController)} - {nameof(GetActualRepository)} - Starting"
             );
 
             try
@@ -106,7 +104,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetActualRepository)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetActualRepository)} - Error"
                         );
                         Logger.Error($"{nameof(GetActualRepository)} - {result.StatusCode}");
 
@@ -117,7 +115,7 @@ namespace DevGardenAPI.Managers
             catch (Exception ex)
             {
                 Logger.Error(
-                    $"{nameof(GitlabController<T>)} - {nameof(GetActualRepository)} - Error"
+                    $"{nameof(GitlabController)} - {nameof(GetActualRepository)} - Error"
                 );
                 Logger.Error($"{nameof(GetActualRepository)} - {ex.InnerException}");
 
@@ -128,7 +126,7 @@ namespace DevGardenAPI.Managers
         [HttpGet]
         public override async Task<List<Issue>> GetAllIssues(string owner, string repository)
         {
-            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllIssues)} - Starting");
+            Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllIssues)} - Starting");
 
             try
             {
@@ -151,7 +149,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetAllIssues)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetAllIssues)} - Error"
                         );
                         Logger.Error($"{nameof(GetAllIssues)} - {result.StatusCode}");
 
@@ -161,7 +159,7 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllIssues)} - Error");
+                Logger.Error($"{nameof(GitlabController)} - {nameof(GetAllIssues)} - Error");
                 Logger.Error($"{nameof(GetAllIssues)} - {ex.InnerException}");
 
                 return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
@@ -175,7 +173,7 @@ namespace DevGardenAPI.Managers
             string token
         )
         {
-            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllBranches)} - Starting");
+            Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllBranches)} - Starting");
 
             try
             {
@@ -198,7 +196,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetAllBranches)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetAllBranches)} - Error"
                         );
                         Logger.Error($"{nameof(GetAllBranches)} - {result.StatusCode}");
 
@@ -208,7 +206,7 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllBranches)} - Error");
+                Logger.Error($"{nameof(GitlabController)} - {nameof(GetAllBranches)} - Error");
                 Logger.Error($"{nameof(GetAllBranches)} - {ex.InnerException}");
 
                 return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
@@ -222,7 +220,7 @@ namespace DevGardenAPI.Managers
             string branch
         )
         {
-            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetBranch)} - Starting");
+            Logger.Debug($"{nameof(GitlabController)} - {nameof(GetBranch)} - Starting");
 
             try
             {
@@ -245,7 +243,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetBranch)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetBranch)} - Error"
                         );
                         Logger.Error($"{nameof(GetBranch)} - {result.StatusCode}");
 
@@ -255,7 +253,7 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetBranch)} - Error");
+                Logger.Error($"{nameof(GitlabController)} - {nameof(GetBranch)} - Error");
                 Logger.Error($"{nameof(GetBranch)} - {ex.InnerException}");
 
                 return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
@@ -265,7 +263,7 @@ namespace DevGardenAPI.Managers
         [HttpGet]
         public override async Task<List<Commit>> GetAllCommits(string owner, string repository)
         {
-            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllCommits)} - Starting");
+            Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllCommits)} - Starting");
 
             try
             {
@@ -288,7 +286,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetAllCommits)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetAllCommits)} - Error"
                         );
                         Logger.Error($"{nameof(GetAllCommits)} - {result.StatusCode}");
 
@@ -298,7 +296,7 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllCommits)} - Error");
+                Logger.Error($"{nameof(GitlabController)} - {nameof(GetAllCommits)} - Error");
                 Logger.Error($"{nameof(GetAllCommits)} - {ex.InnerException}");
 
                 return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
@@ -312,7 +310,7 @@ namespace DevGardenAPI.Managers
             string id
         )
         {
-            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetCommit)} - Starting");
+            Logger.Debug($"{nameof(GitlabController)} - {nameof(GetCommit)} - Starting");
 
             try
             {
@@ -335,7 +333,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetCommit)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetCommit)} - Error"
                         );
                         Logger.Error($"{nameof(GetCommit)} - {result.StatusCode}");
 
@@ -345,7 +343,7 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetCommit)} - Error");
+                Logger.Error($"{nameof(GitlabController)} - {nameof(GetCommit)} - Error");
                 Logger.Error($"{nameof(GetCommit)} - {ex.InnerException}");
 
                 return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
@@ -359,7 +357,7 @@ namespace DevGardenAPI.Managers
             string? path = null
         )
         {
-            Logger.Debug($"{nameof(GitlabController<T>)} - {nameof(GetAllFiles)} - Starting");
+            Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllFiles)} - Starting");
 
             try
             {
@@ -391,7 +389,7 @@ namespace DevGardenAPI.Managers
                     else
                     {
                         Logger.Error(
-                            $"{nameof(GitlabController<T>)} - {nameof(GetAllFiles)} - Error"
+                            $"{nameof(GitlabController)} - {nameof(GetAllFiles)} - Error"
                         );
                         Logger.Error($"{nameof(GetAllFiles)} - {result.StatusCode}");
 
@@ -401,7 +399,7 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GitlabController<T>)} - {nameof(GetAllFiles)} - Error");
+                Logger.Error($"{nameof(GitlabController)} - {nameof(GetAllFiles)} - Error");
                 Logger.Error($"{nameof(GetAllFiles)} - {ex.InnerException}");
 
                 return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);

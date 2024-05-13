@@ -6,8 +6,7 @@ namespace DevGardenAPI.Managers
     /// <summary>
     /// Classe abstraite générique définissant les méthodes disponibles pour les différentes ressources.
     /// </summary>
-    public abstract class PlatformController<T> : ControllerBase
-        where T : ModelBase
+    public abstract class PlatformController : ControllerBase
     {
         /// <summary>
         /// Récupérer l'ensemble des répertoires de l'utilisateur connecté.
@@ -78,6 +77,6 @@ namespace DevGardenAPI.Managers
         /// <param name="repository">Le nom du répertoire.</param>
         /// <param name="path">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllFiles(string owner, string repository, string path);
+        public abstract Task<IActionResult> GetAllFiles(string owner, string repository, string? path);
     }
 }

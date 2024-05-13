@@ -32,16 +32,16 @@ namespace DevGardenAPI.Controllers
 
 
         [HttpGet("GetAllBranches")]
-        public async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
+        public async Task<IActionResult> GetAllBranches(string owner, string repository, string token, string platform)
         {
-            return await ExternalServiceManager.PlatformBranchController.GetAllBranches(owner, repository, token);
+            return await ExternalServiceManager.GetController(platform).GetAllBranches(owner, repository, token);
         }
 
 
         [HttpGet("GetBranch")]
-        public async Task<IActionResult> GetBranch(string owner, string repository, string branch)
+        public async Task<IActionResult> GetBranch(string owner, string repository, string branch, string platform)
         {
-            return await ExternalServiceManager.PlatformBranchController.GetBranch(owner, repository, branch);
+            return await ExternalServiceManager.GetController(platform).GetBranch(owner, repository, branch);
         }
     }
 }

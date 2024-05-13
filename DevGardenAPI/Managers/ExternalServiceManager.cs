@@ -7,51 +7,51 @@ namespace DevGardenAPI.Managers
     /// </summary>
     public class ExternalServiceManager
     {
-         
         /// <summary>
-        /// Obtient ou définit la plateforme à utiliser pour le contrôleur des membres.
+        /// The github controller.
         /// </summary>
-        public PlatformController<Member> PlatformMemberController { get; private set; }
+        public GithubController GithubController { get; set; }
 
         /// <summary>
-        /// Obtient ou définit la plateforme à utiliser pour le contrôleur des répertoires.
+        /// The gitlab controller.
         /// </summary>
-        public PlatformController<Repository> PlatformRepositoryController { get; private set; }
+        public GitlabController GitlabController { get; set; }
 
         /// <summary>
-        /// Obtient ou définit la plateforme à utiliser pour le contrôleur des issues.
+        /// The gitea controller.
         /// </summary>
-        public PlatformController<Issue> PlatformIssueController { get; private set; }
+        public GiteaController GiteaController { get; set; }
 
         /// <summary>
-        /// Obtient ou définit la plateforme à utiliser pour le contrôleur des branches.
+        /// The platform controller accessor.
         /// </summary>
-        public PlatformController<Branch> PlatformBranchController { get; private set; }
+        Dictionary<string, PlatformController> PlatformAccessor { get; set; }
 
-        /// <summary>
-        /// Obtient ou définit la plateforme à utiliser pour le contrôleur des commits.
-        /// </summary>
-        public PlatformController<Commit> PlatformCommitController { get; private set; }
 
-        /// <summary>
-        /// Obtient ou définit la plateforme à utiliser pour le contrôleur des fichiers.
-        /// </summary>
-        public PlatformController<Model.File> PlatformFileController { get; private set; }
-         
-
-        /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="ExternalServiceManager"/>.
-        /// </summary>
         public ExternalServiceManager() 
         {
-            PlatformRepositoryController = new GithubController<Repository>();
-            PlatformIssueController = new GithubController<Issue>();
-            PlatformBranchController = new GithubController<Branch>();
-            PlatformCommitController = new GithubController<Commit>();
-            PlatformFileController = new GithubController<Model.File>();
+            GithubController = new GithubController();
+            GitlabController = new GitlabController();
+            GiteaController = new GiteaController();
+
+            this.PlatformAccessor = new Dictionary<string, PlatformController>()
+            {
+                { "github", this.GithubController },
+                { "gitlab", this.GitlabController },
+                { "gitea", this.GiteaController },
+            } ;
         }
 
-         
-
+        public PlatformController GetController(string platform)
+        {
+            if (PlatformAccessor.TryGetValue(platform, out PlatformController? value))
+            {
+                return value;
+            }
+            else
+            {
+                throw new ArgumentException("Unknown platform", nameof(platform));
+            }
+        }
     }
 }

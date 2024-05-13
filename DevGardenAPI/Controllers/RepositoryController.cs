@@ -32,15 +32,15 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpGet("GetAllRepositories")]
-        public async Task<List<Repository>> GetAllRepositories()
+        public async Task<List<Repository>> GetAllRepositories(string platform)
         {
-            return await ExternalServiceManager.PlatformRepositoryController.GetAllRepositories();
+            return await ExternalServiceManager.GetController(platform).GetAllRepositories();
         }
 
         [HttpGet("GetActualRepository")]
-        public async Task<IActionResult> GetActualRepository(string owner, string repos)
+        public async Task<IActionResult> GetActualRepository(string owner, string repos, string platform)
         {
-            return await ExternalServiceManager.PlatformRepositoryController.GetActualRepository(
+            return await ExternalServiceManager.GetController(platform).GetActualRepository(
                 owner,
                 repos
             );
