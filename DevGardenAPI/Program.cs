@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactNativeApp", builder =>
     {
-        builder.WithOrigins("https://codefirst.iut.uca.fr/containers/DevGarden-devgardenapi")
+        builder.AllowAnyOrigin()
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
