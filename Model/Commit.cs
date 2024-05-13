@@ -1,24 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Model
 {
     public class Commit : ModelBase, IEquatable<Commit>
     {
-        #region Fields
-
         private string? _message;
         private CommitDetails _commitDetails;
         private Member _author;
         private Repository _repository;
-
-        #endregion
-
-        #region Properties
 
         [JsonProperty("message")]
         public string? Message { get; set; }
@@ -32,10 +26,6 @@ namespace Model
         [JsonProperty("repository")]
         public Repository Repository { get; set; }
 
-        #endregion
-
-        #region Constructor
-
         public Commit()
         {
             Message = _message;
@@ -44,15 +34,9 @@ namespace Model
             Repository = _repository;
         }
 
-        #endregion
-
-        #region Methods
-
         public bool Equals(Commit? other)
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

@@ -9,14 +9,8 @@ namespace DevGardenAPI.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class DevGardenMemberController : ControllerBase
+    public class MemberController : ControllerBase
     {
-        #region Fields
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
         /// </summary>
@@ -25,24 +19,15 @@ namespace DevGardenAPI.Controllers
         /// <summary>
         /// Obtient le manager du service utilisé.
         /// </summary>
-        public ExternalServiceManager ExternalServiceManager { get; } = new ExternalServiceManager();
-
-        #endregion
-
-        #region Constructor
+        public ExternalServiceManager ExternalServiceManager { get; } =
+            new ExternalServiceManager();
 
         /// <summary>
-        /// Initialise une nouvelle instance de la classe <see cref="DevGardenMemberController"/>.
+        /// Initialise une nouvelle instance de la classe <see cref="MemberController"/>.
         /// </summary>
-        public DevGardenMemberController()
+        public MemberController()
         {
-            Logger = LogManager.GetLogger(typeof(DevGardenMemberController));
+            Logger = LogManager.GetLogger(typeof(MemberController));
         }
-
-        #endregion
-
-        #region Methods
-
-        #endregion
     }
 }

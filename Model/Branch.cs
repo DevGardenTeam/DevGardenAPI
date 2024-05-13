@@ -9,20 +9,12 @@ namespace Model
 {
     public class Branch : ModelBase, IEquatable<Branch>
     {
-        #region Fields
-
         private string _name;
         private List<Commit> _commits = new();
-
-        #endregion
-
-        #region Properties
 
         public string Name { get; set; }
 
         public ReadOnlyCollection<Commit> Commits { get; set; }
-
-        #endregion
 
         public Branch()
         {
@@ -30,17 +22,9 @@ namespace Model
             Commits = new ReadOnlyCollection<Commit>(_commits);
         }
 
-        #region Constructor
-
-        #endregion
-
-        #region Methods
-
         public bool Equals(Branch? other)
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

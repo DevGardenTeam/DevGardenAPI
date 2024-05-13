@@ -1,5 +1,4 @@
-﻿using DevGardenAPI.GenericRepository;
-using log4net;
+﻿using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Newtonsoft.Json;
@@ -9,41 +8,25 @@ namespace DevGardenAPI.Managers
     /// <summary>
     /// Contrôleur générique de la partie Gitea implémentant les différentes méthodes définies dans le PlatformController.
     /// </summary>
-    public class GiteaController<T> : PlatformController<T> where T : ModelBase
+    public class GiteaController : PlatformController
     {
-        #region Fields
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
         /// </summary>
         protected ILog Logger { get; set; }
-
-        #endregion
-
-        #region Constructor
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="GiteaController"/>.
         /// </summary>
         public GiteaController()
         {
-            Logger = LogManager.GetLogger(typeof(GiteaController<T>));
+            Logger = LogManager.GetLogger(typeof(GiteaController));
         }
-
-        #endregion
-
-        #region Methods
-
-        #region Repository
 
         [HttpGet]
         public override async Task<List<Repository>> GetAllRepositories()
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Starting");
+            Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllRepositories)} - Starting");
 
             try
             {
@@ -61,12 +44,16 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        List<Repository> repositories = JsonConvert.DeserializeObject<List<Repository>>(json);
+                        List<Repository> repositories = JsonConvert.DeserializeObject<
+                            List<Repository>
+                        >(json);
                         return repositories;
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Error");
+                        Logger.Error(
+                            $"{nameof(GiteaController)} - {nameof(GetAllRepositories)} - Error"
+                        );
                         Logger.Error($"{nameof(GetAllRepositories)} - {result.StatusCode}");
 
                         return null;
@@ -75,17 +62,24 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllRepositories)} - Error");
+                Logger.Error(
+                    $"{nameof(GiteaController)} - {nameof(GetAllRepositories)} - Error"
+                );
                 Logger.Error($"{nameof(GetAllRepositories)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 
         [HttpGet]
-        public override async Task<IActionResult> GetActualRepository(string owner, string repository)
+        public override async Task<IActionResult> GetActualRepository(
+            string owner,
+            string repository
+        )
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetActualRepository)} - Starting");
+            Logger.Debug(
+                $"{nameof(GiteaController)} - {nameof(GetActualRepository)} - Starting"
+            );
 
             try
             {
@@ -107,7 +101,9 @@ namespace DevGardenAPI.Managers
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetActualRepository)} - Error");
+                        Logger.Error(
+                            $"{nameof(GiteaController)} - {nameof(GetActualRepository)} - Error"
+                        );
                         Logger.Error($"{nameof(GetActualRepository)} - {result.StatusCode}");
 
                         return StatusCode((int)result.StatusCode);
@@ -116,21 +112,19 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetActualRepository)} - Error");
+                Logger.Error(
+                    $"{nameof(GiteaController)} - {nameof(GetActualRepository)} - Error"
+                );
                 Logger.Error($"{nameof(GetActualRepository)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
-
-        #endregion
-
-        #region Issue
 
         [HttpGet]
         public override async Task<List<Issue>> GetAllIssues(string owner, string repository)
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllIssues)} - Starting");
+            Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllIssues)} - Starting");
 
             try
             {
@@ -153,7 +147,9 @@ namespace DevGardenAPI.Managers
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllIssues)} - Error");
+                        Logger.Error(
+                            $"{nameof(GiteaController)} - {nameof(GetAllIssues)} - Error"
+                        );
                         Logger.Error($"{nameof(GetAllIssues)} - {result.StatusCode}");
 
                         return null;
@@ -162,21 +158,21 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllIssues)} - Error");
+                Logger.Error($"{nameof(GiteaController)} - {nameof(GetAllIssues)} - Error");
                 Logger.Error($"{nameof(GetAllIssues)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 
-        #endregion
-
-        #region Branch
-
         [HttpGet]
-        public override async Task<IActionResult> GetAllBranches(string owner, string repository, string token)
+        public override async Task<IActionResult> GetAllBranches(
+            string owner,
+            string repository,
+            string token
+        )
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllBranches)} - Starting");
+            Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllBranches)} - Starting");
 
             try
             {
@@ -198,7 +194,9 @@ namespace DevGardenAPI.Managers
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllBranches)} - Error");
+                        Logger.Error(
+                            $"{nameof(GiteaController)} - {nameof(GetAllBranches)} - Error"
+                        );
                         Logger.Error($"{nameof(GetAllBranches)} - {result.StatusCode}");
 
                         return StatusCode((int)result.StatusCode);
@@ -207,18 +205,21 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllBranches)} - Error");
+                Logger.Error($"{nameof(GiteaController)} - {nameof(GetAllBranches)} - Error");
                 Logger.Error($"{nameof(GetAllBranches)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 
-        
         [HttpGet]
-        public override async Task<IActionResult> GetBranch(string owner, string repository, string branch)
+        public override async Task<IActionResult> GetBranch(
+            string owner,
+            string repository,
+            string branch
+        )
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetBranch)} - Starting");
+            Logger.Debug($"{nameof(GiteaController)} - {nameof(GetBranch)} - Starting");
 
             try
             {
@@ -229,7 +230,8 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-                    string apiUrl = $"https://gitea.com/api/v1/repos/{owner}/{repository}/branches/{branch}";
+                    string apiUrl =
+                        $"https://gitea.com/api/v1/repos/{owner}/{repository}/branches/{branch}";
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 
@@ -240,7 +242,7 @@ namespace DevGardenAPI.Managers
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetBranch)} - Error");
+                        Logger.Error($"{nameof(GiteaController)} - {nameof(GetBranch)} - Error");
                         Logger.Error($"{nameof(GetBranch)} - {result.StatusCode}");
 
                         return StatusCode((int)result.StatusCode);
@@ -249,21 +251,17 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetBranch)} - Error");
+                Logger.Error($"{nameof(GiteaController)} - {nameof(GetBranch)} - Error");
                 Logger.Error($"{nameof(GetBranch)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
-
-        #endregion
-
-        #region Commit
 
         [HttpGet]
         public override async Task<List<Commit>> GetAllCommits(string owner, string repository)
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllCommits)} - Starting");
+            Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllCommits)} - Starting");
 
             try
             {
@@ -286,7 +284,9 @@ namespace DevGardenAPI.Managers
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllCommits)} - Error");
+                        Logger.Error(
+                            $"{nameof(GiteaController)} - {nameof(GetAllCommits)} - Error"
+                        );
                         Logger.Error($"{nameof(GetAllCommits)} - {result.StatusCode}");
 
                         return null;
@@ -295,18 +295,21 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllCommits)} - Error");
+                Logger.Error($"{nameof(GiteaController)} - {nameof(GetAllCommits)} - Error");
                 Logger.Error($"{nameof(GetAllCommits)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 
-        
         [HttpGet]
-        public override async Task<IActionResult> GetCommit(string owner, string repository, string id)
+        public override async Task<IActionResult> GetCommit(
+            string owner,
+            string repository,
+            string id
+        )
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetCommit)} - Starting");
+            Logger.Debug($"{nameof(GiteaController)} - {nameof(GetCommit)} - Starting");
 
             try
             {
@@ -317,7 +320,8 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-                    string apiUrl = $"https://gitea.com/api/v1/repos/{owner}/{repository}/commits/{id}/status";
+                    string apiUrl =
+                        $"https://gitea.com/api/v1/repos/{owner}/{repository}/commits/{id}/status";
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 
@@ -328,7 +332,7 @@ namespace DevGardenAPI.Managers
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetCommit)} - Error");
+                        Logger.Error($"{nameof(GiteaController)} - {nameof(GetCommit)} - Error");
                         Logger.Error($"{nameof(GetCommit)} - {result.StatusCode}");
 
                         return StatusCode((int)result.StatusCode);
@@ -337,21 +341,21 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetCommit)} - Error");
+                Logger.Error($"{nameof(GiteaController)} - {nameof(GetCommit)} - Error");
                 Logger.Error($"{nameof(GetCommit)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
 
-        #endregion
-
-        #region File
-
         [HttpGet]
-        public override async Task<IActionResult> GetAllFiles(string owner, string repository, string? path = null)
+        public override async Task<IActionResult> GetAllFiles(
+            string owner,
+            string repository,
+            string? path = null
+        )
         {
-            Logger.Debug($"{nameof(GiteaController<T>)} - {nameof(GetAllFiles)} - Starting");
+            Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllFiles)} - Starting");
 
             try
             {
@@ -366,7 +370,8 @@ namespace DevGardenAPI.Managers
 
                     if (path != null)
                     {
-                        apiUrl = $"https://gitea.com/api/v1/repos/{owner}/{repository}/contents/{path}";
+                        apiUrl =
+                            $"https://gitea.com/api/v1/repos/{owner}/{repository}/contents/{path}";
                     }
                     else
                     {
@@ -382,7 +387,9 @@ namespace DevGardenAPI.Managers
                     }
                     else
                     {
-                        Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllFiles)} - Error");
+                        Logger.Error(
+                            $"{nameof(GiteaController)} - {nameof(GetAllFiles)} - Error"
+                        );
                         Logger.Error($"{nameof(GetAllFiles)} - {result.StatusCode}");
 
                         return StatusCode((int)result.StatusCode);
@@ -391,15 +398,11 @@ namespace DevGardenAPI.Managers
             }
             catch (Exception ex)
             {
-                Logger.Error($"{nameof(GiteaController<T>)} - {nameof(GetAllFiles)} - Error");
+                Logger.Error($"{nameof(GiteaController)} - {nameof(GetAllFiles)} - Error");
                 Logger.Error($"{nameof(GetAllFiles)} - {ex.InnerException}");
 
-                return null;//Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+                return null; //Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
             }
         }
-
-        #endregion
-
-        #endregion
     }
 }
