@@ -40,13 +40,16 @@ namespace DevGardenAPI.Managers
                 {
                     client.DefaultRequestHeaders.Add("Private-Token", token);
 
-                    string apiUrl = $"{gitlabApiStartUrl}/projects?membership=true";
+                    string apiUrl = $"{gitlabApiStartUrl}/projects?membership=true&statistics=true";
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+                        
+                        Console.WriteLine(json);
+
                         List<Repository> repositories = JsonConvert.DeserializeObject<
                             List<Repository>
                         >(json);
@@ -280,6 +283,9 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(json);
+
                         List<Commit> commits = JsonConvert.DeserializeObject<List<Commit>>(json);
                         return commits;
                     }

@@ -44,6 +44,9 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(json);
+
                         List<Repository> repositories = JsonConvert.DeserializeObject<
                             List<Repository>
                         >(json);
@@ -279,6 +282,9 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+
+                        Console.WriteLine(json);
+
                         List<Commit> commits = JsonConvert.DeserializeObject<List<Commit>>(json);
                         return commits;
                     }
