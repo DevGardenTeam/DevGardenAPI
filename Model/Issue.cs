@@ -15,8 +15,6 @@ namespace Model
         private string _state;
         private DateTime _creationDate;
         private Member _author;
-        private Milestone _milestone;
-        private Repository _repository;
         private List<Label>? _labels = new();
 
         [JsonProperty("title")]
@@ -34,12 +32,6 @@ namespace Model
         [JsonProperty("user")]
         public Member Author { get; set; }
 
-        [JsonProperty("milestone")]
-        public Milestone Milestone { get; set; }
-
-        [JsonProperty("repository")]
-        public Repository Repository { get; set; }
-
         [JsonProperty("labels")]
         public ReadOnlyCollection<Label>? Labels { get; set; }
 
@@ -50,8 +42,6 @@ namespace Model
             State = _state;
             CreationDate = _creationDate;
             Author = _author;
-            Milestone = _milestone;
-            Repository = _repository;
             Labels = new ReadOnlyCollection<Label>(_labels);
         }
 

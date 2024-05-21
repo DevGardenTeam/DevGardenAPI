@@ -139,13 +139,14 @@ namespace DevGardenAPI.Managers
                 {
                     client.DefaultRequestHeaders.Add("Private-Token", token);
 
-                    string apiUrl = $"{gitlabApiStartUrl}/issues";
+                    string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/issues";
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+                        Console.WriteLine(json);
                         List<Issue> issues = JsonConvert.DeserializeObject<List<Issue>>(json);
                         return issues;
                     }

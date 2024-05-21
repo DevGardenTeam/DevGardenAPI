@@ -147,6 +147,7 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+                        Console.WriteLine(json);
                         List<Issue> issues = JsonConvert.DeserializeObject<List<Issue>>(json);
                         return issues;
                     }

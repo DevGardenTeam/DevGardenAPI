@@ -138,13 +138,14 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-                    string apiUrl = $"https://gitea.com/api/v1/repos/issues/search";
+                    string apiUrl = $"https://gitea.com/api/v1/repos/{owner}/{repository}/issues";
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
+                        Console.WriteLine(json);
                         List<Issue> issues = JsonConvert.DeserializeObject<List<Issue>>(json);
                         return issues;
                     }
