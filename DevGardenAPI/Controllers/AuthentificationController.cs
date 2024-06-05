@@ -6,7 +6,6 @@ using DatabaseEf;
 using DatabaseEf.Entities;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace DevGardenAPI.Controllers
 {
     [ApiController]
@@ -21,7 +20,7 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register(String username, String password)
+        public async Task<IActionResult> RegisterAsync(string username, string password)
         {
             username = BcryptAuthHandler.CleanUsername(username);
             password = BcryptAuthHandler.CleanPassword(password);
@@ -49,13 +48,13 @@ namespace DevGardenAPI.Controllers
                 Password = cryptedPassword
             };
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            _context.Add(user);
+            await _context.SaveChangesAsync();
 
-            return Ok("User registered successfully.");
+            return Ok(await _context.Users.FindAsync(username));
         }
 
-        [HttpGet]
+        [HttpPost("login")]
         public IActionResult Login(string username, string password)
         {
             username = BcryptAuthHandler.CleanUsername(username);
