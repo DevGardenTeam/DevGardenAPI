@@ -37,13 +37,13 @@ namespace DevGardenAPI.Controllers
 
             if (!BcryptAuthHandler.IsPasswordComplexEnough(password))
             {
-                return BadRequest("Le mot de passe n'est pas assez long ou ne comporte pas les caractères nécessaires.");
+                return BadRequest("Le mot de passe n'est pas assez long ou ne comporte pas les caractères nécessaires. (12 charactères avec minuscule, majuscule, chiffre, caratère spécial)");
             }
 
             string cryptedPassword = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(password));
 
             var user = new User
-            {
+            {   
                 Username = username,
                 Password = cryptedPassword
             };
