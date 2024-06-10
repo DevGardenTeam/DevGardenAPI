@@ -46,6 +46,8 @@ steps:
       OVERWRITE: true
       CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString:
         from_secret: db_connection_string
+      CODEFIRST_CLIENTDRONE_ENV_key:
+        from_secret: key
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
     depends_on: [docker-build-and-push]
 

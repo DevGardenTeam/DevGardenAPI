@@ -5,7 +5,7 @@ using System.Text;
 
 public class EncryptionHelper
 {
-    private static readonly string EncryptionKey = Environment.GetEnvironmentVariable("test"); 
+    private static readonly string EncryptionKey = "M7s9VSA0Z1jmLdrQUTmtK1Ejt9MT91OU"; //Environment.GetEnvironmentVariable("CODEFIRST_CLIENTDRONE_ENV_key"); 
 
     public static string Encrypt(string plainText)
     {
