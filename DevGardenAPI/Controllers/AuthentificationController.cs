@@ -20,9 +20,9 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(string username, string password)
+        public async Task<IActionResult> RegisterAsync(string email, string password)
         {
-            username = BcryptAuthHandler.CleanUsername(username);
+            email = BcryptAuthHandler.Cleanemail(email);
             password = BcryptAuthHandler.CleanPassword(password);
 
             if (string.IsNullOrWhiteSpace(password))
@@ -30,7 +30,7 @@ namespace DevGardenAPI.Controllers
                 return BadRequest("Le mot de passe ne peut pas être vide ou seulement des espaces.");
             }
 
-            if (string.IsNullOrWhiteSpace(username))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 return BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.");
             }
@@ -44,20 +44,20 @@ namespace DevGardenAPI.Controllers
 
             var user = new User
             {
-                Username = username,
+                email = email,
                 Password = cryptedPassword
             };
 
             _context.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(await _context.Users.FindAsync(username));
+            return Ok(await _context.Users.FindAsync(email));
         }
 
         [HttpPost("login")]
-        public IActionResult Login(string username, string password)
+        public IActionResult Login(string email, string password)
         {
-            username = BcryptAuthHandler.CleanUsername(username);
+            email = BcryptAuthHandler.Cleanemail(email);
             password = BcryptAuthHandler.CleanPassword(password);
 
             if (string.IsNullOrWhiteSpace(password))
@@ -65,21 +65,21 @@ namespace DevGardenAPI.Controllers
                 return BadRequest("Le mot de passe ne peut pas être vide ou seulement des espaces.");
             }
 
-            if (string.IsNullOrWhiteSpace(username))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 return BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.");
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+            var user = _context.Users.FirstOrDefault(u => u.email == email);
 
             if (user == null)
             {
-                return Unauthorized("Invalid username or password.");
+                return Unauthorized("Invalid email or password.");
             }
 
             if (!BcryptAuthHandler.VerifyPassword(password, EncryptionHelper.Decrypt(user.Password)))
             {
-                return Unauthorized("Invalid username or password.");
+                return Unauthorized("Invalid email or password.");
             }
 
             return Ok("Login successful.");

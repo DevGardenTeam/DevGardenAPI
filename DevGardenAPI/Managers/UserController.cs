@@ -14,7 +14,6 @@ namespace DevGardenAPI.Managers
             _context = context;
         }
 
-        [HttpPost]
         public IActionResult CreateUser(User user)
         {
             _context.Users.Add(user);
@@ -22,7 +21,6 @@ namespace DevGardenAPI.Managers
             return Ok(user);
         }
 
-        [HttpGet("{username}")]
         public IActionResult GetUserPasswordByUsername(string username)
         {
             var user = _context.Users
