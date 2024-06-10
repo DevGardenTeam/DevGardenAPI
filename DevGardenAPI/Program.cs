@@ -18,7 +18,7 @@ builder.Services.AddHttpClient();
 // Ef core database config
 var connectionString = Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
 
-var debug = Environment.GetEnvironmentVariable("CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString");
+var debug = "test"; Environment.GetEnvironmentVariable("CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString");
 Console.WriteLine($"debug => {debug} \n connectionString => {connectionString}");
 
 if (string.IsNullOrEmpty(connectionString))
