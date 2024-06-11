@@ -33,7 +33,6 @@ steps:
       - dotnet restore DevGardenAPI.sln
       - dotnet build DevGardenAPI.sln -c Debug --no-restore
       - dotnet publish DevGardenAPI.sln -c Release --no-restore -o $CI_PROJECT_DIR/build/release
-      - dotnet new tool-manifest
       - dotnet tool install dotnet-ef
       - dotnet tool run dotnet-ef
       - dotnet ef database update --startup-project ./DevGardenAPI/ --project ./DatabaseEf/
