@@ -12,6 +12,7 @@ WORKDIR /src
 COPY ["DevGardenAPI/DevGardenAPI.csproj", "DevGardenAPI/"]
 COPY ["Auth/Auth.csproj", "Auth/"]
 COPY ["Model/Model.csproj", "Model/"]
+COPY ["DatabaseEf/DatabaseEf.csproj", "DatabaseEf/"]
 RUN dotnet restore "./DevGardenAPI/./DevGardenAPI.csproj"
 COPY . .
 WORKDIR "/src/DevGardenAPI"
