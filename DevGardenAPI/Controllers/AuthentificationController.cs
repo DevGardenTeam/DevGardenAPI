@@ -54,7 +54,7 @@ namespace DevGardenAPI.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return Conflict(ex.Message);
             }
 
             return Ok(await _context.Users.FindAsync(username));
