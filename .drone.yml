@@ -8,21 +8,6 @@ trigger:
 
 steps:
 
-  - name: deploy-container-postgres
-    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
-    environment:
-      IMAGENAME: postgres:latest
-      CONTAINERNAME: postgres
-      COMMAND: create
-      OVERWRITE: true
-      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_PASSWORD:
-        from_secret: db_root_password
-      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_DB:
-        from_secret: db_database
-      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER:
-        from_secret: db_user
-      ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
-
   - name: build
     image: mcr.microsoft.com/dotnet/sdk:8.0
     volumes:
@@ -65,8 +50,19 @@ steps:
       CODEFIRST_CLIENTDRONE_ENV_key:
         from_secret: key
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
-    commands:
-      - dotnet tool install dotnet-ef
-      - dotnet tool run dotnet-ef
-      - dotnet ef database update --startup-project ./DevGardenAPI/ --project ./DatabaseEf/
     depends_on: [docker-build-and-push]
+
+  - name: deploy-container-postgres
+    image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
+    environment:
+      IMAGENAME: postgres:latest
+      CONTAINERNAME: postgres
+      COMMAND: create
+      OVERWRITE: true
+      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_PASSWORD:
+        from_secret: db_root_password
+      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_DB:
+        from_secret: db_database
+      CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER:
+        from_secret: db_user
+      ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
