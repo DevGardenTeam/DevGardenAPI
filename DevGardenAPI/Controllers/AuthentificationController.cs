@@ -57,7 +57,7 @@ namespace DevGardenAPI.Controllers
                 return Conflict(ex.Message);
             }
 
-            return Ok(await _context.Users.FindAsync(username));
+            return Ok("Register successful"); //await _context.Users.FindAsync(username)
         }
 
         [HttpPost("login")]
