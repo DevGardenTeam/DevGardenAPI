@@ -67,7 +67,7 @@ steps:
       ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
     depends_on: [deploy-container]
 
- - name: run-migrations
+  - name: run-migrations
     image: mcr.microsoft.com/dotnet/sdk:8.0
     environment:
       ASPNETCORE_ENVIRONMENT: Production
