@@ -33,9 +33,6 @@ steps:
       - dotnet restore DevGardenAPI.sln
       - dotnet build DevGardenAPI.sln -c Debug --no-restore
       - dotnet publish DevGardenAPI.sln -c Release --no-restore -o $CI_PROJECT_DIR/build/release
-      - dotnet tool install dotnet-ef
-      - dotnet tool run dotnet-ef
-      - dotnet ef database update --startup-project ./DevGardenAPI/ --project ./DatabaseEf/
 
   - name: hadolint-check
     image: hadolint/hadolint:latest-debian
@@ -68,4 +65,8 @@ steps:
       CODEFIRST_CLIENTDRONE_ENV_key:
         from_secret: key
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
+    commands:
+      - dotnet tool install dotnet-ef
+      - dotnet tool run dotnet-ef
+      - dotnet ef database update --startup-project ./DevGardenAPI/ --project ./DatabaseEf/
     depends_on: [docker-build-and-push]
