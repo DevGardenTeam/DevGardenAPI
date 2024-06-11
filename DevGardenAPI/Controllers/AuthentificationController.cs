@@ -48,8 +48,14 @@ namespace DevGardenAPI.Controllers
                 Password = cryptedPassword
             };
 
-            _context.Add(user);
-            await _context.SaveChangesAsync();
+            try {
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
 
             return Ok(await _context.Users.FindAsync(username));
         }
