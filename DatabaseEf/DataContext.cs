@@ -27,6 +27,9 @@ namespace DatabaseEf
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<UserService>().ToTable("user_services");
+
             // avoid mapping to int, and store the actual service name string
             modelBuilder.Entity<UserService>()
                 .Property(entity => entity.ServiceName)

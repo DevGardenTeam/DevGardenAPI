@@ -5,6 +5,7 @@ using DevGardenAPI.Managers;
 using DatabaseEf;
 using DatabaseEf.Entities;
 using Microsoft.EntityFrameworkCore;
+using DatabaseEf.Controller;
 
 namespace DevGardenAPI.Controllers
 {
@@ -12,11 +13,11 @@ namespace DevGardenAPI.Controllers
     [Route("api/[controller]")]
     public class AuthentificationController: ControllerBase
     {
-        private readonly DataContext _context;
+        public UsersController userController;
 
         public AuthentificationController(DataContext context)
         {
-            _context = context;
+            userController = new UsersController(context);
         }
 
         [HttpPost("register")]
@@ -42,26 +43,30 @@ namespace DevGardenAPI.Controllers
 
             string cryptedPassword = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(password));
 
+            if(userController.UserExists(username))
+            {
+                return Conflict("User already exist");
+            }
+
             var user = new User
             {   
                 Username = username,
-                Password = cryptedPassword
+                Password = cryptedPassword,
+                Email = username
             };
 
-            try {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            var result = await userController.PostUser(user);
+
+            if (result != "Ok")
             {
-                return Conflict(ex.Message);
+                return Conflict(result);
             }
 
-            return Ok("Register successful"); //await _context.Users.FindAsync(username)
+            return Ok("Register successful");
         }
 
         [HttpPost("login")]
-        public IActionResult Login(string username, string password)
+        public async Task<IActionResult> Login(string username, string password)
         {
             username = BcryptAuthHandler.CleanUsername(username);
             password = BcryptAuthHandler.CleanPassword(password);
@@ -76,12 +81,12 @@ namespace DevGardenAPI.Controllers
                 return BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.");
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Username == username);
-
-            if (user == null)
+            if (!userController.UserExists(username))
             {
                 return Unauthorized("Invalid username or password.");
             }
+
+            var user = await userController.GetUserByUsername(username);
 
             if (!BcryptAuthHandler.VerifyPassword(password, EncryptionHelper.Decrypt(user.Password)))
             {

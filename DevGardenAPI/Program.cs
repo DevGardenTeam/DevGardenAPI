@@ -18,7 +18,7 @@ builder.Services.AddHttpClient();
 // Ef core database config
 var connectionString = Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
 
-var debug = Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
+var debug =  Environment.GetEnvironmentVariable("DevgardenDbConnectionString"); //"Username=postgres;Password=devgarden1;Host=localhost;Port=5432;Database=devgarden;";
 Console.WriteLine($"debug => {debug} \n connectionString => {connectionString}");
 
 if (string.IsNullOrEmpty(connectionString))
@@ -77,6 +77,14 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint($"{basePath}/swagger/v1/swagger.json", "DevGardenAPI v1");
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<DataContext>();
+    context.Database.Migrate();
+}
+
 
 app.MapSwagger();
 

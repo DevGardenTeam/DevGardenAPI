@@ -12,7 +12,7 @@ namespace DatabaseEf.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -23,11 +23,11 @@ namespace DatabaseEf.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserServices",
+                name: "user_services",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
@@ -36,11 +36,11 @@ namespace DatabaseEf.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserServices", x => new { x.UserId, x.ServiceName });
+                    table.PrimaryKey("PK_user_services", x => new { x.UserId, x.ServiceName });
                     table.ForeignKey(
-                        name: "FK_UserServices_Users_UserId",
+                        name: "FK_user_services_users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -50,10 +50,10 @@ namespace DatabaseEf.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserServices");
+                name: "user_services");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "users");
         }
     }
 }

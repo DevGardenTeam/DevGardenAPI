@@ -43,7 +43,7 @@ namespace DatabaseEf.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("DatabaseEf.Entities.UserService", b =>
@@ -60,7 +60,7 @@ namespace DatabaseEf.Migrations
 
                     b.HasKey("UserId", "ServiceName");
 
-                    b.ToTable("UserServices");
+                    b.ToTable("user_services", (string)null);
                 });
 
             modelBuilder.Entity("DatabaseEf.Entities.UserService", b =>
