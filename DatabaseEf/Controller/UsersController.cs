@@ -1,4 +1,6 @@
-﻿using DatabaseEf.Entities;
+﻿using Azure.Core;
+using DatabaseEf.Entities;
+using DatabaseEf.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -43,6 +45,50 @@ namespace DatabaseEf.Controller
             }
 
             return user;
+        }
+
+        public async Task<bool> DeleteUser(string username)
+        {
+            var user = await _context.Users.FindAsync(username);
+            if (user == null)
+            {
+                return false;
+            }
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<int> GetUserId(string username)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
+
+            if (user == null)
+            {
+                return -1;
+            }
+
+            return user.Id;
+        }
+
+        public async Task<bool> AddService(string username,UserService userService)
+        {
+            var user = await _context.Users.FindAsync(username);
+            if (user == null)
+            {
+                return false;
+            }
+
+            userService.UserId = user.Id;
+
+            user.UserServices.Add(userService);
+
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
 

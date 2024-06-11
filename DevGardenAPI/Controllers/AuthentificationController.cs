@@ -52,7 +52,8 @@ namespace DevGardenAPI.Controllers
             {   
                 Username = username,
                 Password = cryptedPassword,
-                Email = username
+                Email = username,
+                UserServices = []
             };
 
             var result = await userController.PostUser(user);
