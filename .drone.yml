@@ -66,3 +66,13 @@ steps:
         from_secret: db_user
       ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
     depends_on: [deploy-container]
+
+ - name: run-migrations
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DevgardenDbConnectionString:
+        from_secret: db_connection_string
+    commands:
+      - dotnet ef database update --startup-project ./DevGardenAPI/ --project ./DatabaseEf/
+    depends_on: [deploy-container-postgres]
