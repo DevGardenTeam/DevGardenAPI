@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using DevGardenAPI.Adapter;
+using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Newtonsoft.Json;
@@ -12,6 +13,8 @@ namespace DevGardenAPI.Managers
     {
         private readonly string gitlabApiStartUrl = "https://gitlab.com/api/v4";
 
+        private PlatformAdapter platformAdapter;
+
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
         /// </summary>
@@ -22,6 +25,7 @@ namespace DevGardenAPI.Managers
         /// </summary>
         public GitlabController()
         {
+            this.platformAdapter = new GitlabAdapter();
             Logger = LogManager.GetLogger(typeof(GitlabController));
         }
 
@@ -46,9 +50,12 @@ namespace DevGardenAPI.Managers
 
                     if (result.IsSuccessStatusCode)
                     {
-                        var json = await result.Content.ReadAsStringAsync();
-                        
+                        string json = await result.Content.ReadAsStringAsync();
+
+                        Console.Write("***** RAW API RESPONSE STRING BELOW *****\n");
                         Console.WriteLine(json);
+
+                       var adapterResults = platformAdapter.ExtractRepositories(json);
 
                         List<Repository> repositories = JsonConvert.DeserializeObject<
                             List<Repository>
