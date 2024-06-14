@@ -66,9 +66,9 @@ namespace DevGardenAPI.Controllers
                 ServiceName = servicename
             };
 
-            if (!await userController.UserExists(username)){
-                return Conflict("Erreur : le user n'existe pas");
-            }
+            // if (!await userController.UserExists(username)){
+            //     return Conflict("Erreur : le user n'existe pas");
+            // }
 
             if (!await userController.AddService(username, newService))
             {
