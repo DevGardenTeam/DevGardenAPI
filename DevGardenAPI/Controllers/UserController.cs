@@ -71,7 +71,7 @@ namespace DevGardenAPI.Controllers
                 return Conflict("Erreur dans l'ajout du Service");
 
             }
-            return Ok("test");
+            return Ok("Votre token a été ajouté !!");
         }
     }
 }
