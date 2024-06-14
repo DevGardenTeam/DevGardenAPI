@@ -5,6 +5,9 @@ name: CI
 trigger:
   event:
     - push
+    when:
+      branch:
+      - master
 
 steps:
   - name: build
