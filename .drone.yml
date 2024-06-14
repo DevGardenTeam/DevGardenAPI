@@ -5,9 +5,6 @@ name: CI
 trigger:
   event:
     - push
-    when:
-      branch:
-      - master
 
 steps:
   - name: build
@@ -50,6 +47,9 @@ steps:
       CODEFIRST_CLIENTDRONE_ENV_DevgardenDbConnectionString:
         from_secret: db_connection_string
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
+    when:
+      branch:
+      - master
     depends_on: [docker-build-and-push]
 
   - name: deploy-container-postgres
@@ -66,6 +66,9 @@ steps:
       CODEFIRST_CLIENTDRONE_ENV_POSTGRES_USER:
         from_secret: db_user
       ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
+    when:
+      branch:
+      - master  
     depends_on: [deploy-container]
 
 #
