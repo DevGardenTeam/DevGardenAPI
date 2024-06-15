@@ -75,7 +75,7 @@ namespace DatabaseEf.Controller
 
         public async Task<bool> AddService(string username,UserService userService)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(username);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
             if (user == null)
             {
                 return false;

@@ -16,9 +16,9 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
 // Ef core database config
-var connectionString = Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
+var connectionString = "Username=postgres;Password=devgarden1;Host=localhost;Port=5432;Database=devgarden;"; // Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
 
-var debug =  Environment.GetEnvironmentVariable("DevgardenDbConnectionString"); //"Username=postgres;Password=devgarden1;Host=localhost;Port=5432;Database=devgarden;";
+var debug = "Username=postgres;Password=devgarden1;Host=localhost;Port=5432;Database=devgarden;"; //Environment.GetEnvironmentVariable("DevgardenDbConnectionString");
 Console.WriteLine($"debug => {debug} \n connectionString => {connectionString}");
 
 if (string.IsNullOrEmpty(connectionString))
