@@ -10,22 +10,6 @@ namespace Model
 {
     public class Repository : ModelBase, IEquatable<Repository>
     {
-        private string _name;
-        private Member _owner;
-        private bool _isPrivate;
-        private string _description;
-        private bool _isFork;
-        private string _url;
-        private DateTime _creationDate;
-        private string _language;
-        private long _size;
-        private List<Branch> _branches = new();
-        private List<Commit> _commits = new();
-        private List<Member> _contributors = new();
-        private List<Issue> _issues = new();
-        private List<Folder>? _folders = new();
-        private List<File> _files = new();
-
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -53,40 +37,42 @@ namespace Model
         [JsonProperty("size")]
         public long Size { get; set; }
 
-        public ReadOnlyCollection<Branch> Branches { get; set; }
+        public ReadOnlyCollection<Branch> Branches { get; private set; }
 
-        public ReadOnlyCollection<Commit> Commits { get; set; }
+        public ReadOnlyCollection<Commit> Commits { get; private set; }
 
-        public ReadOnlyCollection<Member> Contributors { get; set; }
+        public ReadOnlyCollection<Member> Contributors { get; private set; }
 
-        public ReadOnlyCollection<Issue> Issues { get; set; }
+        public ReadOnlyCollection<Issue> Issues { get; private set; }
 
-        public ReadOnlyCollection<Folder>? Folders { get; set; }
+        public ReadOnlyCollection<Folder>? Folders { get; private set; }
 
-        public ReadOnlyCollection<File> Files { get; set; }
+        public ReadOnlyCollection<File> Files { get; private set; }
 
         public Repository()
         {
-            Name = _name;
-            Owner = _owner;
-            IsPrivate = _isPrivate;
-            Description = _description;
-            IsFork = _isFork;
-            Url = _url;
-            CreationDate = _creationDate;
-            Language = _language;
-            Size = _size;
-            Branches = new ReadOnlyCollection<Branch>(_branches);
-            Commits = new ReadOnlyCollection<Commit>(_commits);
-            Contributors = new ReadOnlyCollection<Member>(_contributors);
-            Issues = new ReadOnlyCollection<Issue>(_issues);
-            Folders = new ReadOnlyCollection<Folder>(_folders);
-            Files = new ReadOnlyCollection<File>(_files);
+            Branches = new ReadOnlyCollection<Branch>(new List<Branch>());
+            Commits = new ReadOnlyCollection<Commit>(new List<Commit>());
+            Contributors = new ReadOnlyCollection<Member>(new List<Member>());
+            Issues = new ReadOnlyCollection<Issue>(new List<Issue>());
+            Folders = new ReadOnlyCollection<Folder>(new List<Folder>());
+            Files = new ReadOnlyCollection<File>(new List<File>());
         }
 
         public bool Equals(Repository? other)
         {
-            throw new NotImplementedException();
+            if (other == null) return false;
+            return Name == other.Name &&
+                   Owner.Equals(other.Owner) &&
+                   IsPrivate == other.IsPrivate &&
+                   Description == other.Description &&
+                   IsFork == other.IsFork &&
+                   Url == other.Url &&
+                   CreationDate == other.CreationDate &&
+                   Language == other.Language &&
+                   Size == other.Size;
         }
+
+        // Consider overriding Object's Equals and GetHashCode methods.
     }
 }

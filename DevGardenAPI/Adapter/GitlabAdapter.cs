@@ -1,4 +1,4 @@
-﻿using Microsoft.CSharp.RuntimeBinder;
+﻿using DevGardenAPI.DTO.Gitlab;
 using Model;
 using Newtonsoft.Json;
 
@@ -6,29 +6,52 @@ namespace DevGardenAPI.Adapter
 {
     public class GitlabAdapter : PlatformAdapter
     {
-        public Repository ExtractRepositories(string rawData)
+        public List<Repository> ExtractRepositories(string rawData)
         {
-            var repository = new Repository();
-            dynamic json = JsonConvert.DeserializeObject<dynamic>(rawData);
+            var repositories = new List<Repository>();
 
             try
             {
-                repository.Name = json.name;
+                // Deserialize into the appropriate repository class
+                List<RepositoryGitlabDTO> repositoriesDTO = JsonConvert.DeserializeObject<List<RepositoryGitlabDTO>>(rawData);
+                if (repositoriesDTO == null) throw new InvalidOperationException("Deserialized data is null.");
+
+                foreach (var repoDTO in repositoriesDTO)
+                {
+                    var repository = new Repository
+                    {
+                        // Non-nested attributes
+                        Name = repoDTO.Name,
+                        Description = repoDTO.Description,
+                        IsPrivate = repoDTO.IsPrivate == "private",
+                        IsFork = repoDTO.IsFork == "enabled",
+                        Url = repoDTO.Url,
+                        CreationDate = repoDTO.CreationDate,
+
+                        // Nested attributes
+                        Size = repoDTO.NestedSize?.Size ?? 0,
+                        Owner = new Member
+                        {
+                            Name = repoDTO.NestedOwner?.Name,
+                            PhotoUrl = repoDTO.NestedOwner?.PhotoUrl
+                        }
+                    };
+
+                    repositories.Add(repository);
+                }
             }
-            catch (RuntimeBinderException e)
+            catch (JsonSerializationException ex)
             {
-                // Handle errors related to accessing non-existing properties
-                Console.WriteLine($"Error extracting property: {e.Message}");
-                throw new Exception(message: e.Message);
+                // Log the exception or throw a custom exception to indicate JSON parsing failure
+                throw new InvalidOperationException("Failed to deserialize GitLab repositories data.", ex);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // Handle other types of errors
-                Console.WriteLine($"Error extracting repositories: {e.Message}");
-                throw new Exception(message: e.Message);
+                // Handle other unforeseen errors
+                throw new InvalidOperationException("An error occurred while extracting repositories.", ex);
             }
 
-            return repository;
+            return repositories;
         }
     }
 }

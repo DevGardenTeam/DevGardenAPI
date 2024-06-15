@@ -13,6 +13,6 @@ namespace DevGardenAPI.Adapter
         /// </summary>
         /// <param name="rawData">The raw data from external the external </param>
         /// <returns></returns>
-        Repository ExtractRepositories(string rawData);
+        List<Repository> ExtractRepositories(string rawData);
     }
 }

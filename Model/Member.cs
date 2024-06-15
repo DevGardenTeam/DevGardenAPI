@@ -10,28 +10,40 @@ namespace Model
 {
     public class Member : ModelBase, IEquatable<Member>
     {
-        private string _name;
-        private string _photoUrl;
-        private List<Repository>? _repositories = new();
+        private List<Repository> _repositories = new();
 
-        [JsonProperty("login")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        [JsonProperty("avatar_url")]
-        public string PhotoUrl { get; set; }
+        public string PhotoUrl { get; set; } = string.Empty;
 
-        public ReadOnlyCollection<Repository>? Repositories { get; set; }
+        public ReadOnlyCollection<Repository> Repositories => _repositories.AsReadOnly();
 
-        public Member()
-        {
-            Name = _name;
-            PhotoUrl = _photoUrl;
-            Repositories = new ReadOnlyCollection<Repository>(_repositories);
-        }
+        public Member() { }
 
         public bool Equals(Member? other)
         {
-            throw new NotImplementedException();
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Name == other.Name && PhotoUrl == other.PhotoUrl && RepositoriesEquals(Repositories, other.Repositories);
+        }
+
+        private static bool RepositoriesEquals(ReadOnlyCollection<Repository> repos1, ReadOnlyCollection<Repository> repos2)
+        {
+            if (repos1 == null && repos2 == null) return true;
+            if (repos1 == null || repos2 == null) return false;
+            if (repos1.Count != repos2.Count) return false;
+
+            for (int i = 0; i < repos1.Count; i++)
+            {
+                if (!repos1[i].Equals(repos2[i])) return false;
+            }
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, PhotoUrl, Repositories);
         }
     }
 }

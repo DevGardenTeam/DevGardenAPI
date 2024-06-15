@@ -50,16 +50,11 @@ namespace DevGardenAPI.Managers
 
                     if (result.IsSuccessStatusCode)
                     {
-                        string json = await result.Content.ReadAsStringAsync();
+                       string json = await result.Content.ReadAsStringAsync();
 
-                        Console.Write("***** RAW API RESPONSE STRING BELOW *****\n");
-                        Console.WriteLine(json);
+                        // USE ADAPTER HERE TO DESERIALIZE
 
-                       var adapterResults = platformAdapter.ExtractRepositories(json);
-
-                        List<Repository> repositories = JsonConvert.DeserializeObject<
-                            List<Repository>
-                        >(json);
+                        List<Repository> repositories = platformAdapter.ExtractRepositories(json);
                         return repositories;
                     }
                     else
