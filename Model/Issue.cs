@@ -10,44 +10,55 @@ namespace Model
 {
     public class Issue : ModelBase, IEquatable<Issue>
     {
-        private string _title;
-        private string _body;
-        private string _state;
-        private DateTime _creationDate;
-        private Member _author;
-        private List<Label>? _labels = new();
+        private List<Label> _labels = new();
 
         [JsonProperty("title")]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         [JsonProperty("body")]
-        public string Body { get; set; }
+        public string Body { get; set; } = string.Empty;
 
         [JsonProperty("state")]
-        public string State { get; set; }
+        public string State { get; set; } = string.Empty;
 
         [JsonProperty("created_at")]
         public DateTime CreationDate { get; set; }
 
         [JsonProperty("user")]
-        public Member Author { get; set; }
+        public Member Author { get; set; } = new Member();
 
         [JsonProperty("labels")]
-        public ReadOnlyCollection<Label>? Labels { get; set; }
-
-        public Issue()
+        public List<Label> Labels
         {
-            Title = _title;
-            Body = _body;
-            State = _state;
-            CreationDate = _creationDate;
-            Author = _author;
-            Labels = new ReadOnlyCollection<Label>(_labels);
+            get => _labels;
+            set => _labels = value ?? new List<Label>();
         }
+
+        public ReadOnlyCollection<Label> ReadOnlyLabels => _labels.AsReadOnly();
+
+        public Issue() { }
 
         public bool Equals(Issue? other)
         {
-            throw new NotImplementedException();
+            if (other == null) return false;
+            return Title == other.Title && Body == other.Body && State == other.State &&
+                   CreationDate == other.CreationDate && Equals(Author, other.Author) &&
+                   LabelsEqual(Labels, other.Labels);
+        }
+
+        private static bool LabelsEqual(List<Label> labels1, List<Label> labels2)
+        {
+            if (labels1.Count != labels2.Count) return false;
+            for (int i = 0; i < labels1.Count; i++)
+            {
+                if (!labels1[i].Equals(labels2[i])) return false;
+            }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Title, Body, State, CreationDate, Author, Labels);
         }
     }
 }

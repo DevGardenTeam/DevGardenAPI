@@ -14,5 +14,12 @@ namespace DevGardenAPI.Adapter
         /// <param name="rawData">The raw data from external the external </param>
         /// <returns></returns>
         List<Repository> ExtractRepositories(string rawData);
+
+        /// <summary>
+        /// Extracts the required issue data to build a issue model object.
+        /// </summary>
+        /// <param name="rawData">The raw data from external the external </param>
+        /// <returns></returns>
+        List<Issue> ExtractIssues(string rawData);
     }
 }

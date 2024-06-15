@@ -54,5 +54,49 @@ namespace DevGardenAPI.Adapter
 
             return repositories;
         }
+
+        public List<Issue> ExtractIssues(string rawData)
+        {
+            var issues = new List<Issue>();
+
+            try
+            {
+                // Deserialize into the appropriate repository class
+                List<IssueGitlabDTO> issuesDTO = JsonConvert.DeserializeObject<List<IssueGitlabDTO>>(rawData);
+
+                if (issuesDTO == null) throw new InvalidOperationException("Deserialized data is null.");
+
+                foreach (var issueDTO in issuesDTO)
+                {
+                    var issue = new Issue
+                    {
+                        Title = issueDTO.Title,
+                        Body = issueDTO.Body,
+                        State = issueDTO.State,
+                        CreationDate = issueDTO.CreationDate,
+                        Author = new Member()
+                        {
+                            Name = issueDTO.Author.Name,
+                            PhotoUrl = issueDTO.Author.PhotoUrl
+                        },
+                        Labels = issueDTO.Labels
+                    };
+
+                    issues.Add(issue);
+                }
+            }
+            catch (JsonSerializationException ex)
+            {
+                // Log the exception or throw a custom exception to indicate JSON parsing failure
+                throw new InvalidOperationException("Failed to deserialize GitLab repositories data.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Handle other unforeseen errors
+                throw new InvalidOperationException("An error occurred while extracting repositories.", ex);
+            }
+
+            return issues;
+        }
     }
 }
