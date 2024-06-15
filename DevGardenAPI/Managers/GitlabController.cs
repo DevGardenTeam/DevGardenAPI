@@ -380,7 +380,7 @@ namespace DevGardenAPI.Managers
                     if (path != null)
                     {
                         apiUrl =
-                            $"{gitlabApiStartUrl}/projects/{repository}/repository/tree?path={path}";
+                            $"{gitlabApiStartUrl}/projects/{repository}/repository/files/{path}/raw";
                     }
                     else
                     {
