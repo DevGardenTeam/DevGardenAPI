@@ -287,9 +287,8 @@ namespace DevGardenAPI.Managers
                     {
                         var json = await result.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(json);
+                        var commits = platformAdapter.ExtractCommits(json);
 
-                        List<Commit> commits = JsonConvert.DeserializeObject<List<Commit>>(json);
                         return commits;
                     }
                     else

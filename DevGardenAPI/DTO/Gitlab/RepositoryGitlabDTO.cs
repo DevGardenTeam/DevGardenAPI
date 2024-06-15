@@ -16,7 +16,7 @@ namespace DevGardenAPI.DTO.Gitlab
         public string Name { get; set; }
 
         [JsonProperty("owner")]
-        public Owner NestedOwner { get; set; }
+        public MemberGitlabDTO NestedOwner { get; set; }
 
         [JsonProperty("security_and_compliance_access_level")]
         public string IsPrivate { get; set; }
@@ -37,17 +37,6 @@ namespace DevGardenAPI.DTO.Gitlab
 
         [JsonProperty("size")]
         public Statistics NestedSize { get; set; }
-
-        // Only exists in the repository gitlab dto class, 
-        // allows us to extract owner.name from the json schema
-        public class Owner
-        {
-            [JsonProperty("username")]
-            public string Name { get; set; }
-
-            [JsonProperty("avatar_url")]
-            public string PhotoUrl { get; set; }
-        }
 
         public class Statistics
         {

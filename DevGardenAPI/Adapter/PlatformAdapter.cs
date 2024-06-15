@@ -21,5 +21,12 @@ namespace DevGardenAPI.Adapter
         /// <param name="rawData">The raw data from external the external </param>
         /// <returns></returns>
         List<Issue> ExtractIssues(string rawData);
+
+        /// <summary>
+        /// Extracts the required commit data to build a commit model object.
+        /// </summary>
+        /// <param name="rawData">The raw data from external the external </param>
+        /// <returns></returns>
+        List<Commit> ExtractCommits(string rawData);
     }
 }

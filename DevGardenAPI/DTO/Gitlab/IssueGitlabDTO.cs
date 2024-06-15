@@ -20,7 +20,7 @@ namespace DevGardenAPI.DTO.Gitlab
         public DateTime CreationDate { get; set; }
 
         [JsonProperty("author")]
-        public IssueAuthor Author { get; set; }
+        public MemberGitlabDTO Author { get; set; }
 
         // Temporarily hold the label names
         [JsonProperty("labels")]
@@ -34,7 +34,7 @@ namespace DevGardenAPI.DTO.Gitlab
             Title = string.Empty;
             Body = string.Empty;
             State = string.Empty;
-            Author = new IssueAuthor();
+            Author = new MemberGitlabDTO();
             LabelNames = new List<string>();
             Labels = new List<Label>();
         }
@@ -44,21 +44,6 @@ namespace DevGardenAPI.DTO.Gitlab
         {
             // Convert each string label name to a Label object
             Labels = LabelNames.Select(name => new Label { Name = name }).ToList();
-        }
-
-        public class IssueAuthor
-        {
-            [JsonProperty("username")]
-            public string Name { get; set; }
-
-            [JsonProperty("avatar_url")]
-            public string PhotoUrl { get; set; }
-
-            public IssueAuthor()
-            {
-                Name = string.Empty;
-                PhotoUrl = string.Empty;
-            }
         }
     }
 }

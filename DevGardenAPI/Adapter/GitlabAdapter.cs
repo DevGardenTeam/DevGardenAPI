@@ -88,15 +88,57 @@ namespace DevGardenAPI.Adapter
             catch (JsonSerializationException ex)
             {
                 // Log the exception or throw a custom exception to indicate JSON parsing failure
-                throw new InvalidOperationException("Failed to deserialize GitLab repositories data.", ex);
+                throw new InvalidOperationException("Failed to deserialize GitLab issues data.", ex);
             }
             catch (Exception ex)
             {
                 // Handle other unforeseen errors
-                throw new InvalidOperationException("An error occurred while extracting repositories.", ex);
+                throw new InvalidOperationException("An error occurred while extracting issues.", ex);
             }
 
             return issues;
+        }
+
+        public List<Commit> ExtractCommits(string rawData)
+        {
+            var commits = new List<Commit>();
+
+            try
+            {
+                // Deserialize into the appropriate repository class
+                List<CommitGitlabDTO> commitsDTO = JsonConvert.DeserializeObject<List<CommitGitlabDTO>>(rawData);
+
+                if (commitsDTO == null) throw new InvalidOperationException("Deserialized data is null.");
+
+                foreach (var commitDTO in commitsDTO)
+                {
+                    var commit = new Commit
+                    {
+                        Sha = commitDTO.Sha,
+                        Author = new Member()
+                        {
+                            Name = commitDTO.AuthorName,
+                            PhotoUrl = string.Empty
+                        },
+                        Message = commitDTO.Message,
+                        Date = commitDTO.Date
+                    };
+
+                    commits.Add(commit);
+                }
+            }
+            catch (JsonSerializationException ex)
+            {
+                // Log the exception or throw a custom exception to indicate JSON parsing failure
+                throw new InvalidOperationException("Failed to deserialize GitLab commit data.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Handle other unforeseen errors
+                throw new InvalidOperationException("An error occurred while extracting commit.", ex);
+            }
+
+            return commits;
         }
     }
 }
