@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Model
 {
     /// <summary>
-    /// Represents a branch.
+    /// Represents a branch
     /// </summary>
     public class Branch : ModelBase, IEquatable<Branch>
     {
