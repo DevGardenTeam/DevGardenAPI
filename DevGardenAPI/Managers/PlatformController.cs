@@ -36,8 +36,7 @@ namespace DevGardenAPI.Managers
         /// <returns>Le statut de réponse de la méthode.</returns>
         public abstract Task<IActionResult> GetAllBranches(
             string owner,
-            string repository,
-            string token
+            string repository
         );
 
         /// <summary>
