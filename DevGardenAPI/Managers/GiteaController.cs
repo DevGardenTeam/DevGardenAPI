@@ -357,7 +357,8 @@ namespace DevGardenAPI.Managers
         public override async Task<IActionResult> GetAllFiles(
             string owner,
             string repository,
-            string? path = null
+            string? path = null,
+            bool isFolder = false
         )
         {
             Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllFiles)} - Starting");

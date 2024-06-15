@@ -362,7 +362,8 @@ namespace DevGardenAPI.Managers
         public override async Task<IActionResult> GetAllFiles(
             string owner,
             string repository,
-            string? path = null
+            string? path = null,
+            bool isFolder = false
         )
         {
             Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllFiles)} - Starting");
@@ -379,8 +380,16 @@ namespace DevGardenAPI.Managers
 
                     if (path != null)
                     {
-                        apiUrl =
+                        if(isFolder)
+                        {
+                            apiUrl =
+                            $"{gitlabApiStartUrl}/projects/{repository}/repository/tree?path={path}";
+                        } else
+                        {
+                            apiUrl =
                             $"{gitlabApiStartUrl}/projects/{repository}/repository/files/{path}/raw";
+                        }
+                        
                     }
                     else
                     {

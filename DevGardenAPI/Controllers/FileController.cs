@@ -35,12 +35,14 @@ namespace DevGardenAPI.Controllers
             string owner,
             string repository,
             string platform,
+            bool isFolder = false,
             string? path = null)
         {
             return await ExternalServiceManager.GetController(platform).GetAllFiles(
                 owner,
                 repository,
-                path
+                path,
+                isFolder
             );
         }
     }
