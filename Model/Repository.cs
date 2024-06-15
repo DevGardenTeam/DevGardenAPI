@@ -10,6 +10,9 @@ namespace Model
 {
     public class Repository : ModelBase, IEquatable<Repository>
     {
+        [JsonProperty("id")]
+        public double Id { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -62,15 +65,7 @@ namespace Model
         public bool Equals(Repository? other)
         {
             if (other == null) return false;
-            return Name == other.Name &&
-                   Owner.Equals(other.Owner) &&
-                   IsPrivate == other.IsPrivate &&
-                   Description == other.Description &&
-                   IsFork == other.IsFork &&
-                   Url == other.Url &&
-                   CreationDate == other.CreationDate &&
-                   Language == other.Language &&
-                   Size == other.Size;
+            return Id == Id;
         }
 
         // Consider overriding Object's Equals and GetHashCode methods.

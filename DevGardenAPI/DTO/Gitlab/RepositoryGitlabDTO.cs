@@ -9,6 +9,9 @@ namespace DevGardenAPI.DTO.Gitlab
     // DTO to Model.
     public class RepositoryGitlabDTO
     {
+        [JsonProperty("id")]
+        public double Id { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 

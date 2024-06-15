@@ -21,6 +21,7 @@ namespace DevGardenAPI.Adapter
                     var repository = new Repository
                     {
                         // Non-nested attributes
+                        Id = repoDTO.Id,
                         Name = repoDTO.Name,
                         Description = repoDTO.Description,
                         IsPrivate = repoDTO.IsPrivate == "private",

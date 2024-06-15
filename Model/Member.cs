@@ -12,8 +12,10 @@ namespace Model
     {
         private List<Repository> _repositories = new();
 
+        [JsonProperty("login")]
         public string Name { get; set; } = string.Empty;
 
+        [JsonProperty("avatar_url")]
         public string PhotoUrl { get; set; } = string.Empty;
 
         public ReadOnlyCollection<Repository> Repositories => _repositories.AsReadOnly();
