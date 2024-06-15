@@ -82,12 +82,12 @@ namespace DevGardenAPI.Controllers
                 return BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.");
             }
 
-            if (!userController.UserExists(username))
+            var user = await userController.GetUserByUsername(username);
+
+            if (user == null)
             {
                 return Unauthorized("Invalid username or password.");
             }
-
-            var user = await userController.GetUserByUsername(username);
 
             if (!BcryptAuthHandler.VerifyPassword(password, EncryptionHelper.Decrypt(user.Password)))
             {
