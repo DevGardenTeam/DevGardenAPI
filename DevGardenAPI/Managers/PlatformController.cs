@@ -36,8 +36,7 @@ namespace DevGardenAPI.Managers
         /// <returns>Le statut de réponse de la méthode.</returns>
         public abstract Task<IActionResult> GetAllBranches(
             string owner,
-            string repository,
-            string token
+            string repository
         );
 
         /// <summary>
@@ -77,6 +76,6 @@ namespace DevGardenAPI.Managers
         /// <param name="repository">Le nom du répertoire.</param>
         /// <param name="path">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllFiles(string owner, string repository, string? path);
+        public abstract Task<IActionResult> GetAllFiles(string owner, string repository, string? path, bool isFolder);
     }
 }

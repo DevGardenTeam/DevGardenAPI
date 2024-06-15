@@ -171,15 +171,14 @@ namespace DevGardenAPI.Managers
         [HttpGet]
         public override async Task<IActionResult> GetAllBranches(
             string owner,
-            string repository,
-            string token
+            string repository
         )
         {
             Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllBranches)} - Starting");
 
             try
             {
-                //string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -358,7 +357,8 @@ namespace DevGardenAPI.Managers
         public override async Task<IActionResult> GetAllFiles(
             string owner,
             string repository,
-            string? path = null
+            string? path = null,
+            bool isFolder = false
         )
         {
             Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllFiles)} - Starting");

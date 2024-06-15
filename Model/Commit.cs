@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -9,35 +11,61 @@ namespace Model
 {
     public class Commit : ModelBase, IEquatable<Commit>
     {
-        private string _sha;
-        private string? _message;
-        private DateTime? _date;
-        private Member _author;
-        private int _repositoryId;
-
         [JsonProperty("sha")]
-        public string? Sha { get; set; }
-
-        [JsonProperty("commit.message")]
-        public string? Message { get; set; }
-
-        [JsonProperty("commit.committer.date")]
-        public DateTime? Date { get; set; }
+        public string Sha { get; set; }
 
         [JsonProperty("author")]
         public Member Author { get; set; }
 
+        // gets message and date
+        [JsonProperty("commit")]
+        public NestedCommit Commiter { get; set; }
+
+        // holders
+        public string Message { get; set; }
+
+        public DateTime Date { get; set; }
+
         public Commit()
         {
-            Sha = _sha;
-            Message = _message;
-            Date = _date;
-            Author = _author;
+            Author = new Member();
+            Sha = string.Empty;
+            Message = string.Empty;
+            Date = DateTime.MinValue;
         }
 
         public bool Equals(Commit? other)
         {
-            throw new NotImplementedException();
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Sha == other.Sha;
+        }
+
+        public override int GetHashCode()
+        {
+            return (Sha != null ? Sha.GetHashCode() : 0);
+        }
+
+        [OnDeserialized]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            this.Message = this.Commiter.Message;
+            this.Date = this.Commiter.NestedCommitter.Date;
+        }
+
+        public class NestedCommit
+        {
+            [JsonProperty("message")]
+            public string Message { get; set; } = string.Empty;
+
+            [JsonProperty("committer")]
+            public NestedCommitter NestedCommitter { get; set; } = new();
+        }
+
+        public class NestedCommitter
+        {
+            [JsonProperty("date")]
+            public DateTime Date { get; set; }
         }
     }
 }

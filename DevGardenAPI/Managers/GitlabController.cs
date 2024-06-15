@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using DevGardenAPI.Adapter;
+using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Newtonsoft.Json;
@@ -12,6 +13,8 @@ namespace DevGardenAPI.Managers
     {
         private readonly string gitlabApiStartUrl = "https://gitlab.com/api/v4";
 
+        private PlatformAdapter platformAdapter;
+
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
         /// </summary>
@@ -22,6 +25,7 @@ namespace DevGardenAPI.Managers
         /// </summary>
         public GitlabController()
         {
+            this.platformAdapter = new GitlabAdapter();
             Logger = LogManager.GetLogger(typeof(GitlabController));
         }
 
@@ -46,13 +50,11 @@ namespace DevGardenAPI.Managers
 
                     if (result.IsSuccessStatusCode)
                     {
-                        var json = await result.Content.ReadAsStringAsync();
-                        
-                        Console.WriteLine(json);
+                       string json = await result.Content.ReadAsStringAsync();
 
-                        List<Repository> repositories = JsonConvert.DeserializeObject<
-                            List<Repository>
-                        >(json);
+                        // USE ADAPTER HERE TO DESERIALIZE
+
+                        List<Repository> repositories = platformAdapter.ExtractRepositories(json);
                         return repositories;
                     }
                     else
@@ -146,7 +148,9 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        List<Issue> issues = JsonConvert.DeserializeObject<List<Issue>>(json);
+
+                        var issues = platformAdapter.ExtractIssues(json);
+
                         return issues;
                     }
                     else
@@ -172,15 +176,14 @@ namespace DevGardenAPI.Managers
         [HttpGet]
         public override async Task<IActionResult> GetAllBranches(
             string owner,
-            string repository,
-            string token
+            string repository
         )
         {
             Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllBranches)} - Starting");
 
             try
             {
-                //string token = "glpat-s6wALUpYoTt_fpzywGCp";
+                string token = "glpat-s6wALUpYoTt_fpzywGCp";
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -284,9 +287,8 @@ namespace DevGardenAPI.Managers
                     {
                         var json = await result.Content.ReadAsStringAsync();
 
-                        Console.WriteLine(json);
+                        var commits = platformAdapter.ExtractCommits(json);
 
-                        List<Commit> commits = JsonConvert.DeserializeObject<List<Commit>>(json);
                         return commits;
                     }
                     else
@@ -360,7 +362,8 @@ namespace DevGardenAPI.Managers
         public override async Task<IActionResult> GetAllFiles(
             string owner,
             string repository,
-            string? path = null
+            string? path = null,
+            bool isFolder = false
         )
         {
             Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllFiles)} - Starting");
@@ -377,8 +380,16 @@ namespace DevGardenAPI.Managers
 
                     if (path != null)
                     {
-                        apiUrl =
+                        if(isFolder)
+                        {
+                            apiUrl =
                             $"{gitlabApiStartUrl}/projects/{repository}/repository/tree?path={path}";
+                        } else
+                        {
+                            apiUrl =
+                            $"{gitlabApiStartUrl}/projects/{repository}/repository/files/{path}/raw";
+                        }
+                        
                     }
                     else
                     {

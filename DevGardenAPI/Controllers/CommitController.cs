@@ -38,6 +38,7 @@ namespace DevGardenAPI.Controllers
             return await ExternalServiceManager.GetController(platform).GetAllCommits(owner, repository);
         }
 
+
         [HttpGet("GetCommit")]
         public async Task<IActionResult> GetCommit(string owner, string repository, string id, string platform)
         {
