@@ -77,33 +77,45 @@ namespace DevGardenAPI.Controllers
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                var response = new AuthentificationResponse("Le mot de passe ne peut pas être vide ou seulement des espaces.", null, null);
-                return BadRequest(response);
+                return BadRequest(new
+                {
+                    message = "Le mot de passe ne peut pas être vide ou seulement des espaces.",
+                });
             }
 
             if (string.IsNullOrWhiteSpace(username))
             {
-                var response = new AuthentificationResponse("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.", null, null);
-                return BadRequest(response);
+                return BadRequest(new
+                {
+                    message = "Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.",
+                });
             }
 
             var user = await userController.GetUserByUsername(username);
 
             if (user == null)
             {
-                var response = new AuthentificationResponse("Invalid username or password.", null, null);
-                return Unauthorized(new JsonResult(response));
+                return Unauthorized(new
+                {
+                    message = "Invalid username or password.",
+                });
             }
 
             if (!BcryptAuthHandler.VerifyPassword(password, EncryptionHelper.Decrypt(user.Password)))
             {
-                var response = new AuthentificationResponse("Invalid username or password.", null, null);
-                return Unauthorized(new JsonResult(response));
+                return Unauthorized(new
+                {
+                    message = "Invalid username or password.",
+                });
             }
 
             var userServices = await usersServiceController.GetUserServices(username);
-            var successResponse = new AuthentificationResponse("Login successful", username, userServices);
-            return Ok(successResponse);
+            return Ok(new
+            {
+                message = "Login successful",
+                username = username,
+                services = userServices
+            });
         }
 
     }
