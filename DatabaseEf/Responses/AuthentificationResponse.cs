@@ -8,19 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatabaseEf.Responses
 {
-    public class AuthentificationResponse
+    public class AuthentificationResponse(String actionResult, string? username, List<UserService>? services)
     {
-        public readonly IActionResult actionResult;
+        public readonly String actionResult = actionResult;
 
-        public readonly String? username;
+        public readonly String? username = username;
 
-        public readonly List<UserService>? services;
-
-        public AuthentificationResponse(IActionResult actionResult, string? username, List<UserService>? services)
-        {
-            this.actionResult = actionResult;
-            this.username = username;
-            this.services = services;
-        }
+        public readonly List<UserService>? services = services;
     }
 }

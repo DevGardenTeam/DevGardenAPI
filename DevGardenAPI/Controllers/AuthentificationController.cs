@@ -70,34 +70,40 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<AuthentificationResponse> Login(string username, string password)
+        public async Task<IActionResult> Login(string username, string password)
         {
             username = BcryptAuthHandler.CleanUsername(username);
             password = BcryptAuthHandler.CleanPassword(password);
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                return new AuthentificationResponse(BadRequest("Le mot de passe ne peut pas être vide ou seulement des espaces."), null, null);
+                var response = new AuthentificationResponse("Le mot de passe ne peut pas être vide ou seulement des espaces.", null, null);
+                return BadRequest(response);
             }
 
             if (string.IsNullOrWhiteSpace(username))
             {
-                return new AuthentificationResponse(BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces."), null, null);
+                var response = new AuthentificationResponse("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.", null, null);
+                return BadRequest(response);
             }
 
             var user = await userController.GetUserByUsername(username);
 
             if (user == null)
             {
-                return new AuthentificationResponse(Unauthorized("Invalid username or password."), null, null);
+                var response = new AuthentificationResponse("Invalid username or password.", null, null);
+                return Unauthorized(new JsonResult(response));
             }
 
             if (!BcryptAuthHandler.VerifyPassword(password, EncryptionHelper.Decrypt(user.Password)))
             {
-                return new AuthentificationResponse(Unauthorized("Invalid username or password."), null, null);
+                var response = new AuthentificationResponse("Invalid username or password.", null, null);
+                return Unauthorized(new JsonResult(response));
             }
 
-            return new AuthentificationResponse(Ok("Login succesful"), username, await usersServiceController.GetUserServices(username));
+            var userServices = await usersServiceController.GetUserServices(username);
+            var successResponse = new AuthentificationResponse("Login successful", username, userServices);
+            return Ok(successResponse);
         }
 
     }
