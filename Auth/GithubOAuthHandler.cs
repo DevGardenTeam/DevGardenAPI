@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
+using System.Text.Json;
 
 namespace Auth
 {
@@ -41,6 +42,8 @@ namespace Auth
 
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
+                    _logger.LogCritical("REQUEST BODY = > " + JsonSerializer.Serialize(requestBody));
+
                     var response = await httpClient.PostAsync("https://github.com/login/oauth/access_token", requestBody);
 
                     _logger.LogCritical("RESPONSE RAW = > " + response.ToString());
