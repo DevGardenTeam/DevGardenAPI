@@ -1,12 +1,8 @@
 ﻿using Auth;
 using Microsoft.AspNetCore.Mvc;
-using log4net;
-using DevGardenAPI.Managers;
 using DatabaseEf;
 using DatabaseEf.Entities;
-using Microsoft.EntityFrameworkCore;
 using DatabaseEf.Controller;
-using DatabaseEf.Responses;
 
 namespace DevGardenAPI.Controllers
 {
