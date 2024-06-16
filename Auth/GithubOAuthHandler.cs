@@ -42,7 +42,8 @@ namespace Auth
 
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
-                    _logger.LogCritical("REQUEST BODY = > " + JsonSerializer.Serialize(requestBody));
+                    var contentString = await requestBody.ReadAsStringAsync();
+                    _logger.LogCritical("REQUEST BODY => " + contentString);
 
                     var response = await httpClient.PostAsync("https://github.com/login/oauth/access_token", requestBody);
 
