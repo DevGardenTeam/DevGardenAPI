@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using DatabaseEf;
 using DatabaseEf.Entities;
 using DatabaseEf.Controller;
+using DatabaseEf.Entities.Enums;
 
 namespace DevGardenAPI.Controllers
 {
@@ -106,12 +107,20 @@ namespace DevGardenAPI.Controllers
             }
 
             var userServices = await usersServiceController.GetUserServices(username);
-            return Ok(new
+
+            var serviceStatuses = new Dictionary<string, bool>();
+
+            foreach (var serviceName in Enum.GetValues(typeof(ServiceName)))
             {
-                isLogin = true,
-                username = username,
-                services = userServices
-            });
+                // Check if the user has this service
+                bool hasService = user.UserServices.Any(s => s.ServiceName.ToString().Equals(serviceName.ToString(), StringComparison.OrdinalIgnoreCase));
+
+                // Add the result to the dictionary
+                serviceStatuses.Add(serviceName.ToString().ToLower(), hasService);
+            }
+
+            // Return the modified response
+            return Ok(new { isLogin = true, username = username, services = serviceStatuses });
         }
 
     }
