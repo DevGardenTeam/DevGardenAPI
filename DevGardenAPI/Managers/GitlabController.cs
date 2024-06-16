@@ -197,7 +197,17 @@ namespace DevGardenAPI.Managers
                     if (result.IsSuccessStatusCode)
                     {
                         var json = await result.Content.ReadAsStringAsync();
-                        return Ok(json);
+
+                        // create a list of branches
+                        var branches = JsonConvert.DeserializeObject<List<Branch>>(json);
+
+                        foreach (var branch in branches)
+                        {
+                            var commits = await this.GetAllCommits(owner, repository, branch.Name);
+                            branch.Commits = commits;
+                        }
+
+                        return Ok(branches);
                     }
                     else
                     {
@@ -267,7 +277,7 @@ namespace DevGardenAPI.Managers
         }
 
         [HttpGet]
-        public override async Task<List<Commit>> GetAllCommits(string owner, string repository)
+        public override async Task<List<Commit>> GetAllCommits(string owner, string repository, string? branch)
         {
             Logger.Debug($"{nameof(GitlabController)} - {nameof(GetAllCommits)} - Starting");
 
@@ -279,7 +289,15 @@ namespace DevGardenAPI.Managers
                 {
                     client.DefaultRequestHeaders.Add("Private-Token", token);
 
-                    string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/commits";
+                    string apiUrl = string.Empty;
+                    if(branch !=null)
+                    {
+                        apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/commits";
+                    }
+                    else
+                    {
+                        apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/commits?ref_name={branch}";
+                    }
 
                     HttpResponseMessage result = await client.GetAsync(apiUrl);
 

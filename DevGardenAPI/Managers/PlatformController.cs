@@ -58,7 +58,7 @@ namespace DevGardenAPI.Managers
         /// <param name="owner">L'identifiant du propriétaire du répertoire.</param>
         /// <param name="repository">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<List<Commit>> GetAllCommits(string owner, string repository);
+        public abstract Task<List<Commit>> GetAllCommits(string owner, string repository, string? branch = null);
 
         /// <summary>
         /// Récupérer les détails d'un commit d'un répertoire de l'utilisateur connecté.

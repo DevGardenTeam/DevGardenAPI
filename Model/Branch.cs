@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,24 +11,11 @@ namespace Model
     /// <summary>
     /// Represents a branch
     /// </summary>
-    public class Branch : ModelBase, IEquatable<Branch>
+    public class Branch : ModelBase
     {
-        private string _name;
-        private List<Commit> _commits = new();
+       [JsonProperty("name")]
+       public string Name { get; set; } = string.Empty;
 
-        public string Name { get; set; }
-
-        public ReadOnlyCollection<Commit> Commits { get; set; }
-
-        public Branch()
-        {
-            Name = _name;
-            Commits = new ReadOnlyCollection<Commit>(_commits);
-        }
-
-        public bool Equals(Branch? other)
-        {
-            throw new NotImplementedException();
-        }
+       public List<Commit> Commits { get; set; } = new List<Commit>();
     }
 }
