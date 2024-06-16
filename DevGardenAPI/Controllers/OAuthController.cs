@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Auth;
+using DatabaseEf;
+using DatabaseEf.Controller;
+using DatabaseEf.Entities.Enums;
+using DatabaseEf.Entities;
 
 namespace DevGardenAPI.Controllers
 {
@@ -11,14 +15,16 @@ namespace DevGardenAPI.Controllers
     public class OAuthController : ControllerBase
     {
         private readonly IOAuthHandlerFactory _oauthHandlerFactory;
+        private readonly UsersController userController;
 
-        public OAuthController(IOAuthHandlerFactory oauthHandlerFactory)
+        public OAuthController(IOAuthHandlerFactory oauthHandlerFactory, DataContext context)
         {
             _oauthHandlerFactory = oauthHandlerFactory;
+            userController = new UsersController(context);
         }
 
         [HttpPost("token")]
-        public async Task<IActionResult> ExchangeToken([FromBody] TokenRequest request, [FromQuery] string platform)
+        public async Task<IActionResult> ExchangeToken([FromBody] TokenRequest request, [FromQuery] string platform, string username)
         {
             // create the appropriate instance of the oauth handler class depending on the given platform
             var oauthHandler = _oauthHandlerFactory.CreateHandler(platform);
@@ -31,11 +37,27 @@ namespace DevGardenAPI.Controllers
                 // return a json with the token if successfull
                 Console.WriteLine("token :  " + token);
 
-                return Ok(new { access_token = token });
+                if (!Enum.TryParse(platform, true, out ServiceName servicename))
+                {
+                    return BadRequest("Invalid service name");
+                }
+
+                // create a new service instance with the token
+                var newService = new UserService
+                {
+                    AccessToken = token,
+                    ServiceName = servicename
+                };
+
+                // add the service to the user in the database
+                var result = await userController.AddService(username, newService);
+
+                // return the result
+                return Ok(new { isLinked = result });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal Server Error");
+                return StatusCode(500, $"Internal Server Error : '{ex.Message}");
             }
         }
 
