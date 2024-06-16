@@ -42,6 +42,9 @@ namespace Auth
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
                     var response = await httpClient.PostAsync("https://github.com/login/oauth/access_token", requestBody);
+
+                    _logger.LogCritical("RESPONSE RAW = > " + response.ToString());
+
                     response.EnsureSuccessStatusCode();
 
                     var responseContent = await response.Content.ReadAsStringAsync();
