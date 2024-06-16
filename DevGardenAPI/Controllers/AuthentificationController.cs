@@ -108,7 +108,7 @@ namespace DevGardenAPI.Controllers
             var userServices = await usersServiceController.GetUserServices(username);
             return Ok(new
             {
-                message = "Login successful",
+                isLogin = true,
                 username = username,
                 services = userServices
             });

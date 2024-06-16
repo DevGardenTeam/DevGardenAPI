@@ -51,6 +51,37 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ExternalServiceManager>();
 builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
 
+// Client and Id secret config
+builder.Services.Configure<OAuthClientOptions>(options =>
+{
+    //or use -> var ClientIdEnv = Environment.GetEnvironmentVariable("GithubClientId");
+
+    // get github values
+    var GihubClientId = builder.Configuration["GithubClientId"];
+    var GithubClientSecret = builder.Configuration["GithubClientSecret"];
+
+    // get gitlab values
+    var GitlabClientId = builder.Configuration["GitlabClientId"];
+    var GitlabClientSecret = builder.Configuration["GitlabClientSecret"];
+
+    // get gitea values
+    var GiteaClientId = builder.Configuration["GiteaClientId"];
+    var GiteaClientSecret = builder.Configuration["GiteaClientSecret"];
+
+    options.ClientIds = new Dictionary<string, string>
+    {
+        { "github", GihubClientId },
+        { "gitlab", GitlabClientId },
+        { "gitea", GiteaClientId }
+    };
+
+    options.ClientSecrets = new Dictionary<string, string>
+    {
+        { "github", GithubClientSecret },
+        { "gitlab", GitlabClientSecret },
+        { "gitea", GiteaClientSecret }
+    };
+});
 
 var app = builder.Build();
 
