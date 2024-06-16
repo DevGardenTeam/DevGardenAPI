@@ -50,6 +50,10 @@ steps:
       CODEFIRST_CLIENTDRONE_ENV_key:
         from_secret: key
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
+      when:
+        branch:
+        - master
+        - tokens
     depends_on: [docker-build-and-push]
 
   - name: deploy-container-postgres
@@ -70,5 +74,5 @@ steps:
       ADMINS : nicolasfranco,brunoda_costa_cunha,loubroda,timlevadoux
     when:
       branch:
-      - master  
+      - master
     depends_on: [deploy-container]
