@@ -49,6 +49,18 @@ steps:
         from_secret: db_connection_string
       CODEFIRST_CLIENTDRONE_ENV_key:
         from_secret: key
+      CODEFIRST_CLIENTDRONE_ENV_GiteaClientId:
+        from_secret: giteaclientid
+      CODEFIRST_CLIENTDRONE_ENV_GiteaClientSecret:
+        from_secret: giteaclientsecret
+      CODEFIRST_CLIENTDRONE_ENV_GithubClientId:
+        from_secret: githubclientid
+      CODEFIRST_CLIENTDRONE_ENV_GithubClientSecret:
+        from_secret: githubclientsecret
+      CODEFIRST_CLIENTDRONE_ENV_GitlabClientId:
+        from_secret: gitlabclientid
+      CODEFIRST_CLIENTDRONE_ENV_GitlabClientSecret:
+        from_secret: gitlabclientsecret
       ADMINS: nicolasfranco,loubroda,timlevadoux,brunoda_costa_cunha
       when:
         branch:
