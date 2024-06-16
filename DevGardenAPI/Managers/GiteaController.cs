@@ -285,7 +285,7 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
                     string apiUrl = string.Empty;
-                    if (branch != null)
+                    if (branch == null)
                     {
                         apiUrl = $"https://gitea.com/api/v1/repos/{owner}/{repository}/commits";
                     }

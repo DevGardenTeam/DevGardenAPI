@@ -290,7 +290,7 @@ namespace DevGardenAPI.Managers
 
                     string apiUrl = string.Empty;
 
-                    if (branch != null)
+                    if (branch == null)
                     {
                         apiUrl = $"https://api.github.com/repos/{owner}/{repository}/commits";
                     } 

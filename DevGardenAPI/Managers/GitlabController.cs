@@ -290,7 +290,7 @@ namespace DevGardenAPI.Managers
                     client.DefaultRequestHeaders.Add("Private-Token", token);
 
                     string apiUrl = string.Empty;
-                    if(branch !=null)
+                    if(branch == null)
                     {
                         apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/repository/commits";
                     }
