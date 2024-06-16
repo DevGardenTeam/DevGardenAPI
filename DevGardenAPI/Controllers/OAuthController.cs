@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Auth;
+using DatabaseEf;
+using DatabaseEf.Controller;
+using DatabaseEf.Entities.Enums;
+using DatabaseEf.Entities;
 
 namespace DevGardenAPI.Controllers
 {
@@ -11,8 +15,9 @@ namespace DevGardenAPI.Controllers
     public class OAuthController : ControllerBase
     {
         private readonly IOAuthHandlerFactory _oauthHandlerFactory;
+        private readonly UsersController userController;
 
-        public OAuthController(IOAuthHandlerFactory oauthHandlerFactory)
+        public OAuthController(IOAuthHandlerFactory oauthHandlerFactory, DataContext context)
         {
             _oauthHandlerFactory = oauthHandlerFactory;
         }
@@ -29,6 +34,18 @@ namespace DevGardenAPI.Controllers
                 string token = await oauthHandler.ExchangeToken(request);
                 // return a json with the token if successfull
                 Console.WriteLine("token :  " + token);
+
+                if (!Enum.TryParse<ServiceName>(platform, true, out ServiceName servicename))
+                {
+                    return BadRequest("Invalid service name");
+                }
+
+                var newService = new UserService
+                {
+                    AccessToken = token,
+                    ServiceName = servicename
+                };
+                await userController.AddService("username", newService);
                 return Ok(new { access_token = token });
             }
             catch (Exception ex)
