@@ -6,6 +6,7 @@ using DatabaseEf;
 using DatabaseEf.Entities;
 using Microsoft.EntityFrameworkCore;
 using DatabaseEf.Controller;
+using DatabaseEf.Responses;
 
 namespace DevGardenAPI.Controllers
 {
@@ -13,11 +14,13 @@ namespace DevGardenAPI.Controllers
     [Route("api/[controller]")]
     public class AuthentificationController: ControllerBase
     {
-        public UsersController userController;
+        private readonly UsersController userController;
+        private readonly UsersServiceController usersServiceController;
 
         public AuthentificationController(DataContext context)
         {
             userController = new UsersController(context);
+            usersServiceController = new UsersServiceController(context);
         }
 
         [HttpPost("register")]
@@ -67,34 +70,34 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<AuthentificationResponse> Login(string username, string password)
         {
             username = BcryptAuthHandler.CleanUsername(username);
             password = BcryptAuthHandler.CleanPassword(password);
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                return BadRequest("Le mot de passe ne peut pas être vide ou seulement des espaces.");
+                return new AuthentificationResponse(BadRequest("Le mot de passe ne peut pas être vide ou seulement des espaces."), null, null);
             }
 
             if (string.IsNullOrWhiteSpace(username))
             {
-                return BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.");
+                return new AuthentificationResponse(BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces."), null, null);
             }
 
             var user = await userController.GetUserByUsername(username);
 
             if (user == null)
             {
-                return Unauthorized("Invalid username or password.");
+                return new AuthentificationResponse(Unauthorized("Invalid username or password."), null, null);
             }
 
             if (!BcryptAuthHandler.VerifyPassword(password, EncryptionHelper.Decrypt(user.Password)))
             {
-                return Unauthorized("Invalid username or password.");
+                return new AuthentificationResponse(Unauthorized("Invalid username or password."), null, null);
             }
 
-            return Ok("Login successful.");
+            return new AuthentificationResponse(Ok("Login succesful"), username, await usersServiceController.GetUserServices(username));
         }
 
     }
