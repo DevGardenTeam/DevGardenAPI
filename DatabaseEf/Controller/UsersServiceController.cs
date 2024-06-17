@@ -1,4 +1,5 @@
 ﻿using DatabaseEf.Entities;
+using DatabaseEf.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
@@ -36,14 +37,14 @@ namespace DatabaseEf.Controller
             return userServices;
         }
 
-        public async Task<UserService> GetService(string username,ServiceName service){
+        public async Task<UserService?> GetService(string username,ServiceName service){
             var userController = new UsersController(_context);
 
             var result = await userController.GetUserId(username);
 
             if (result == -1)
             {
-                return [];
+                return null;
             }
 
             var userService = await _context.UserServices
