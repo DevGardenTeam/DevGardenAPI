@@ -15,7 +15,7 @@ namespace DevGardenAPI.Controllers
     public class OAuthController : ControllerBase
     {
         private readonly IOAuthHandlerFactory _oauthHandlerFactory;
-        private readonly UsersController userController;
+        public UsersController userController;
 
         public OAuthController(IOAuthHandlerFactory oauthHandlerFactory, DataContext context)
         {
@@ -23,7 +23,7 @@ namespace DevGardenAPI.Controllers
             userController = new UsersController(context);
         }
 
-        [HttpPost("token")]
+        [HttpPost("token/exchange")]
         public async Task<IActionResult> ExchangeToken([FromBody] TokenRequest request, [FromQuery] string platform, string username)
         {
             // create the appropriate instance of the oauth handler class depending on the given platform
@@ -61,10 +61,20 @@ namespace DevGardenAPI.Controllers
             }
         }
 
-        [HttpGet("test")]
-        public async Task<string> GetTest()
+        [HttpGet("tokens")]
+        public async Task<IActionResult> GetAccessTokens(string username)
         {
-            return "test";
+            Dictionary<string, string> tokens = new Dictionary<string, string>();
+
+            var githubToken = await this.userController.GetService(username, ServiceName.github);
+            var gitlabToken = await this.userController.GetService(username, ServiceName.gitea);
+            var giteaToken = await this.userController.GetService(username, ServiceName.gitlab);
+
+            if (githubToken != null) tokens.Add("github", githubToken.AccessToken);
+            if (gitlabToken != null) tokens.Add("gitlab", gitlabToken.AccessToken);
+            if (giteaToken != null) tokens.Add("gitea", giteaToken.AccessToken);
+
+            return Ok(new { tokens = tokens } );
         }
     }
 }

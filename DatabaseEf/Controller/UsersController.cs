@@ -96,5 +96,40 @@ namespace DatabaseEf.Controller
         {
             return _context.Users.Any(e => e.Username == username);
         }
+
+        public async Task<List<UserService>> GetUserServices(string username)
+        {
+            var userController = new UsersController(_context);
+
+            var result = await userController.GetUserId(username);
+
+            if (result == -1)
+            {
+                throw new Exception("Failed to found the user on the database");
+            }
+
+            var userServices = await _context.UserServices
+                                             .Where(us => us.UserId == result)
+                                             .ToListAsync();
+
+            return userServices;
+        }
+
+        public async Task<UserService?> GetService(string username, ServiceName service)
+        {
+            var userController = new UsersController(_context);
+
+            var result = await userController.GetUserId(username);
+
+            if (result == -1)
+            {
+                throw new Exception("Failed to found the user on the database");
+            }
+
+            var userService = await _context.UserServices
+                                             .SingleOrDefaultAsync(us => us.UserId == result && us.ServiceName == service);
+
+            return userService;
+        }
     }
 }

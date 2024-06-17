@@ -1,4 +1,5 @@
 ﻿using DatabaseEf.Entities;
+using DatabaseEf.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
@@ -26,7 +27,7 @@ namespace DatabaseEf.Controller
 
             if (result == -1)
             {
-                return [];
+                throw new Exception("Failed to found the user on the database");
             }
 
             var userServices = await _context.UserServices
@@ -36,18 +37,23 @@ namespace DatabaseEf.Controller
             return userServices;
         }
 
-        public async Task<UserService> GetService(string username,ServiceName service){
+        public async Task<UserService> GetService(string username, ServiceName service){
             var userController = new UsersController(_context);
 
             var result = await userController.GetUserId(username);
 
             if (result == -1)
             {
-                return [];
+                throw new Exception("Failed to found the user on the database");
             }
 
             var userService = await _context.UserServices
                                              .SingleOrDefaultAsync(us => us.UserId == result && us.ServiceName == service);
+
+            if(userService == null)
+            {
+                throw new Exception("Failed to retrieve the user's service for: " + service.ToString());
+            }
 
             return userService;
         }

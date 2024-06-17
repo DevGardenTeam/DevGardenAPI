@@ -17,19 +17,19 @@ namespace DevGardenAPI.Controllers
     {
         public UsersController userController;
 
-        public UsersServiceController usersServiceController;
+        public UsersServiceController UsersServiceController { get; set; }
 
         public UserController(DataContext context)
         {
             userController = new UsersController(context);
-            usersServiceController = new UsersServiceController(context);
+            UsersServiceController = new UsersServiceController(context);
         }
 
         [HttpGet("getServices")]
         public async Task<List<UserService>> GetUserServices(string username)
         {
 
-            var listUserService = await usersServiceController.GetUserServices(username);
+            var listUserService = await UsersServiceController.GetUserServices(username);
 
             return listUserService;
         }
