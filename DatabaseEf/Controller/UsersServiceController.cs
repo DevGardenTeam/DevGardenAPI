@@ -35,6 +35,21 @@ namespace DatabaseEf.Controller
 
             return userServices;
         }
-    
+
+        public async Task<UserService> GetService(string username,ServiceName service){
+            var userController = new UsersController(_context);
+
+            var result = await userController.GetUserId(username);
+
+            if (result == -1)
+            {
+                return [];
+            }
+
+            var userService = await _context.UserServices
+                                             .SingleOrDefaultAsync(us => us.UserId == result && us.ServiceName == service);
+
+            return userService;
+        }
     }
 }
