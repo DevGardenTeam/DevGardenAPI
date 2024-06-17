@@ -4,6 +4,8 @@ using DatabaseEf;
 using DatabaseEf.Entities;
 using DatabaseEf.Controller;
 using DatabaseEf.Entities.Enums;
+using Microsoft.AspNetCore.Identity.Data;
+using DevGardenAPI.DTO;
 
 namespace DevGardenAPI.Controllers
 {
@@ -21,25 +23,16 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(string username, string password)
+        public async Task<IActionResult> RegisterAsync([FromBody] AuthenRequest request)
         {
-            username = BcryptAuthHandler.CleanUsername(username);
-            password = BcryptAuthHandler.CleanPassword(password);
-
-            if (string.IsNullOrWhiteSpace(password))
+            
+            if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
             {
-                return BadRequest("Le mot de passe ne peut pas être vide ou seulement des espaces.");
+                return BadRequest("Veuillez remplir tous les champs !");
             }
 
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                return BadRequest("Le nom d'utilisateur ne peut pas être vide ou seulement des espaces.");
-            }
-
-            if (!BcryptAuthHandler.IsPasswordComplexEnough(password))
-            {
-                return BadRequest("Le mot de passe n'est pas assez long ou ne comporte pas les caractères nécessaires. (12 charactères avec minuscule, majuscule, chiffre, caratère spécial)");
-            }
+            var username = BcryptAuthHandler.CleanUsername(request.Username);
+            var password = BcryptAuthHandler.CleanPassword(request.Password);
 
             string cryptedPassword = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(password));
 
@@ -67,10 +60,16 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login([FromBody] AuthenRequest request)
         {
-            username = BcryptAuthHandler.CleanUsername(username);
-            password = BcryptAuthHandler.CleanPassword(password);
+
+            if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest("Veuillez remplir tous les champs !");
+            }
+
+            var username = BcryptAuthHandler.CleanUsername(request.Username);
+            var password = BcryptAuthHandler.CleanPassword(request.Password);
 
             if (string.IsNullOrWhiteSpace(password))
             {
