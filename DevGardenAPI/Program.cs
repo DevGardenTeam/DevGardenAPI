@@ -48,8 +48,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // DI Configuration 
-builder.Services.AddSingleton<ExternalServiceManager>();
+builder.Services.AddScoped<ExternalServiceManager>();
 builder.Services.AddSingleton<IOAuthHandlerFactory, OAuthHandlerFactory>();
+
+// In memory caching
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<TokenService>();
 
 // Client and Id secret config
 builder.Services.Configure<OAuthClientOptions>(options =>

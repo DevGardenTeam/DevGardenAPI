@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using DatabaseEf;
+using Model;
 
 namespace DevGardenAPI.Managers
 {
@@ -28,9 +29,9 @@ namespace DevGardenAPI.Managers
         Dictionary<string, PlatformController> PlatformAccessor { get; set; }
 
 
-        public ExternalServiceManager() 
+        public ExternalServiceManager(TokenService tokenService) 
         {
-            GithubController = new GithubController();
+            GithubController = new GithubController(tokenService);
             GitlabController = new GitlabController();
             GiteaController = new GiteaController();
 

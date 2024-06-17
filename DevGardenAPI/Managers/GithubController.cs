@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using System.Text;
+using DatabaseEf;
+using DatabaseEf.Entities.Enums;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -17,12 +19,17 @@ namespace DevGardenAPI.Managers
         /// </summary>
         protected ILog Logger { get; set; }
 
+        private readonly TokenService _tokenService;
+
+        const ServiceName serviceName = ServiceName.github;
+
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="GithubController"/>.
         /// </summary>
-        public GithubController()
+        public GithubController(TokenService tokenService)
         {
             Logger = LogManager.GetLogger(typeof(GithubController));
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -34,7 +41,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "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";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -133,7 +140,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "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";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -181,7 +188,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "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";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -282,7 +289,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "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";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -391,7 +398,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "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";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {

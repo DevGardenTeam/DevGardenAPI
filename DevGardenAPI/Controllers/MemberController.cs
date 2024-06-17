@@ -1,4 +1,5 @@
-﻿using DevGardenAPI.Managers;
+﻿using DatabaseEf;
+using DevGardenAPI.Managers;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,15 +20,15 @@ namespace DevGardenAPI.Controllers
         /// <summary>
         /// Obtient le manager du service utilisé.
         /// </summary>
-        public ExternalServiceManager ExternalServiceManager { get; } =
-            new ExternalServiceManager();
+        public ExternalServiceManager ExternalServiceManager { get; }
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="MemberController"/>.
         /// </summary>
-        public MemberController()
+        public MemberController(TokenService tokenService)
         {
             Logger = LogManager.GetLogger(typeof(MemberController));
+            ExternalServiceManager = new ExternalServiceManager(tokenService);
         }
     }
 }
