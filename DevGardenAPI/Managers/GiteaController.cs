@@ -24,7 +24,7 @@ namespace DevGardenAPI.Managers
         }
 
         [HttpGet]
-        public override async Task<List<Repository>> GetAllRepositories()
+        public override async Task<List<Repository>> GetAllRepositories(string dgUsername)
         {
             Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllRepositories)} - Starting");
 
@@ -125,7 +125,7 @@ namespace DevGardenAPI.Managers
         }
 
         [HttpGet]
-        public override async Task<List<Issue>> GetAllIssues(string owner, string repository)
+        public override async Task<List<Issue>> GetAllIssues(string dgUsername, string owner, string repository)
         {
             Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllIssues)} - Starting");
 
@@ -170,6 +170,7 @@ namespace DevGardenAPI.Managers
 
         [HttpGet]
         public override async Task<IActionResult> GetAllBranches(
+            string dgUsername,
             string owner,
             string repository
         )
@@ -198,7 +199,7 @@ namespace DevGardenAPI.Managers
 
                         foreach (var branch in branches)
                         {
-                            var commits = await this.GetAllCommits(owner, repository, branch.Name);
+                            var commits = await this.GetAllCommits(dgUsername, owner, repository, branch.Name);
                             branch.Commits = commits;
                         }
 
@@ -271,7 +272,7 @@ namespace DevGardenAPI.Managers
         }
 
         [HttpGet]
-        public override async Task<List<Commit>> GetAllCommits(string owner, string repository, string? branch)
+        public override async Task<List<Commit>> GetAllCommits(string dgUsername, string owner, string repository, string? branch)
         {
             Logger.Debug($"{nameof(GiteaController)} - {nameof(GetAllCommits)} - Starting");
 
@@ -373,6 +374,7 @@ namespace DevGardenAPI.Managers
 
         [HttpGet]
         public override async Task<IActionResult> GetAllFiles(
+            string dgUsername,
             string owner,
             string repository,
             string? path = null,

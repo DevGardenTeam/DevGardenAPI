@@ -33,9 +33,9 @@ namespace DevGardenAPI.Controllers
         }
          
         [HttpGet("GetAllCommits")]
-        public async Task<List<Commit>> GetAllCommits(string owner, string repository, string platform)
+        public async Task<List<Commit>> GetAllCommits(string dgUsername, string owner, string repository, string platform)
         {
-            return await ExternalServiceManager.GetController(platform).GetAllCommits(owner, repository);
+            return await ExternalServiceManager.GetController(platform).GetAllCommits(dgUsername, owner, repository);
         }
 
 

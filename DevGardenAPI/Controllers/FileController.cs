@@ -32,6 +32,7 @@ namespace DevGardenAPI.Controllers
 
         [HttpGet("GetAllFiles")]
         public async Task<IActionResult> GetAllFiles(
+            string dgUsername,
             string owner,
             string repository,
             string platform,
@@ -39,6 +40,7 @@ namespace DevGardenAPI.Controllers
             string? path = null)
         {
             return await ExternalServiceManager.GetController(platform).GetAllFiles(
+                dgUsername,
                 owner,
                 repository,
                 path,

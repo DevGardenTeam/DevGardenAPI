@@ -12,7 +12,7 @@ namespace DevGardenAPI.Managers
         /// Récupérer l'ensemble des répertoires de l'utilisateur connecté.
         /// </summary>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<List<Repository>> GetAllRepositories();
+        public abstract Task<List<Repository>> GetAllRepositories(string dgUsername);
 
         /// <summary>
         /// Récupérer les détails de l'actuel répertoire de l'utilisateur connecté.
@@ -26,7 +26,7 @@ namespace DevGardenAPI.Managers
         /// Récupérer l'ensemble des issues de l'utilisateur connecté.
         /// </summary>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<List<Issue>> GetAllIssues(string owner, string repository);
+        public abstract Task<List<Issue>> GetAllIssues(string dgUsername, string owner, string repository);
 
         /// <summary>
         /// Récupérer l'ensemble des branches d'un répertoire de l'utilisateur connecté.
@@ -35,6 +35,7 @@ namespace DevGardenAPI.Managers
         /// <param name="repository">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
         public abstract Task<IActionResult> GetAllBranches(
+            string dgUsername,
             string owner,
             string repository
         );
@@ -58,7 +59,7 @@ namespace DevGardenAPI.Managers
         /// <param name="owner">L'identifiant du propriétaire du répertoire.</param>
         /// <param name="repository">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<List<Commit>> GetAllCommits(string owner, string repository, string? branch = null);
+        public abstract Task<List<Commit>> GetAllCommits(string dgUsername, string owner, string repository, string? branch = null);
 
         /// <summary>
         /// Récupérer les détails d'un commit d'un répertoire de l'utilisateur connecté.
@@ -76,6 +77,6 @@ namespace DevGardenAPI.Managers
         /// <param name="repository">Le nom du répertoire.</param>
         /// <param name="path">Le nom du répertoire.</param>
         /// <returns>Le statut de réponse de la méthode.</returns>
-        public abstract Task<IActionResult> GetAllFiles(string owner, string repository, string? path, bool isFolder);
+        public abstract Task<IActionResult> GetAllFiles(string dgUsername, string owner, string repository, string? path, bool isFolder);
     }
 }

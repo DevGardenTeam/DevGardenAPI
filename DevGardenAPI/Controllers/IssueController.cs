@@ -32,9 +32,10 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpGet("GetAllIssues")]
-        public async Task<List<Issue>> GetAllIssues(string owner, string repository, string platform)
+        public async Task<List<Issue>> GetAllIssues(string dgUsername, string owner, string repository, string platform)
         {
             return await ExternalServiceManager.GetController(platform).GetAllIssues(
+                dgUsername,
                 owner,
                 repository
             );
