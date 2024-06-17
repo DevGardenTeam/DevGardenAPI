@@ -34,6 +34,8 @@ namespace DevGardenAPI.Controllers
             var username = BcryptAuthHandler.CleanUsername(request.Username);
             var password = BcryptAuthHandler.CleanPassword(request.Password);
 
+            Console.WriteLine(username + " " + password);
+
             string cryptedPassword = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(password));
 
             if(userController.UserExists(username))

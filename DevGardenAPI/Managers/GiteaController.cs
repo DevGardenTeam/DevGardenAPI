@@ -1,4 +1,6 @@
-﻿using log4net;
+﻿using DatabaseEf;
+using DatabaseEf.Entities.Enums;
+using log4net;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using Newtonsoft.Json;
@@ -15,12 +17,17 @@ namespace DevGardenAPI.Managers
         /// </summary>
         protected ILog Logger { get; set; }
 
+        private readonly TokenService _tokenService;
+        const ServiceName serviceName = ServiceName.gitea;
+
+
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="GiteaController"/>.
         /// </summary>
-        public GiteaController()
+        public GiteaController(TokenService tokenService)
         {
             Logger = LogManager.GetLogger(typeof(GiteaController));
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -30,7 +37,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -131,7 +138,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -179,7 +186,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -385,7 +392,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {

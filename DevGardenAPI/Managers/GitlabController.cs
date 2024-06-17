@@ -1,4 +1,5 @@
 ﻿using DatabaseEf;
+using DatabaseEf.Entities.Enums;
 using DevGardenAPI.Adapter;
 using log4net;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,9 @@ namespace DevGardenAPI.Managers
         private readonly string gitlabApiStartUrl = "https://gitlab.com/api/v4";
 
         private PlatformAdapter platformAdapter;
+        private readonly TokenService _tokenService;
+
+        const ServiceName serviceName = ServiceName.gitlab;
 
         /// <summary>
         /// Obtient ou définit le gestionnaire de log.
@@ -24,10 +28,11 @@ namespace DevGardenAPI.Managers
         /// <summary>
         /// Initialise une nouvelle instance de la classe <see cref="GitlabController"/>.
         /// </summary>
-        public GitlabController()
+        public GitlabController(TokenService tokenService)
         {
             this.platformAdapter = new GitlabAdapter();
             Logger = LogManager.GetLogger(typeof(GitlabController));
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -39,7 +44,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -136,7 +141,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -185,7 +190,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -285,7 +290,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
@@ -391,7 +396,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "glpat-s6wALUpYoTt_fpzywGCp";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {

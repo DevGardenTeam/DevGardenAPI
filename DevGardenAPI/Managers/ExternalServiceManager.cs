@@ -32,8 +32,8 @@ namespace DevGardenAPI.Managers
         public ExternalServiceManager(TokenService tokenService) 
         {
             GithubController = new GithubController(tokenService);
-            GitlabController = new GitlabController();
-            GiteaController = new GiteaController();
+            GitlabController = new GitlabController(tokenService);
+            GiteaController = new GiteaController(tokenService);
 
             this.PlatformAccessor = new Dictionary<string, PlatformController>()
             {

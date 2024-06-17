@@ -43,6 +43,13 @@ namespace DevGardenAPI.Managers
             {
                 var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
+                Logger.Info("TOKEN => " + token);
+
+                if (token == null)
+                {
+                    throw new Exception("Failed to extract token from database");
+                }
+
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Add("User-Agent", "DevGarden");

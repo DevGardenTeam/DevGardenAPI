@@ -73,19 +73,30 @@ namespace DatabaseEf.Controller
             return user.Id;
         }
 
-        public async Task<bool> AddService(string username,UserService userService)
+        public async Task<bool> AddService(string username, UserService newUserService)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.Include(u => u.UserServices)
+                                            .SingleOrDefaultAsync(u => u.Username == username);
             if (user == null)
             {
                 return false;
             }
 
-            userService.UserId = user.Id;
+            var existingService = user.UserServices
+                                       .SingleOrDefault(us => us.ServiceName == newUserService.ServiceName);
 
-            user.UserServices.Add(userService);
+            if (existingService != null)
+            {
+                // Update existing service's AccessToken
+                existingService.AccessToken = newUserService.AccessToken;
+            }
+            else
+            {
+                // Create new UserService
+                newUserService.UserId = user.Id;
+                user.UserServices.Add(newUserService);
+            }
 
-            _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return true;

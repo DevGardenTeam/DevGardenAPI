@@ -24,16 +24,20 @@ namespace DatabaseEf
             if (!_cache.TryGetValue(username, out string token))
             {
                 // Token not in cache, fetch from database
-                token = await _db.GetTokenByUsername(username, platform); 
+                token = await _db.GetTokenByUsername(username, platform);
 
-                // Set cache options
-                var cacheEntryOptions = new MemoryCacheEntryOptions
+                if (token != null)
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
-                };
+                    // Set cache options
+                    var cacheEntryOptions = new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                    };
 
-                // Save data in cache
-                _cache.Set(username, token, cacheEntryOptions);
+                    // Save data in cache
+                    _cache.Set(username, token, cacheEntryOptions);
+                }
+               
             }
 
             return token;
