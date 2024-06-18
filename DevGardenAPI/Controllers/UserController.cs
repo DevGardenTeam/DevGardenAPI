@@ -106,17 +106,11 @@ namespace DevGardenAPI.Controllers
         }
 
         [HttpPost("removeService")]
-        public async Task<IActionResult> removeUserService(string username, string service)
+        public async Task<IActionResult> removeUserService(string username, ServiceName service)
         {
             username = BcryptAuthHandler.CleanUsername(username);
-            service = BcryptAuthHandler.CleanPassword(service);
 
-            if (!Enum.TryParse<ServiceName>(service, true, out ServiceName servicename))
-            {
-                return BadRequest("Invalid service name");
-            }
-
-            await UsersServiceController.removeService(username, servicename);
+            await UsersServiceController.removeService(username, service);
 
             return Ok("Votre service vient d'être supprimé");
         }
