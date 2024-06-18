@@ -43,6 +43,22 @@ namespace DevGardenAPI.Controllers
             return listUserService;
         }
 
+        [HttpGet("getService")]
+        public async Task<UserService> GetUserService(string username, ServiceName service)
+        {
+
+            var usersevice = await UsersServiceController.GetService(username, service);
+
+            if (usersevice == null)
+            {
+                return null;
+            }
+
+            usersevice.AccessToken = EncryptionHelper.Decrypt(usersevice.AccessToken);
+
+            return usersevice;
+        }
+
         [HttpPost("AddServices")]
         public async Task<IActionResult> AddUserService(string username, string token, string service)
         {
