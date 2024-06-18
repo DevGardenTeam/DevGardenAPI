@@ -35,6 +35,11 @@ namespace DevGardenAPI.Controllers
 
             var listUserService = await UsersServiceController.GetUserServices(username);
 
+            foreach (var userService in listUserService)
+            {
+                userService.AccessToken = EncryptionHelper.Decrypt(userService.AccessToken);
+            }
+
             return listUserService;
         }
 
