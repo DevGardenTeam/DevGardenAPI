@@ -72,7 +72,7 @@ namespace DevGardenAPI.Controllers
             var giteaToken = await this.userController.GetService(username, ServiceName.gitlab);
 
             if (githubToken != null) tokens.Add("github", EncryptionHelper.Decrypt(githubToken.AccessToken));
-            if (gitlabToken != null) tokens.Add("gitlab", EncryptionHelper.Decrypt(gitlabToken.AccessToken)n);
+            if (gitlabToken != null) tokens.Add("gitlab", EncryptionHelper.Decrypt(gitlabToken.AccessToken));
             if (giteaToken != null) tokens.Add("gitea", EncryptionHelper.Decrypt(giteaToken.AccessToken));
 
             return Ok(new { tokens = tokens } );
