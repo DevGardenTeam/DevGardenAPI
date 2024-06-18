@@ -6,21 +6,19 @@ using DatabaseEf.Controller;
 using DatabaseEf.Entities.Enums;
 using Microsoft.AspNetCore.Identity.Data;
 using DevGardenAPI.DTO;
+using log4net;
+using DevGardenAPI.Managers;
 
 namespace DevGardenAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthentificationController: ControllerBase
+    public class AuthentificationController(DataContext context) : ControllerBase
     {
-        private readonly UsersController userController;
-        private readonly UsersServiceController usersServiceController;
+        private readonly UsersController userController = new UsersController(context);
+        private readonly UsersServiceController usersServiceController = new UsersServiceController(context);
 
-        public AuthentificationController(DataContext context)
-        {
-            userController = new UsersController(context);
-            usersServiceController = new UsersServiceController(context);
-        }
+        protected ILog Logger { get; set; } = LogManager.GetLogger(typeof(AuthentificationController));
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] AuthenRequest request)
@@ -31,15 +29,22 @@ namespace DevGardenAPI.Controllers
                 return BadRequest("Veuillez remplir tous les champs !");
             }
 
+            Logger.Debug($"{nameof(AuthentificationController)} - {nameof(RegisterAsync)} - Starting");
+
             var username = BcryptAuthHandler.CleanUsername(request.Username);
             var password = BcryptAuthHandler.CleanPassword(request.Password);
 
             Console.WriteLine(username + " " + password);
 
+            Logger.Debug($"BEFORE ENCRYPTION HELPER");
+
             string cryptedPassword = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(password));
 
-            if(userController.UserExists(username))
+            Logger.Debug($"AFTER ENCRYPTION HELPER");
+
+            if (userController.UserExists(username))
             {
+                Logger.Debug($"Conflic user exists error");
                 return Conflict("User already exist");
             }
 
@@ -50,8 +55,12 @@ namespace DevGardenAPI.Controllers
                 Email = username,
                 UserServices = []
             };
+            Logger.Debug($"Created user");
 
             var result = await userController.PostUser(user);
+
+            Logger.Debug($"Posted user");
+
 
             if (result != "Ok")
             {
