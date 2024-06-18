@@ -24,27 +24,26 @@ namespace DevGardenAPI.Controllers
         public async Task<IActionResult> RegisterAsync([FromBody] AuthenRequest request)
         {
             
-            if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || BcryptAuthHandler.IsPasswordComplexEnough(request.Password))
+            if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
             {
                 return BadRequest("Veuillez remplir tous les champs !");
             }
 
-            Logger.Debug($"{nameof(AuthentificationController)} - {nameof(RegisterAsync)} - Starting");
+            if (BcryptAuthHandler.IsPasswordComplexEnough(request.Password))
+            {
+                return BadRequest("Le mot de passe n'est pas conforme!");
+            }
 
             var username = BcryptAuthHandler.CleanUsername(request.Username);
             var password = BcryptAuthHandler.CleanPassword(request.Password);
 
             Console.WriteLine(username + " " + password);
 
-            Logger.Debug($"BEFORE ENCRYPTION HELPER");
-
             string cryptedPassword = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(password));
 
-            Logger.Debug($"AFTER ENCRYPTION HELPER");
 
             if (userController.UserExists(username))
             {
-                Logger.Debug($"Conflic user exists error");
                 return Conflict("User already exist");
             }
 
@@ -55,11 +54,8 @@ namespace DevGardenAPI.Controllers
                 Email = username,
                 UserServices = []
             };
-            Logger.Debug($"Created user");
 
             var result = await userController.PostUser(user);
-
-            Logger.Debug($"Posted user");
 
 
             if (result != "Ok")
