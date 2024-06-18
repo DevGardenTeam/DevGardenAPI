@@ -89,7 +89,7 @@ namespace DevGardenAPI.Controllers
 
             var newService = new UserService
             {
-                AccessToken = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(token)),
+                AccessToken = EncryptionHelper.Encrypt(token),
                 ServiceName = servicename
             };
 
