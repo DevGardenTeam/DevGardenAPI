@@ -48,7 +48,8 @@ namespace DevGardenAPI.Managers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Private-Token", token);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
 
                     string apiUrl = $"{gitlabApiStartUrl}/projects?membership=true&statistics=true";
 
@@ -145,7 +146,7 @@ namespace DevGardenAPI.Managers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Private-Token", token);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
                     string apiUrl = $"{gitlabApiStartUrl}/projects/{repository}/issues";
 
@@ -194,7 +195,7 @@ namespace DevGardenAPI.Managers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Private-Token", token);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
                     string apiUrl =
                         $"{gitlabApiStartUrl}/projects/{repository}/repository/branches";
@@ -294,7 +295,7 @@ namespace DevGardenAPI.Managers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Private-Token", token);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
                     string apiUrl = string.Empty;
                     if(branch == null)
@@ -400,7 +401,7 @@ namespace DevGardenAPI.Managers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Private-Token", token);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
                     string apiUrl;
 

@@ -21,7 +21,10 @@ namespace DatabaseEf
 
         public async Task<string> GetTokenAsync(string username, ServiceName platform)
         {
-            if (!_cache.TryGetValue(username, out string token))
+            // Create a composite key using username and platform
+            var cacheKey = $"{username}_{platform}";
+
+            if (!_cache.TryGetValue(cacheKey, out string token))
             {
                 // Token not in cache, fetch from database
                 token = await _db.GetTokenByUsername(username, platform);
@@ -34,10 +37,9 @@ namespace DatabaseEf
                         AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
                     };
 
-                    // Save data in cache
-                    _cache.Set(username, token, cacheEntryOptions);
+                    // Save data in cache with the composite key
+                    _cache.Set(cacheKey, token, cacheEntryOptions);
                 }
-               
             }
 
             return token;
