@@ -5,6 +5,7 @@ using DatabaseEf.Entities;
 using DatabaseEf.Entities.Enums;
 using Auth;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Newtonsoft.Json.Linq;
 
 namespace DevGardenAPI.Controllers
 {
@@ -15,14 +16,17 @@ namespace DevGardenAPI.Controllers
     [Route("api/[controller]")]
     public class UserController: ControllerBase
     {
-        public UsersController userController;
+        private UsersController userController { get; }
 
-        public UsersServiceController UsersServiceController { get; set; }
+        private UsersServiceController UsersServiceController { get; }
+
+        private DBController dbController { get; }
 
         public UserController(DataContext context)
         {
             userController = new UsersController(context);
             UsersServiceController = new UsersServiceController(context);
+            dbController = new DBController(context);
         }
 
         [HttpGet("getServices")]
@@ -62,7 +66,7 @@ namespace DevGardenAPI.Controllers
 
             var newService = new UserService
             {
-                AccessToken = token,
+                AccessToken = EncryptionHelper.Encrypt(BcryptAuthHandler.HashPassword(token)),
                 ServiceName = servicename
             };
 
@@ -76,6 +80,37 @@ namespace DevGardenAPI.Controllers
 
             }
             return Ok("Votre token a été ajouté !!");
+        }
+
+        [HttpPost("removeService")]
+        public async Task<IActionResult> removeUserService(string username, string service)
+        {
+            username = BcryptAuthHandler.CleanUsername(username);
+            service = BcryptAuthHandler.CleanPassword(service);
+
+            if (!Enum.TryParse<ServiceName>(service, true, out ServiceName servicename))
+            {
+                return BadRequest("Invalid service name");
+            }
+
+            await UsersServiceController.removeService(username, servicename);
+
+            return Ok("Votre service vient d'être supprimé");
+        }
+
+        [HttpPost("flushDB")]
+        public async Task<IActionResult> flushDB()
+        {
+
+            try
+            {
+                await dbController.FlushDB();
+            }
+            catch (Exception ex) {
+                Conflict(ex.Message);
+            }
+
+            return Ok("Votre service vient d'être supprimé");
         }
     }
 }

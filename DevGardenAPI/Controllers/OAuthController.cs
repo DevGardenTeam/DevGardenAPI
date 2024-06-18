@@ -4,6 +4,7 @@ using DatabaseEf;
 using DatabaseEf.Controller;
 using DatabaseEf.Entities.Enums;
 using DatabaseEf.Entities;
+using Model;
 
 namespace DevGardenAPI.Controllers
 {
@@ -45,7 +46,7 @@ namespace DevGardenAPI.Controllers
                 // create a new service instance with the token
                 var newService = new UserService
                 {
-                    AccessToken = token,
+                    AccessToken = EncryptionHelper.Encrypt(token),
                     ServiceName = servicename
                 };
 
@@ -70,9 +71,9 @@ namespace DevGardenAPI.Controllers
             var gitlabToken = await this.userController.GetService(username, ServiceName.gitea);
             var giteaToken = await this.userController.GetService(username, ServiceName.gitlab);
 
-            if (githubToken != null) tokens.Add("github", githubToken.AccessToken);
-            if (gitlabToken != null) tokens.Add("gitlab", gitlabToken.AccessToken);
-            if (giteaToken != null) tokens.Add("gitea", giteaToken.AccessToken);
+            if (githubToken != null) tokens.Add("github", EncryptionHelper.Decrypt(githubToken.AccessToken));
+            if (gitlabToken != null) tokens.Add("gitlab", EncryptionHelper.Decrypt(gitlabToken.AccessToken)n);
+            if (giteaToken != null) tokens.Add("gitea", EncryptionHelper.Decrypt(giteaToken.AccessToken));
 
             return Ok(new { tokens = tokens } );
         }

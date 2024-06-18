@@ -51,5 +51,30 @@ namespace DatabaseEf.Controller
 
             return userService;
         }
+
+        public async Task<bool> removeService(string username, ServiceName service)
+        {
+            var userController = new UsersController(_context);
+
+            var result = await GetService(username, service);
+
+            if (result == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                _context.RemoveRange(result);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+
+            return true;
+        }
     }
 }

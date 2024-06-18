@@ -26,7 +26,7 @@ namespace DevGardenAPI.Controllers
         public async Task<IActionResult> RegisterAsync([FromBody] AuthenRequest request)
         {
             
-            if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
+            if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || BcryptAuthHandler.IsPasswordComplexEnough(request.Password))
             {
                 return BadRequest("Veuillez remplir tous les champs !");
             }
