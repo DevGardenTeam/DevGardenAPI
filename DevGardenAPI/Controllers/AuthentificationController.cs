@@ -29,7 +29,7 @@ namespace DevGardenAPI.Controllers
                 return BadRequest("Veuillez remplir tous les champs !");
             }
 
-            if (BcryptAuthHandler.IsPasswordComplexEnough(request.Password))
+            if (!BcryptAuthHandler.IsPasswordComplexEnough(request.Password))
             {
                 return BadRequest("Le mot de passe n'est pas conforme!");
             }
