@@ -56,7 +56,7 @@ namespace DevGardenAPI.Controllers
                 return null;
             }
 
-            //usersevice.AccessToken = EncryptionHelper.Decrypt(usersevice.AccessToken);
+            usersevice.AccessToken = EncryptionHelper.Decrypt(usersevice.AccessToken);
 
             return usersevice;
         }
