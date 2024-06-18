@@ -42,7 +42,7 @@ namespace DatabaseEf
                 }
             }
 
-            return token;
+            return EncryptionHelper.Decrypt(token);
         }
     }
 }
