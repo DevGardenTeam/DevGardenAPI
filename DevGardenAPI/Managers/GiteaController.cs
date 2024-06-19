@@ -285,7 +285,7 @@ namespace DevGardenAPI.Managers
 
             try
             {
-                string token = "50334ddce74b0605c1b71f38ace2d0854dd3570e";
+                var token = await _tokenService.GetTokenAsync(dgUsername, serviceName);
 
                 using (HttpClient client = new HttpClient())
                 {
